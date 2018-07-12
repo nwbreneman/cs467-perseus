@@ -3,14 +3,16 @@
 var game = {
 
     // an object where to store game information
-    data : {
-        // score
-        score : 0,
-
-        // Difficulty level
+    // Nathan: accessed anywhere via `game.data`
+    data: {
+        // Nathan: this is where I'm thinking we add the human and AI players;
+        // 'player' is a custom object I created in js/player.js
+        // so the AI has the same easy functions for buying units,
+        // selecting units, etc. Not technically an entity since
+        // we're not rendering it.
+        player1: new player("Player 1"),
         difficulty : "Easy",
     },
-
 
     // Run on page load.
     onload : function () {
@@ -41,11 +43,15 @@ var game = {
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
-        // add our player entity in the entity pool
-        //me.pool.register("UI", game.UI);
 
         // set a global fading transition for the screen
         me.state.transition("fade", "#000000", 250);
+
+        // Nathan: I am using these two manually-added test units
+        // for the select box testing right now. Will be modified
+        // next week to use object pooling.
+        me.pool.register("testUnit1", game.Unit);
+        me.pool.register("testUnit2", game.Unit);
 
         // Start the game.
       //  me.state.change(me.state.PLAY);
