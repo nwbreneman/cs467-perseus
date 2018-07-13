@@ -4,8 +4,62 @@ game.PlayScreen = me.ScreenObject.extend({
      */
     onResetEvent: function () {
 
+        // Bind keys for scrolling the map
+        me.input.bindKey(me.input.KEY.LEFT, "left");
+        me.input.bindKey(me.input.KEY.A, "left");
+        me.input.bindKey(me.input.KEY.RIGHT, "right");
+        me.input.bindKey(me.input.KEY.D, "right");
+        me.input.bindKey(me.input.KEY.UP, "up");
+        me.input.bindKey(me.input.KEY.W, "up");
+        me.input.bindKey(me.input.KEY.DOWN, "down");
+        me.input.bindKey(me.input.KEY.S, "down");
+
+        // Register for pointer events
+        me.input.registerPointerEvent("pointerdown", me.game.viewport,
+            function (event) {
+                me.event.publish("pointerclick", [event]);
+            }, false);
+        me.input.registerPointerEvent("pointerup", me.game.viewport,
+            function (event) {
+                me.event.publish("pointerclick", [event]);
+            }, false);
+        me.input.registerPointerEvent("pointermove", me.game.viewport,
+            function (event) {
+                me.event.publish("pointermove", [event]);
+            }, false);
+
         // load a level
         me.levelDirector.loadLevel("level1");
+
+        // Add invisible entity for panning the levle
+        me.game.world.addChild(new (me.Renderable.extend({
+
+            init: function () {
+                this._super(me.Renderable, 'init', [0, 0, 0, 0]);
+                this.alwaysUpdate = true;
+            },
+
+            // Pan the camera when WASD/left down up right pressed
+            update: function () {
+                const AMOUNT_TO_PAN = 5;
+                var panned = false;
+                if (me.input.isKeyPressed("left")) {
+                    me.game.viewport.move(-AMOUNT_TO_PAN, 0);
+                    panned = true;
+                } else if (me.input.isKeyPressed("right")) {
+                    me.game.viewport.move(AMOUNT_TO_PAN, 0);
+                    panned = true;
+                } else if (me.input.isKeyPressed("up")) {
+                    me.game.viewport.move(0, AMOUNT_TO_PAN);
+                    panned = true;
+                } else if (me.input.isKeyPressed("down")) {
+                    me.game.viewport.move(0, -AMOUNT_TO_PAN);
+                    panned = true;
+                }
+
+                return panned;
+            }
+        })));
 
         // add unit selecting rectangle
         // adapted from:
@@ -98,20 +152,6 @@ game.PlayScreen = me.ScreenObject.extend({
 
         })));
 
-        // Register for pointer events
-        me.input.registerPointerEvent("pointerdown", me.game.viewport,
-            function (event) {
-                me.event.publish("pointerclick", [event]);
-            }, false);
-        me.input.registerPointerEvent("pointerup", me.game.viewport,
-            function (event) {
-                me.event.publish("pointerclick", [event]);
-            }, false);
-        me.input.registerPointerEvent("pointermove", me.game.viewport,
-            function (event) {
-                me.event.publish("pointermove", [event]);
-            }, false);
-
         // Nathan: this is me manually testing some player functions
         // and will be removed next week.
         var player1 = game.data.player1;
@@ -129,5 +169,6 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.releasePointerEvent("pointermove", me.game.viewport);
         me.input.releasePointerEvent("pointerdown", me.game.viewport);
         me.input.releasePointerEvent("pointerup", me.game.viewport);
-    }
+    },
+
 });
