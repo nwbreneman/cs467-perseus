@@ -4,44 +4,25 @@ game.PlayScreen = me.ScreenObject.extend({
      */
     onResetEvent: function () {
 
-        // Bind keys for scrolling the map
-        me.input.bindKey(me.input.KEY.LEFT, "left");
-        me.input.bindKey(me.input.KEY.A, "left");
-        me.input.bindKey(me.input.KEY.RIGHT, "right");
-        me.input.bindKey(me.input.KEY.D, "right");
-        me.input.bindKey(me.input.KEY.UP, "up");
-        me.input.bindKey(me.input.KEY.W, "up");
-        me.input.bindKey(me.input.KEY.DOWN, "down");
-        me.input.bindKey(me.input.KEY.S, "down");
-
-        // Register for pointer events
-        me.input.registerPointerEvent("pointerdown", me.game.viewport,
-            function (event) {
-                me.event.publish("pointerclick", [event]);
-            }, false);
-        me.input.registerPointerEvent("pointerup", me.game.viewport,
-            function (event) {
-                me.event.publish("pointerclick", [event]);
-            }, false);
-        me.input.registerPointerEvent("pointermove", me.game.viewport,
-            function (event) {
-                me.event.publish("pointermove", [event]);
-            }, false);
+        // Define how many pixels to pan for all panning functions
+        const AMOUNT_TO_PAN = 15;
 
         // load a level
         me.levelDirector.loadLevel("level1");
 
-        // Add invisible entity for panning the levle
+        // Add invisible renderable for panning the level
         me.game.world.addChild(new (me.Renderable.extend({
-
             init: function () {
                 this._super(me.Renderable, 'init', [0, 0, 0, 0]);
                 this.alwaysUpdate = true;
+
+                // viewport height/width for brevity
+                this.vpWidth = me.game.viewport.getWidth();
+                this.vpHeight = me.game.viewport.getHeight();
             },
 
             // Pan the camera when WASD/left down up right pressed
             update: function () {
-                const AMOUNT_TO_PAN = 5;
                 var panned = false;
                 if (me.input.isKeyPressed("left")) {
                     me.game.viewport.move(-AMOUNT_TO_PAN, 0);
@@ -74,6 +55,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 this.anchorPoint.set(0, 0);
                 this.polyPoints = [];  // array of polygon points to draw
                 this.selectBox = this.clone().toPolygon().toIso();
+                this.startSelection = false;
 
                 // Subscribe to pointerclick and pointermove events
                 this.pointerClickEvent = me.event.subscribe("pointerclick",
@@ -96,6 +78,7 @@ game.PlayScreen = me.ScreenObject.extend({
                     this.polyPoints = [];
                     player.clearSelectedUnits();
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
+                    this.startSelection = true;
                 }
 
                 if (event.type === "pointerup") {
@@ -117,6 +100,7 @@ game.PlayScreen = me.ScreenObject.extend({
 
                     // Reset the rectangle coordinates to remove the selectbox
                     this.polyPoints = [];
+                    this.startSelection = false;
                 }
             },
 
@@ -135,7 +119,7 @@ game.PlayScreen = me.ScreenObject.extend({
             /** Update function: always returns true to draw the select box
              * while dragging */
             update: function () {
-                return true;
+                return this.startSelection;
             },
 
             /** Function to render a white rectangle */
@@ -151,6 +135,32 @@ game.PlayScreen = me.ScreenObject.extend({
             }
 
         })));
+
+        // Bind keys for scrolling the map
+        me.input.bindKey(me.input.KEY.LEFT, "left");
+        me.input.bindKey(me.input.KEY.A, "left");
+        me.input.bindKey(me.input.KEY.RIGHT, "right");
+        me.input.bindKey(me.input.KEY.D, "right");
+        me.input.bindKey(me.input.KEY.UP, "up");
+        me.input.bindKey(me.input.KEY.W, "up");
+        me.input.bindKey(me.input.KEY.DOWN, "down");
+        me.input.bindKey(me.input.KEY.S, "down");
+
+        console.log(me.game.world.getChildByName("rightMarginPan")[0]);
+
+        // Register for pointer events
+        me.input.registerPointerEvent("pointerdown", me.game.viewport,
+            function (event) {
+                me.event.publish("pointerclick", [event]);
+            }, false);
+        me.input.registerPointerEvent("pointerup", me.game.viewport,
+            function (event) {
+                me.event.publish("pointerclick", [event]);
+            }, false);
+        me.input.registerPointerEvent("pointermove", me.game.viewport,
+            function (event) {
+                me.event.publish("pointermove", [event]);
+            }, false);
 
         // Nathan: this is me manually testing some player functions
         // and will be removed next week.
