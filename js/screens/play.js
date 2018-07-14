@@ -146,7 +146,8 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.S, "down");
 
-        console.log(me.game.world.getChildByName("rightMarginPan")[0]);
+        // Bind shift key for multi-selecting units with click
+        me.input.bindKey(me.input.KEY.SHIFT, "shift");
 
         // Register for pointer events
         me.input.registerPointerEvent("pointerdown", me.game.viewport,

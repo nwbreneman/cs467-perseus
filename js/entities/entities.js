@@ -30,7 +30,11 @@ game.Unit = me.Entity.extend({
 
     /** Sets the unit as the selected unit for the player */
     pointerDown: function () {
-        this.player.selectUnit(this);
+        if (me.input.isKeyPressed("shift")) {
+            this.player.addSelectedUnit(this);
+        } else {
+            this.player.selectUnit(this);
+        }
         return false;
     }
 });
