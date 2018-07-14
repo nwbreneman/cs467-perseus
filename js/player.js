@@ -34,6 +34,9 @@ var player = function (name) {
     }
 
     this.clearSelectedUnits = function () {
+        for (var i = 0; i < this.selectedUnits.length; i++) {
+            this.selectedUnits[i].selected = false;
+        }
         this.selectedUnits = [];
     }
 

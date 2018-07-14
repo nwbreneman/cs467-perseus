@@ -56,6 +56,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 this.polyPoints = [];  // array of polygon points to draw
                 this.selectBox = this.clone().toPolygon().toIso();
                 this.startSelection = false;
+                this.player = game.data.player1;
 
                 // Subscribe to pointerclick and pointermove events
                 this.pointerClickEvent = me.event.subscribe("pointerclick",
@@ -72,11 +73,14 @@ game.PlayScreen = me.ScreenObject.extend({
              * player units are in the rectangle and select them if so.
              */
             pointerClick: function (event) {
-                player = game.data.player1;
+
+                if (me.input.isKeyPressed("shift")) {
+                    return;
+                }
 
                 if (event.type === "pointerdown") {
                     this.polyPoints = [];
-                    player.clearSelectedUnits();
+                    this.player.clearSelectedUnits();
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
                     this.startSelection = true;
                 }
@@ -88,20 +92,23 @@ game.PlayScreen = me.ScreenObject.extend({
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, this.polyPoints[0].y));
 
                     // Selects player units
-                    units = player.getUnits();
+                    units = this.player.getUnits();
                     for (var i = 0; i < units.length; i++) {
                         unit = units[i];
                         if (unit.pos) {  // this if statement will be removed next week
                             if (this.selectBox.containsPoint(unit.pos._x, unit.pos._y)) {
-                                player.addSelectedUnit(unit);
+                                this.player.addSelectedUnit(unit);
                             }
                         }
+                        console.log(this.player.getSelectedUnits());
                     }
 
                     // Reset the rectangle coordinates to remove the selectbox
                     this.polyPoints = [];
                     this.startSelection = false;
                 }
+
+                return false;
             },
 
             /** Callback to draw the rectangle as the mouse moves;
@@ -165,10 +172,9 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Nathan: this is me manually testing some player functions
         // and will be removed next week.
-        var player1 = game.data.player1;
-        player1.buyUnit("testUnit");
-        player1.buyUnit("testUnit");
-        player1.buyUnit("testUnit");
+        game.data.player1.buyUnit("testUnit");
+        game.data.player1.buyUnit("testUnit");
+        game.data.player1.buyUnit("testUnit");
     },
 
     /**
