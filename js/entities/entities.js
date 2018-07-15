@@ -49,7 +49,7 @@ game.Unit = me.Entity.extend({
         if (this.selected) {
             if (!this.selectedBox) {
                 pos = this.getBounds().pos;
-                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x, pos.y));
+                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x, pos.y), 2);
                 return true;
             }
         } else {
@@ -79,7 +79,7 @@ game.Unit = me.Entity.extend({
 game.selectedShape = me.Sprite.extend({
     init: function (x, y) {
         this._super(me.Sprite, 'init', [x, y, { image: me.loader.getImage('select') }]);
-        this.translate(16, 48);
+        this.translate(16, 52);
     },
 
 });
