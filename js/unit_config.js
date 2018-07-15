@@ -11,21 +11,23 @@ _UnitConfig =
 {
 
     //tier 1 units
-    worker:
+    civilian:
     [
         {
             attack: 5,
+            range: 1, //attack-collision radius
             defense: 10,
             speed: 10,
-            animationSpeed: 100, //not sure if this is needed
+            animationSpeed: 100, //not sure if this is needed, saw it in an example
             type: "rock" //something like this could be used for rock-paper-scissors combat balancing
         }
     ],
 
-    fighter:
+    infantry:
     [
         {
             attack: 7,
+            range, 3,  //attack-collision radius
             defense: 22,
             speed: 10,
             animationSpeed: 100,
@@ -38,6 +40,7 @@ _UnitConfig =
     //tier 3 units...
 }
 
+//not sure if this is needed...pixel dimensions?
 unitSizes =
 {
     worker: 
@@ -55,12 +58,6 @@ unitSizes =
             height: 64
         }
     ]
-}
-
-spawningTime =
-{
-    worker: 10,
-    fighter: 15
 }
 
 //additional unit configurations, stats, etc. can go inside this file
