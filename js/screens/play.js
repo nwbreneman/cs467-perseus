@@ -31,10 +31,10 @@ game.PlayScreen = me.ScreenObject.extend({
                     me.game.viewport.move(AMOUNT_TO_PAN, 0);
                     panned = true;
                 } else if (me.input.isKeyPressed("up")) {
-                    me.game.viewport.move(0, AMOUNT_TO_PAN);
+                    me.game.viewport.move(0, -AMOUNT_TO_PAN);
                     panned = true;
                 } else if (me.input.isKeyPressed("down")) {
-                    me.game.viewport.move(0, -AMOUNT_TO_PAN);
+                    me.game.viewport.move(0, AMOUNT_TO_PAN);
                     panned = true;
                 }
 
