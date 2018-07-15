@@ -74,27 +74,12 @@ game.Unit = me.Entity.extend({
 
 
 /**
- * Box indicating a unit has been selected
+ * Shape indicating a unit has been selected
  */
-game.selectedShape = me.Renderable.extend({
+game.selectedShape = me.Sprite.extend({
     init: function (x, y) {
-        this._super(me.Renderable, 'init', [x + 16, y + 48, 32, 16]);
-        this.alwaysUpdate = true;
-        this.floating = true;
-        this.z = 100;
-        this.name = "selectedShape";
+        this._super(me.Sprite, 'init', [x, y, { image: me.loader.getImage('select') }]);
+        this.translate(16, 48);
     },
 
-    update: function () {
-        return true;
-    },
-
-    destroy: function () { },
-
-    draw: function (renderer) {
-        renderer.save();
-        renderer.setColor("#FFFFFF");
-        renderer.drawShape(this);
-        renderer.restore();
-    }
 });

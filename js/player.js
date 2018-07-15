@@ -37,13 +37,13 @@ var player = function (name) {
 
     this.clearSelectedUnits = function () {
         for (var i = 0; i < this.selectedUnits.length; i++) {
-            console.log("deselecting unit:");
-            console.log(this.selectedUnits[i]);
-            console.log(this.selectedUnits[i]['selected']);
+            // console.log("deselecting unit:");
+            // console.log(this.selectedUnits[i]);
+            // console.log(this.selectedUnits[i]['selected']);
             this.selectedUnits[i].deselect();
-            console.log("now deselected:");
-            console.log(this.selectedUnits[i]);
-            console.log(this.selectedUnits[i]['selected']);
+            // console.log("now deselected:");
+            // console.log(this.selectedUnits[i]);
+            // console.log(this.selectedUnits[i]['selected']);
         }
         this.selectedUnits = [];
     }
