@@ -18,6 +18,7 @@ game.Unit = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
 
         this.selected = false;
+        this.selectedBox = null;
 
         // Nathan: Below is just for manual testing and will be removed next
         // week / fixed so units have player owners
@@ -44,4 +45,56 @@ game.Unit = me.Entity.extend({
         return false;
     },
 
+    update: function () {
+        if (this.selected) {
+            if (!this.selectedBox) {
+                pos = this.getBounds().pos;
+                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x, pos.y));
+                return true;
+            }
+        } else {
+            if (this.selectedBox) {
+                me.game.world.removeChild(this.selectedBox);
+                this.selectedBox = null;
+                return true;
+            }
+        }
+        return false;
+    },
+
+    deselect: function () {
+        this.selected = false;
+    },
+
+    select: function () {
+        this.selected = true;
+    }
+
+});
+
+
+/**
+ * Box indicating a unit has been selected
+ */
+game.selectedShape = me.Renderable.extend({
+    init: function (x, y) {
+        this._super(me.Renderable, 'init', [x + 16, y + 48, 32, 16]);
+        this.alwaysUpdate = true;
+        this.floating = true;
+        this.z = 100;
+        this.name = "selectedShape";
+    },
+
+    update: function () {
+        return true;
+    },
+
+    destroy: function () { },
+
+    draw: function (renderer) {
+        renderer.save();
+        renderer.setColor("#FFFFFF");
+        renderer.drawShape(this);
+        renderer.restore();
+    }
 });

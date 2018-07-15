@@ -11,13 +11,13 @@ var game = {
         // selecting units, etc. Not technically an entity since
         // we're not rendering it.
         player1: new player("Player 1"),
-        difficulty : "Easy",
+        difficulty: "Easy",
     },
 
     // Run on page load.
-    onload : function () {
+    onload: function () {
         // Initialize the video.
-        if (!me.video.init(1920, 1200, {wrapper : "screen", scale : "auto"})) {
+        if (!me.video.init(1920, 1200, { wrapper: "screen", scale: "auto", scaleMethod: "fill-max" })) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -33,12 +33,12 @@ var game = {
     },
 
     // Run on game resources loaded.
-    loaded : function () {
+    loaded: function () {
 
         game.texture = new me.video.renderer.Texture(
             me.loader.getJSON("gui"),
             me.loader.getImage("gui")
-            );
+        );
 
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
@@ -47,6 +47,8 @@ var game = {
         // set a global fading transition for the screen
         me.state.transition("fade", "#000000", 250);
 
+        me.pool.register("selectedShape", game.selectedShape, true);
+
         // Nathan: I am using these two manually-added test units
         // for the select box testing right now. Will be modified
         // next week to use object pooling.
@@ -54,8 +56,8 @@ var game = {
         me.pool.register("testUnit2", game.Unit);
 
         // Start the game.
-      //  me.state.change(me.state.PLAY);
-      me.state.change(me.state.MENU);
+        //  me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
 
     }
 };

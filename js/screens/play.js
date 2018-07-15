@@ -5,7 +5,7 @@ game.PlayScreen = me.ScreenObject.extend({
     onResetEvent: function () {
 
         // Define how many pixels to pan for all panning functions
-        const AMOUNT_TO_PAN = 15;
+        const AMOUNT_TO_PAN = 10;
 
         // load a level
         me.levelDirector.loadLevel("level1");
@@ -42,9 +42,11 @@ game.PlayScreen = me.ScreenObject.extend({
             }
         })));
 
-        // add unit selecting rectangle
-        // adapted from:
-        // https://github.com/melonjs/melonJS/blob/master/examples/isometric_rpg/js/screens/play.js
+        /**
+         * Unit-selection box drawn by clicking mouse and dragging, then
+         * releasing mouse. Adapted)-ish) from:
+         * https://github.com/melonjs/melonJS/blob/master/examples/isometric_rpg/js/screens/play.js
+         */
         me.game.world.addChild(new (me.Renderable.extend({
 
             init: function () {
@@ -100,7 +102,6 @@ game.PlayScreen = me.ScreenObject.extend({
                                 this.player.addSelectedUnit(unit);
                             }
                         }
-                        console.log(this.player.getSelectedUnits());
                     }
 
                     // Reset the rectangle coordinates to remove the selectbox
