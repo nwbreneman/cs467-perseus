@@ -1,4 +1,5 @@
 {
+    "name": "infantry",
     "attack": 7,
     "range": 3,  
     "defense": 22,
