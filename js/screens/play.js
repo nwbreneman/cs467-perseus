@@ -58,6 +58,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 this.polyPoints = [];  // array of polygon points to draw
                 this.selectBox = this.clone().toPolygon().toIso();
                 this.startSelection = false;
+                this.finalDraw = false;
                 this.player = game.data.player1;
 
                 // Subscribe to pointerclick and pointermove events
@@ -108,6 +109,7 @@ game.PlayScreen = me.ScreenObject.extend({
                     // Reset the rectangle coordinates to remove the selectbox
                     this.polyPoints = [];
                     this.startSelection = false;
+                    this.finalDraw = true;
                 }
 
                 return false;
@@ -128,6 +130,10 @@ game.PlayScreen = me.ScreenObject.extend({
             /** Update function: always returns true to draw the select box
              * while dragging */
             update: function () {
+                if (this.finalDraw) {
+                    this.finalDraw = false;
+                    return true;
+                }
                 return this.startSelection;
             },
 
