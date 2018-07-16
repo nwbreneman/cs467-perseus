@@ -14,7 +14,7 @@ game.AI = me.Renderable.extend({
         this.alwaysUpdate = true;
 
         // Don't call the draw method on this entity
-        this.opacity = 0.0;
+        this.isRenderable = false;
 
         // Perform a computation after elapsed number of frames
         // Since we don't really need to do computation every frame for high-level strategy
@@ -27,6 +27,7 @@ game.AI = me.Renderable.extend({
         }
         
         this.player = player;
+
     },
 
     // Call the process function after a specified number of frames have elapsed
@@ -43,6 +44,6 @@ game.AI = me.Renderable.extend({
     // AI does processing in here
     process: function() {
     	//console.log("AI processing function");
-     
+
     },
 });
