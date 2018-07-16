@@ -98,7 +98,8 @@ game.PlayScreen = me.ScreenObject.extend({
                     for (var i = 0; i < units.length; i++) {
                         unit = units[i];
                         if (unit.pos) {  // this if statement will be removed next week
-                            if (this.selectBox.containsPoint(unit.pos._x, unit.pos._y)) {
+                            pos = me.game.viewport.worldToLocal(unit.pos._x, unit.pos._y);
+                            if (this.selectBox.containsPoint(pos.x, pos.y)) {
                                 this.player.addSelectedUnit(unit);
                             }
                         }
