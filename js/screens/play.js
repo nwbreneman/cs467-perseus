@@ -186,6 +186,9 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Add the enemy AI controller
         me.game.world.addChild(new game.AI(game.data.enemy, game.data.difficulty));
+
+        // Sylvan: temp adding an AI unit so I can test its logic. Nothing rendered on screen
+        me.game.world.addChild(new game.EnemyUnit(0,0, {width: 10, height: 10}));
     },
 
     /**

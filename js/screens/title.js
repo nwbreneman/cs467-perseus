@@ -30,6 +30,7 @@ game.TitleScreen = me.ScreenObject.extend({
                 //this.font = new me.Font("Arial", 24, "#FFFFFF");
                 this.font = new me.BitmapFont(me.loader.getBinary("title_options"), me.loader.getImage("title_options"));
                 this.font.set("right", 0.75)
+
             },
 
             // Need this for the button to pop back up when released
