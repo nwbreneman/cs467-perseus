@@ -13,10 +13,7 @@ game.TitleScreen = me.ScreenObject.extend({
         // add to the world container
         me.game.world.addChild(backgroundImage, 1);
 
-        //this.HUD = new game.HUD.Container();
-        me.game.world.addChild(new game.HUD.Container());
-
-        me.audio.playTrack("title_music");
+        //me.audio.playTrack("title_music");
 
 
         var x = me.game.viewport.width * 0.13;
@@ -35,33 +32,20 @@ game.TitleScreen = me.ScreenObject.extend({
                 this.font.set("right", 0.75)
             },
 
+            // Need this for the button to pop back up when released
             update : function (dt) {
                 return true;
             },
 
             draw : function (renderer) {
-                //this.parent(renderer);
                 x = me.game.viewport.width * 0.95;
                 this.font.draw(renderer, "Nathaniel Breneman", x, y * 0.7);
                 this.font.draw(renderer, "Mark Buckner", x, y * 0.75);
                 this.font.draw(renderer, "Sylvan Canales", x, y * 0.80);
-                renderer.restore();
-                // this.font.draw(renderer, this.scroller, this.scrollerpos, 440);
             },
-            onDestroyEvent : function () {
-                //just in case
-
-            }
+           
         })), 2);
 
-        me.input.bindKey(me.input.KEY.ENTER, "enter", true);
-        this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
-            console.log("keydown", action);
-            if (action === "enter") {
-
-                me.state.change(me.state.PLAY);
-            }
-        });
 
         this.buttonHandler = me.event.subscribe(me.event.KEYUP, function (action, keyCode) {
 
@@ -82,8 +66,7 @@ game.TitleScreen = me.ScreenObject.extend({
     onDestroyEvent: function() {
         //me.game.world.removeChild(this.HUD);
         me.input.unbindKey(me.input.KEY.ENTER);
-        me.event.unsubscribe(this.handler);
         me.event.unsubscribe(this.buttonHandler);
-        me.audio.stopTrack("title_music");
+        //me.audio.stopTrack("title_music");
     }
 });

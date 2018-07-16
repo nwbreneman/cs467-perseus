@@ -183,6 +183,9 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.player1.buyUnit("testUnit");
         game.data.player1.buyUnit("testUnit");
         game.data.player1.buyUnit("testUnit");
+
+        // Add the enemy AI controller
+        me.game.world.addChild(new game.AI(game.data.enemy, game.data.difficulty));
     },
 
     /**

@@ -11,6 +11,7 @@ var game = {
         // selecting units, etc. Not technically an entity since
         // we're not rendering it.
         player1: new player("Player 1"),
+        enemy: new player("Enemy"),
         difficulty: "Easy",
     },
 
@@ -45,7 +46,7 @@ var game = {
 
 
         // set a global fading transition for the screen
-        me.state.transition("fade", "#000000", 250);
+        me.state.transition("fade", "#000000", 180);
 
         me.pool.register("selectedShape", game.selectedShape, true);
 
