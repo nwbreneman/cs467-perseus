@@ -21,6 +21,9 @@ game.EnemyUnit = me.Entity.extend({
         // any command by the AI controller
         this.changeState('idle');
 
+        // testing out stuff
+        this.health = 1000;
+
     },
 
 
@@ -36,28 +39,6 @@ game.EnemyUnit = me.Entity.extend({
     },
 
 
-    update: function () {
-        // 
-        //console.log(this.state);
-        if (this.state == 'idle') {
-            return false;
-        } else if (this.state == 'defending') {
-            
-        } else if (this.state == 'moving') {
-
-        } else if (this.state == 'gathering') {
-
-        } else if (this.state == 'attacking') {
-
-        } else {
-            // undefined state
-        }
-
-
-        return false;
-    },
-
-
     // Function to call when you want to switch unit states
     changeState: function(newState) {
         this.leaveState(this.state);
@@ -67,14 +48,76 @@ game.EnemyUnit = me.Entity.extend({
     // Called from changeState()
     enterState: function(newState) {
         // Maybe do something interesting here depending on the state
-
         this.state = newState;
+
+        if (newState == 'dying') {
+            // Start a death animation or particle effect or something
+            this.deathTimer = 0;
+        } else if (newState == 'dead') {
+            console.log("He's dead, Jim!");
+        }
+
     },
 
     // Called from changeState()
     leaveState: function(oldState) {
         // Maybe do something interesting here depending on the state
     },
+
+
+    update: function (dt) {
+        // testing out some state change mechanics
+        this.health -= dt;
+        
+       
+
+
+        if (this.state == 'idle') {
+            console.log(this.state, this.health);
+
+            if (this.health <= 0)
+                this.changeState('dying');
+
+        } else if (this.state == 'defending') {
+
+            if (this.health <= 0)
+                this.changeState('dying');
+
+        } else if (this.state == 'moving') {
+
+            if (this.health <= 0)
+                this.changeState('dying');
+
+        } else if (this.state == 'gathering') {
+
+            if (this.health <= 0)
+                this.changeState('dying');
+
+        } else if (this.state == 'attacking') {
+
+            if (this.health <= 0)
+                this.changeState('dying');
+
+        } else if (this.state == 'dying') {
+            this.deathTimer++;
+            console.log("Dying:", this.deathTimer);
+            if (this.deathTimer == 60) {
+                this.changeState('dead');
+            }
+
+        } else if (this.state == 'dead') {
+            // Should be deleted from the map
+            
+        } else {
+            // undefined state
+        }
+
+
+        return false;
+    },
+
+
+
 
 });
 
