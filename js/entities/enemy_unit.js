@@ -19,10 +19,10 @@ game.EnemyUnit = me.Entity.extend({
 
         // Define an initial 'state' for this entity, which at the moment hasn't been issued 
         // any command by the AI controller
-        this.changeState('idle');
+        this.changeState('spawning');
 
         // testing out stuff
-        this.health = 1000;
+        this.health = 100;
 
     },
 
@@ -48,7 +48,7 @@ game.EnemyUnit = me.Entity.extend({
     // Called from changeState()
     enterState: function(newState) {
         // Maybe do something interesting here depending on the state
-        this.state = newState;
+        
 
         if (newState == 'dying') {
             // Start a death animation or particle effect or something
@@ -57,6 +57,7 @@ game.EnemyUnit = me.Entity.extend({
             console.log("He's dead, Jim!");
         }
 
+        this.state = newState;
     },
 
     // Called from changeState()
@@ -101,13 +102,19 @@ game.EnemyUnit = me.Entity.extend({
         } else if (this.state == 'dying') {
             this.deathTimer++;
             console.log("Dying:", this.deathTimer);
-            if (this.deathTimer == 60) {
+            if (this.deathTimer == 30) {
                 this.changeState('dead');
             }
 
         } else if (this.state == 'dead') {
             // Should be deleted from the map
             
+        } else if (this.state == 'spawning') {
+            // wait for some animation to finish before changing state to idle?
+            console.log('spawning');
+
+            this.changeState('idle');
+
         } else {
             // undefined state
         }
