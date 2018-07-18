@@ -47,7 +47,7 @@ game.Unit = me.Entity.extend({
 
     update: function () {
         if (this.selected) {
-            if (!this.selectedBox) {
+            if (!this.selectedBox && this.player.ptype === "Human") {
                 pos = this.getBounds().pos;
                 this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x, pos.y), 2);
                 return true;

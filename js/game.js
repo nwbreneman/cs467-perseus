@@ -10,8 +10,8 @@ var game = {
         // so the AI has the same easy functions for buying units,
         // selecting units, etc. Not technically an entity since
         // we're not rendering it.
-        player1: new player("Player 1"),
-        enemy: new player("Enemy"),
+        player1: new player("Player 1", "Human"),
+        enemy: new player("Enemy", "AI"),
         difficulty: "Easy",
     },
 

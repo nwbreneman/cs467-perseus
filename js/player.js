@@ -2,9 +2,14 @@
  * A player class to be used by adding to the game pool:
  * one for the human player, one for the AI.
  */
-var player = function (name) {
+var player = function (name, ptype) {
 
     this.name = name;
+    if (ptype !== "Human" && ptype !== "AI") {
+        throw ("Error: player type must be 'Human' or 'AI");
+    } else {
+        this.ptype = ptype;
+    }
     this.unitResources = 2;
     this.units = [];
     this.selectedUnits = [];
@@ -37,13 +42,7 @@ var player = function (name) {
 
     this.clearSelectedUnits = function () {
         for (var i = 0; i < this.selectedUnits.length; i++) {
-            // console.log("deselecting unit:");
-            // console.log(this.selectedUnits[i]);
-            // console.log(this.selectedUnits[i]['selected']);
             this.selectedUnits[i].deselect();
-            // console.log("now deselected:");
-            // console.log(this.selectedUnits[i]);
-            // console.log(this.selectedUnits[i]['selected']);
         }
         this.selectedUnits = [];
     }
