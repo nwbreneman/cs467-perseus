@@ -212,6 +212,10 @@ game.PlayScreen = me.ScreenObject.extend({
 
         this.refLayer.getRenderer().tileToPixelCoords(29, 4, this.vec);
         me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, { width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72 }));
+    	
+    	//Mark: testing spawning blue civilian at start of new game by calling buyUnit()
+    	game.data.player1.buyUnit("civilian");
+    	
     },
 
     /**
