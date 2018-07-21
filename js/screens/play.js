@@ -93,7 +93,6 @@ game.PlayScreen = me.ScreenObject.extend({
                 if (event.type === "pointerdown") {
                     this.polyPoints = [];
                     this.player.clearSelectedUnits();
-                    this.player.base.deselect();
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
                     this.startSelection = true;
                 }
