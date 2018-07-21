@@ -24,20 +24,27 @@ game.PlayScreen = me.ScreenObject.extend({
             // Pan the camera when WASD/left down up right pressed
             update: function () {
                 var panned = false;
-                if (me.input.isKeyPressed("left")) {
-                    me.game.viewport.move(-AMOUNT_TO_PAN, 0);
-                    panned = true;
-                } else if (me.input.isKeyPressed("right")) {
-                    me.game.viewport.move(AMOUNT_TO_PAN, 0);
-                    panned = true;
-                } else if (me.input.isKeyPressed("up")) {
-                    me.game.viewport.move(0, -AMOUNT_TO_PAN);
-                    panned = true;
-                } else if (me.input.isKeyPressed("down")) {
-                    me.game.viewport.move(0, AMOUNT_TO_PAN);
+                var dir = new me.Vector2d(0,0);
+                if (me.input.isKeyPressed("up") && !me.input.isKeyPressed("down")) {
+                    dir.y = -AMOUNT_TO_PAN;
                     panned = true;
                 }
-
+                if (me.input.isKeyPressed("down") && !me.input.isKeyPressed("up")) {
+                    dir.y = AMOUNT_TO_PAN;
+                    panned = true;
+                }
+                if (me.input.isKeyPressed("left") && !me.input.isKeyPressed("right")) {
+                    dir.x = -AMOUNT_TO_PAN;
+                    panned = true;
+                }
+                if (me.input.isKeyPressed("right") && !me.input.isKeyPressed("left")) {
+                    dir.x = AMOUNT_TO_PAN;
+                    panned = true;
+                }
+                if (panned) {
+                    me.game.viewport.move(dir.x, dir.y);
+                }
+   
                 return panned;
             }
         })));
