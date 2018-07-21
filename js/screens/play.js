@@ -200,6 +200,15 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Sylvan: temp adding an AI unit so I can test its logic. Nothing rendered on screen
         me.game.world.addChild(new game.EnemyUnit(0, 0, { width: 10, height: 10 }));
+
+        // Sylvan: test add flag with animation     
+        this.vec = new me.Vector2d(0, 0);     
+        this.refLayer = me.game.world.getChildByName("Plains")[0];        
+        this.refLayer.getRenderer().tileToPixelCoords(4, 19, this.vec);       
+        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72}));        
+                     
+        this.refLayer.getRenderer().tileToPixelCoords(29, 4, this.vec);       
+        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72}));
     },
 
     /**
