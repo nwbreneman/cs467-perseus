@@ -1,0 +1,10 @@
+{
+    "name": "plane",
+    "attack": 0,
+    "range": 0,
+    "defense": 0,
+    "speed": 0,
+    "type": "paper",
+    "cost": 0,
+    "image": ""
+}
