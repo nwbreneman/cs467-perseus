@@ -93,9 +93,10 @@ game.selectedShape = me.Sprite.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
 
+        this.renderable.anchorPoint.set(0.2,0.7);
+
         // set a renderable
         this.renderable.addAnimation("flutter", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], 60);
-        //this.renderable = game.flagBlueTexture.addAnimation("flutter", [0, 1, 2, 3, 4, 5, 6], 32);
 
         this.renderable.setCurrentAnimation("flutter");
 

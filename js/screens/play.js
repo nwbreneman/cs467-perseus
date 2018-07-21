@@ -191,8 +191,14 @@ game.PlayScreen = me.ScreenObject.extend({
         me.game.world.addChild(new game.EnemyUnit(0,0, {width: 10, height: 10}));
 
         // Sylvan: test add flag with animation
-        me.game.world.addChild(new game.flag(200, 600, {width: 64, height: 64, image: "flag_blue"}));
-        me.game.world.addChild(new game.flag(2800, 800, {width: 64, height: 64, image: "flag_red"}));
+        this.vec = new me.Vector2d(0, 0);
+        this.refLayer = me.game.world.getChildByName("Plains")[0];
+        this.refLayer.getRenderer().tileToPixelCoords(2, 17, this.vec);
+        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72}));
+        
+        this.refLayer.getRenderer().tileToPixelCoords(27, 2, this.vec);
+        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72}));
+        
     },
 
     /**
