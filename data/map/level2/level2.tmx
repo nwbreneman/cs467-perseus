@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" nextobjectid="11">
+<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="11">
  <tileset firstgid="1" source="Plains.tsx"/>
  <tileset firstgid="3" source="Castles.tsx"/>
  <tileset firstgid="5" source="Generators.tsx"/>
