@@ -40,7 +40,7 @@ game.EnemyUnit = me.Entity.extend({
 
 
     command: function(order) {
-        console.log("Enemy unit received command:", order);
+        //console.log("Enemy unit received command:", order);
 
         
     },
@@ -81,7 +81,7 @@ game.EnemyUnit = me.Entity.extend({
 
 
         if (this.state == 'idle') {
-            console.log(this.state, this.health);
+            //console.log(this.state, this.health);
 
             if (this.health <= 0)
                 this.changeState('dying');
@@ -108,7 +108,7 @@ game.EnemyUnit = me.Entity.extend({
 
         } else if (this.state == 'dying') {
             this.deathTimer++;
-            console.log("Dying:", this.deathTimer);
+            //console.log("Dying:", this.deathTimer);
             if (this.deathTimer == 30) {
                 this.changeState('dead');
             }
@@ -118,7 +118,7 @@ game.EnemyUnit = me.Entity.extend({
             
         } else if (this.state == 'spawning') {
             // wait for some animation to finish before changing state to idle?
-            console.log('spawning');
+            //console.log('spawning');
 
             this.changeState('idle');
 

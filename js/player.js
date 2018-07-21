@@ -22,11 +22,9 @@ var player = function (name, ptype) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= unit.cost) {
-                unit = me.pool.pull(
-                    settings.name,
-                    this.spawnPoint.pos.x,
-                    this.spawnPoint.pos.y,
-                    settings);
+                unit = me.pool.pull(unitName, 10, 10, settings);
+                unit.pos.x = this.spawnPoint.pos.x + unit.width*0.1;
+                unit.pos.y = this.spawnPoint.pos.y - unit.height*0.5;
                 unit.player = this;
                 this.unitResources -= unit.cost;
                 this.units.push(unit);

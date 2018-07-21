@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="17">
+<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="19">
  <tileset firstgid="1" source="Plains.tsx"/>
  <tileset firstgid="3" source="Castles.tsx"/>
  <tileset firstgid="5" source="Generators.tsx"/>
@@ -29,15 +29,23 @@
     <property name="player" value="enemy"/>
    </properties>
   </object>
-  <object id="14" name="redspawnpoint" x="1901" y="194.5" width="67" height="60.5">
+  <object id="17" name="bluespawnpoint" x="269.5" y="1298.5">
    <properties>
-    <property name="player" value="enemy"/>
-   </properties>
-  </object>
-  <object id="16" name="bluespawnpoint" x="198.5" y="1271.75" width="67" height="60.5">
-   <properties>
+    <property name="frameheight" type="int" value="64"/>
+    <property name="framewidth" type="int" value="128"/>
+    <property name="image" value="bluespawn"/>
     <property name="player" value="player1"/>
    </properties>
+   <point/>
+  </object>
+  <object id="18" name="redspawnpoint" x="1856.5" y="213.5">
+   <properties>
+    <property name="frameheight" type="int" value="64"/>
+    <property name="framewidth" type="int" value="128"/>
+    <property name="image" value="redspawn"/>
+    <property name="player" value="enemy"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
 </map>
