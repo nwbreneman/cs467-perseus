@@ -6,7 +6,7 @@ game.SpawnPoint = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
         this.isKinematic = true;
     }
-})
+});
 
 /**
  * Base Entity
@@ -67,6 +67,7 @@ game.Unit = me.Entity.extend({
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.NPC_OBJECT;
+        this.body.gravity = 0;
 
         this.selected = false;
         this.selectedBox = null;
@@ -78,6 +79,8 @@ game.Unit = me.Entity.extend({
         this.defense = settings.defense;
         this.type = settings.type;
         this.image = settings.image;
+
+        this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
 
     /** Registers this entity to pointer events when the entity is created */
@@ -113,21 +116,25 @@ game.Unit = me.Entity.extend({
                 return true;
             }
         }
-        me.collision.check(this);
 
-        return false;
+        return me.collision.check(this);
     },
 
     onCollision: function (response, other) {
-        // if (response.aInB) {
-        //     console.log(response);
-        //     response.b.pos.sub(response.overlapV);
-        // } else if (response.bInA) {
-        //     response.a.pos.sub(response.overlapV);
-        // }
-        console.log(response);
-        response.a.pos.sub(response.overlapV);
-        return true;
+        if (response.aInB) {
+            response.a.pos.sub(response.overlapV);
+            // var x = response.a.pos.x;
+            // var y = response.a.pos.y;
+            // var tile = this.terrainLayer.getTile(x, y);
+            // if (!tile) {
+            //     console.log("new pos not on map");
+            //     console.log(x);
+            //     console.log(y);
+            // } else {
+            //     // console.log(tile);
+            // }
+        }
+        return false;
     },
 
     deselect: function () {
