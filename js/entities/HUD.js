@@ -21,7 +21,7 @@ game.HUD.Container = me.Container.extend({
         this.name = "HUD";
 
         // associate with human player base
-        this.playerBase = me.game.world.getChildByName("bluespawnpoint")[0];
+        this.playerBase = me.game.world.getChildByName("bluebase")[0];
 
         this.addChild(new game.HUD.BaseBox());
 

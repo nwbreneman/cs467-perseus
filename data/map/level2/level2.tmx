@@ -29,7 +29,15 @@
     <property name="player" value="enemy"/>
    </properties>
   </object>
-  <object id="14" name="redspawnpoint" x="1901" y="194.5" width="67" height="60.5"/>
-  <object id="16" name="bluespawnpoint" x="198.5" y="1271.75" width="67" height="60.5"/>
+  <object id="14" name="redspawnpoint" x="1901" y="194.5" width="67" height="60.5">
+   <properties>
+    <property name="player" value="enemy"/>
+   </properties>
+  </object>
+  <object id="16" name="bluespawnpoint" x="198.5" y="1271.75" width="67" height="60.5">
+   <properties>
+    <property name="player" value="player1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
