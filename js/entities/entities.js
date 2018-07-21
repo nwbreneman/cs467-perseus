@@ -1,4 +1,14 @@
 /**
+ * Unit Spawn Point
+ */
+game.SpawnPoint = me.Entity.extend({
+    init: function (x, y, settings) {
+        this._super(me.Entity, 'init', [x, y, settings]);
+        this.isKinematic = true;
+    }
+})
+
+/**
  * Base Entity
  */
 game.Base = me.Entity.extend({
@@ -109,9 +119,14 @@ game.Unit = me.Entity.extend({
     },
 
     onCollision: function (response, other) {
-        if (response.aInB) {
-            response.a.pos.sub(response.overlapV);
-        }
+        // if (response.aInB) {
+        //     console.log(response);
+        //     response.b.pos.sub(response.overlapV);
+        // } else if (response.bInA) {
+        //     response.a.pos.sub(response.overlapV);
+        // }
+        console.log(response);
+        response.a.pos.sub(response.overlapV);
         return true;
     },
 

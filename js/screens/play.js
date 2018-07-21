@@ -192,9 +192,11 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
 
-        // associate bases with players
+        // associate bases & spawn points with players
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
+        game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
         game.data.enemy.base = me.game.world.getChildByName("redbase")[0];
+        game.data.enemy.spawnPoint = me.game.world.getChildByName("redspawnpoint")[0];
 
         // Add the enemy AI controller
         me.game.world.addChild(new game.AI(game.data.enemy, game.data.difficulty));

@@ -53,8 +53,8 @@ var game = {
         // add our map bases & spawn points
         me.pool.register("bluebase", game.Base);
         me.pool.register("redbase", game.Base);
-        me.pool.register("bluespawnpoint", me.Entity);
-        me.pool.register("redspawnpoint", me.Entity);
+        me.pool.register("bluespawnpoint", game.SpawnPoint);
+        me.pool.register("redspawnpoint", game.SpawnPoint);
 
         // add units to pool
         units = me.loader.getJSON("manifest").units;

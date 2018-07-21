@@ -13,8 +13,9 @@ var player = function (name, ptype) {
     this.unitResources = 9999;
     this.units = [];
     this.selectedUnits = [];
-    // reference to player's base for buying units
+    // reference to player's base for buying units & spawn point
     this.base = null;
+    this.spawnPoint = null;
 
     this.buyUnit = function (unitName) {
         // TODO: use the unit Entity
@@ -23,8 +24,8 @@ var player = function (name, ptype) {
             if (this.unitResources >= unit.cost) {
                 unit = me.pool.pull(
                     settings.name,
-                    this.base.pos.x + 50,
-                    this.base.pos.y,
+                    this.spawnPoint.pos.x,
+                    this.spawnPoint.pos.y,
                     settings);
                 unit.player = this;
                 this.unitResources -= unit.cost;
