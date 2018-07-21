@@ -13,30 +13,22 @@ game.AI = me.Renderable.extend({
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
 
-        // Perform a computation after elapsed number of frames
-        // Since we don't really need to do computation every frame for high-level strategy
-        // This is a parameter that can be tweaked to hopefully alter the difficulty of the AI
-        this.frameAccumulator = 0;
-        if (difficulty == "Easy") {
-        	this.updateFrame = 120;
-        } else {
-        	this.updateFrame = 20;
-        }
-
-        
         this.player = player;
 
-        
-    },
-
-    // Call the process function after a specified number of frames have elapsed
-    update: function(dt) {
-        this.frameAccumulator ++;
-        if (this.frameAccumulator >= this.updateFrame) {
-        	this.frameAccumulator = 0;
-        	this.process();
+        // Perform a computation after elapsed number of milliseconds
+        // Since we don't really need to do computation every frame for high-level strategy
+        // This is a parameter that can be tweaked to hopefully alter the difficulty of the AI
+    
+        if (difficulty == "Easy") {
+        	this.processInterval = 2500;
+        } else {
+        	this.processInterval = 300;
         }
-        return false;
+
+        // Set the recurring timer based on the interval
+        me.timer.setInterval(this.process, this.processInterval, true);     
+
+
     },
 
 
@@ -45,4 +37,5 @@ game.AI = me.Renderable.extend({
     	//console.log("AI processing function");
 
     },
+
 });
