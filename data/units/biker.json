@@ -1,0 +1,10 @@
+{
+    "name": "biker",
+    "attack": 0,
+    "range": 0,
+    "defense": 0,
+    "speed": 0,
+    "type": "paper",
+    "cost": 5,
+    "image": ""
+}
