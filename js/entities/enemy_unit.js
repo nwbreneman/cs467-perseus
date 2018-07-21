@@ -39,6 +39,13 @@ game.EnemyUnit = me.Entity.extend({
     },
 
 
+    command: function(order) {
+        console.log("Enemy unit received command:", order);
+
+        
+    },
+
+
     // Function to call when you want to switch unit states
     changeState: function(newState) {
         this.leaveState(this.state);

@@ -8,7 +8,7 @@ game.PlayScreen = me.ScreenObject.extend({
         const AMOUNT_TO_PAN = 10;
 
         // load a level
-        me.levelDirector.loadLevel("level1");
+        me.levelDirector.loadLevel("level2");
 
         // Add invisible renderable for panning the level
         me.game.world.addChild(new (me.Renderable.extend({
@@ -189,6 +189,10 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Sylvan: temp adding an AI unit so I can test its logic. Nothing rendered on screen
         me.game.world.addChild(new game.EnemyUnit(0,0, {width: 10, height: 10}));
+
+        // Sylvan: test add flag with animation
+        me.game.world.addChild(new game.flag(200, 600, {width: 64, height: 64, image: "flag_blue"}));
+        me.game.world.addChild(new game.flag(2800, 800, {width: 64, height: 64, image: "flag_red"}));
     },
 
     /**
