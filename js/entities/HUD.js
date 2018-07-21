@@ -94,8 +94,10 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
     },
 
     onClick: function () {
-        player = this.ancestor.playerBase.player;
-        player.buyUnit(this.name);
-        return false;
+        if (this.ancestor.playerBase.selected) {
+            player = this.ancestor.playerBase.player;
+            player.buyUnit(this.name);
+            return false;
+        }
     },
 });
