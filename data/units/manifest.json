@@ -1,6 +1,14 @@
 {
     "units": [
         "civilian",
-        "infantry"
+        "infantry",
+        "bazooka",
+        "biker",
+        "plane",
+        "engineer",
+        "jetpack",
+        "tank",
+        "sniper",
+        "bomber" 
     ]
 }
