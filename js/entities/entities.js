@@ -103,7 +103,7 @@ game.Unit = me.Entity.extend({
         if (this.selected) {
             if (!this.selectedBox && this.player.ptype === "Human") {
                 pos = this.getBounds().pos;
-                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x + (this.width / 2), pos.y + (this.height / 1.25)));
+                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x + (this.width / 2), pos.y + (this.height / 1.25)), 2);
                 return true;
             }
         } else {
