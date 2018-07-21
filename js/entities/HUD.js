@@ -7,7 +7,7 @@ game.HUD = game.HUD || {};
 
 game.HUD.Container = me.Container.extend({
 
-    init: function() {
+    init: function () {
         // call the constructor
         this._super(me.Container, 'init');
 
@@ -20,47 +20,82 @@ game.HUD.Container = me.Container.extend({
         // give a name
         this.name = "HUD";
 
-        // add our child score object at the top left corner
-        this.addChild(new game.HUD.ScoreItem(5, 5));
-    }
+        // associate with human player base
+        this.playerBase = me.game.world.getChildByName("bluespawnpoint")[0];
+
+        this.addChild(new game.HUD.BaseBox());
+
+        unitList = me.loader.getJSON("manifest");
+        for (var i = 0; i < unitList.units.length; i++) {
+            unit = me.loader.getJSON(unitList.units[i]);
+            this.addChild(new game.HUD.UnitPurchaser(
+                (100 * (i + 1)),
+                -50,
+                unit
+            ));
+        }
+
+    },
 });
+
+/**
+ * Base box for hud
+ */
+game.HUD.BaseBox = me.Renderable.extend({
+
+    init: function () {
+        width = 1920;
+        height = me.game.viewport.getHeight() / 10;
+        x = me.game.viewport.getWidth() / 2;
+        y = me.game.viewport.getHeight() - (height / 2);
+        this._super(me.Renderable, 'init', [x, y, width, height]);
+    },
+
+    update: function () {
+        return false;
+    },
+
+    draw: function (renderer) {
+        if (this.ancestor.playerBase.selected) {
+            renderer.setColor("white");
+            renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height)
+        }
+    }
+})
 
 
 /**
- * a basic HUD item to display score
+ * Unit purchase renderable; clicking it buys a unit
  */
-game.HUD.ScoreItem = me.Renderable.extend({
-    /**
-     * constructor
-     */
-    init: function(x, y) {
-
-        // call the parent constructor
-        // (size does not matter here)
-        this._super(me.Renderable, 'init', [x, y, 10, 10]);
-
-        // local copy of the global score
-        this.score = -1;
+game.HUD.UnitPurchaser = me.GUI_Object.extend({
+    init: function (x, y, settings) {
+        image = me.loader.getImage(settings.image);
+        settings.width = image.width;
+        settings.height = image.height;
+        y = me.game.viewport.getHeight() + y;
+        this._super(me.GUI_Object, 'init', [x, y, settings]);
+        this.name = settings.name;
+        this.cost = settings.cost;
+        this.floating = true;
+        this.image = image;
     },
 
-    /**
-     * update function
-     */
-    update : function () {
-        // we don't do anything fancy here, so just
-        // return true if the score has been updated
-        if (this.score !== game.data.score) {
-            this.score = game.data.score;
+    update: function () {
+        if (this.ancestor.playerBase.selected) {
             return true;
         }
         return false;
     },
 
-    /**
-     * draw the score
-     */
-    draw : function (context) {
-        // draw it baby !
-    }
+    draw: function (renderer) {
+        if (this.ancestor.playerBase.selected) {
+            renderer.drawImage(this.image, this.pos.x, this.pos.y);
+        }
+    },
 
+    onClick: function () {
+        player = this.ancestor.playerBase.player;
+        player.buyUnit(this.name);
+        return false;
+    },
 });

@@ -15,6 +15,7 @@ game.PlayScreen = me.ScreenObject.extend({
             init: function () {
                 this._super(me.Renderable, 'init', [0, 0, 0, 0]);
                 this.alwaysUpdate = true;
+                this.persistent = true;
 
                 // viewport height/width for brevity
                 this.vpWidth = me.game.viewport.getWidth();
@@ -24,7 +25,7 @@ game.PlayScreen = me.ScreenObject.extend({
             // Pan the camera when WASD/left down up right pressed
             update: function () {
                 var panned = false;
-                var dir = new me.Vector2d(0,0);
+                var dir = new me.Vector2d(0, 0);
                 if (me.input.isKeyPressed("up") && !me.input.isKeyPressed("down")) {
                     dir.y = -AMOUNT_TO_PAN;
                     panned = true;
@@ -44,7 +45,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 if (panned) {
                     me.game.viewport.move(dir.x, dir.y);
                 }
-   
+
                 return panned;
             }
         })));
@@ -67,6 +68,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 this.startSelection = false;
                 this.finalDraw = false;
                 this.player = game.data.player1;
+                this.persistent = true;
 
                 // Subscribe to pointerclick and pointermove events
                 this.pointerClickEvent = me.event.subscribe("pointerclick",
@@ -91,6 +93,7 @@ game.PlayScreen = me.ScreenObject.extend({
                 if (event.type === "pointerdown") {
                     this.polyPoints = [];
                     this.player.clearSelectedUnits();
+                    this.player.base.deselect();
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
                     this.startSelection = true;
                 }
@@ -185,27 +188,18 @@ game.PlayScreen = me.ScreenObject.extend({
                 me.event.publish("pointermove", [event]);
             }, false);
 
-        // Nathan: this is me manually testing some player functions
-        // and will be removed next week.
-        game.data.player1.buyUnit("testUnit");
-        game.data.player1.buyUnit("testUnit");
-        game.data.player1.buyUnit("testUnit");
+        // add our HUD to the game world
+        this.HUD = new game.HUD.Container();
+        me.game.world.addChild(this.HUD);
+
+        // associate bases with players
+        game.data.player1.base = me.game.world.getChildByName("bluespawnpoint")[0];
 
         // Add the enemy AI controller
         me.game.world.addChild(new game.AI(game.data.enemy, game.data.difficulty));
 
         // Sylvan: temp adding an AI unit so I can test its logic. Nothing rendered on screen
-        me.game.world.addChild(new game.EnemyUnit(0,0, {width: 10, height: 10}));
-
-        // Sylvan: test add flag with animation
-        this.vec = new me.Vector2d(0, 0);
-        this.refLayer = me.game.world.getChildByName("Plains")[0];
-        this.refLayer.getRenderer().tileToPixelCoords(4, 19, this.vec);
-        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72}));
-        
-        this.refLayer.getRenderer().tileToPixelCoords(29, 4, this.vec);
-        me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, {width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72}));
-        
+        me.game.world.addChild(new game.EnemyUnit(0, 0, { width: 10, height: 10 }));
     },
 
     /**

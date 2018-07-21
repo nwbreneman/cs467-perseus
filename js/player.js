@@ -10,17 +10,26 @@ var player = function (name, ptype) {
     } else {
         this.ptype = ptype;
     }
-    this.unitResources = 2;
+    this.unitResources = 9999;
     this.units = [];
     this.selectedUnits = [];
+    // reference to player's base for buying units
+    this.base = null;
 
     this.buyUnit = function (unitName) {
         // TODO: use the unit Entity
-        unit = me.loader.getJSON(unitName);
-        if (unit !== null) {
+        settings = me.loader.getJSON(unitName);
+        if (settings !== null) {
             if (this.unitResources >= unit.cost) {
+                unit = me.pool.pull(
+                    settings.name,
+                    this.base.pos.x + 50,
+                    this.base.pos.y,
+                    settings);
+                unit.player = this;
                 this.unitResources -= unit.cost;
                 this.units.push(unit);
+                me.game.world.addChild(unit);
                 // TODO: render unit on map near base
             } else {
                 console.log("not enough money to buy unit");

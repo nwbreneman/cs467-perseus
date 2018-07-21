@@ -44,21 +44,23 @@ var game = {
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
-
         // set a global fading transition for the screen
         me.state.transition("fade", "#000000", 180);
 
+        // add the unit selection oval
         me.pool.register("selectedShape", game.selectedShape, true);
 
-        // Nathan: I am using these two manually-added test units
-        // for the select box testing right now. Will be modified
-        // next week to use object pooling.
-        me.pool.register("testUnit1", game.Unit);
-        me.pool.register("testUnit2", game.Unit);
+        // add our map bases
+        me.pool.register("bluespawnpoint", game.Base);
+        me.pool.register("redspawnpoint", game.Base);
+
+        // add units to pool
+        units = me.loader.getJSON("manifest").units;
+        for (var i = 0; i < units.length; i++) {
+            me.pool.register(units[i], game.Unit, true);
+        }
 
         // Start the game.
-        //  me.state.change(me.state.PLAY);
         me.state.change(me.state.MENU);
-
     }
 };

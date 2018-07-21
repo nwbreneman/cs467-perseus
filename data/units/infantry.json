@@ -1,9 +1,10 @@
 {
     "name": "infantry",
     "attack": 7,
-    "range": 3,  
+    "range": 3,
     "defense": 22,
     "speed": 10,
     "type": "paper",
-    "cost": 5
+    "cost": 5,
+    "image": "inftest"
 }
