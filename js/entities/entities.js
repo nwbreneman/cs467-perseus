@@ -163,8 +163,9 @@ game.Unit = me.Entity.extend({
     onCollision: function (response) {
         if (response.aInB) {
             response.a.pos.sub(response.overlapV);
+            return false;
         }
-        return false;
+        return true;
     },
 
     deselect: function () {

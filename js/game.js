@@ -50,6 +50,9 @@ var game = {
         // add the unit selection oval
         me.pool.register("selectedShape", game.selectedShape, true);
 
+        // add the map edge
+        me.pool.register("mapedge", me.Entity);
+
         // add our map bases & spawn points
         me.pool.register("bluebase", game.Base);
         me.pool.register("redbase", game.Base);

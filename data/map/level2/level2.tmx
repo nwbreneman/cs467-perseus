@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="19">
+<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="20">
  <tileset firstgid="1" source="Plains.tsx"/>
  <tileset firstgid="3" source="Castles.tsx"/>
  <tileset firstgid="5" source="Generators.tsx"/>
@@ -46,6 +46,11 @@
     <property name="player" value="enemy"/>
    </properties>
    <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="collision">
+  <object id="19" name="mapedge" x="106.5" y="1387.5">
+   <polyline points="0,0 1918.5,1.5 1921.5,-1277.5 2,-1278 0.5,1.5"/>
   </object>
  </objectgroup>
 </map>
