@@ -21,15 +21,14 @@ var player = function (name, ptype) {
         // TODO: use the unit Entity
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
-            if (this.unitResources >= unit.cost) {
-                unit = me.pool.pull(unitName, 10, 10, settings);
+            if (this.unitResources >= settings.cost) {
+                let unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 unit.player = this;
                 this.unitResources -= unit.cost;
                 this.units.push(unit);
                 me.game.world.addChild(unit);
-                // TODO: render unit on map near base
             } else {
                 console.log("not enough money to buy unit");
                 // TODO: display message on screen that there aren't

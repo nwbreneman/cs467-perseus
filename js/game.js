@@ -61,6 +61,10 @@ var game = {
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.Unit, true);
         }
+        units = me.loader.getJSON("manifest_enemy").units;
+        for (var i = 0; i < units.length; i++) {
+            me.pool.register(units[i], game.EnemyUnit, true);
+        }
 
         // Start the game.
         me.state.change(me.state.MENU);

@@ -196,16 +196,16 @@ game.PlayScreen = me.ScreenObject.extend({
         // associate bases & spawn points with players
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
-        game.data.enemy.base = me.game.world.getChildByName("redbase")[0];
-        game.data.enemy.spawnPoint = me.game.world.getChildByName("redspawnpoint")[0];
 
-        // Add the enemy AI controller
-        me.game.world.addChild(new game.AI(game.data.enemy, game.data.difficulty));
+        // Add the enemy AI controller with some settings
+        me.game.world.addChild(new game.AI( {
+            difficulty: game.data.difficulty,
+            base: me.game.world.getChildByName("redbase")[0],
+            spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
+        }));
 
-        // Sylvan: temp adding an AI unit so I can test its logic. Nothing rendered on screen
-        me.game.world.addChild(new game.EnemyUnit(0, 0, { width: 10, height: 10 }));
 
-        // Sylvan: test add flag with animation
+        // Sylvan: Add flags
         this.vec = new me.Vector2d(0, 0);
         this.refLayer = me.game.world.getChildByName("Plains")[0];
         this.refLayer.getRenderer().tileToPixelCoords(4, 19, this.vec);

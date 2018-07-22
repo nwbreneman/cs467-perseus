@@ -9,8 +9,10 @@ game.EnemyUnit = me.Entity.extend({
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-        settings.framewidth = settings.width = 32;
-        settings.frameheight = settings.height = 64;
+        //settings.framewidth = settings.width = 64;
+        //settings.frameheight = settings.height = 64;
+        settings.framewidth = settings.width = 88;
+        settings.frameheight = settings.height = 108;
 
         // redefine the default shape (used to define path) with a shape matching the renderable
         //settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
@@ -55,6 +57,10 @@ game.EnemyUnit = me.Entity.extend({
     // Called from changeState()
     enterState: function(newState) {
         // Maybe do something interesting here depending on the state
+
+        if (newState == 'spawning') {
+            console.log("enemy unit spawning at spawn point");
+        }
         
 
         if (newState == 'dying') {
@@ -62,6 +68,7 @@ game.EnemyUnit = me.Entity.extend({
             this.deathTimer = 0;
         } else if (newState == 'dead') {
             console.log("He's dead, Jim!");
+            console.log("enemy unit dead at", this.pos.x, this.pos.y);
         }
 
         this.state = newState;
