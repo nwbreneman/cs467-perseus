@@ -176,7 +176,10 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
-        this.moveTo = { "x": x, "y": y };
+        this.moveTo = {
+            "x": x - (this.width / 2),
+            "y": y - (this.height)
+        };
     }
 
 });
