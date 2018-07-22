@@ -68,7 +68,6 @@ game.Unit = me.Entity.extend({
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.NPC_OBJECT;
         this.body.gravity = 0;
-        this.body.setVelocity(1, 1);
         this.moveTo = null;
         this.alwaysUpdate = true;
 
@@ -82,6 +81,7 @@ game.Unit = me.Entity.extend({
         this.defense = settings.defense;
         this.type = settings.type;
         this.image = settings.image;
+        this.body.setVelocity(this.speed, this.speed);
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -122,12 +122,12 @@ game.Unit = me.Entity.extend({
                 this.body.vel.y -= this.body.accel.y * me.timer.tick;
             }
 
-            if (Math.round(newX) === Math.round(this.pos.x)) {
+            if (this.atTargetPos(this.pos.x, newX, this.speed)) {
                 this.moveTo.x = null;
                 this.body.vel.x = 0;
             }
 
-            if (Math.round(newY) === Math.round(this.pos.y)) {
+            if (this.atTargetPos(this.pos.y, newY, this.speed)) {
                 this.moveTo.y = null;
                 this.body.vel.y = 0;
             }
@@ -181,6 +181,19 @@ game.Unit = me.Entity.extend({
             "x": x - (this.width / 2),
             "y": y - (this.height)
         };
+    },
+
+    atTargetPos: function (current, target, tol) {
+        var n = Math.round(current);
+        var m = Math.round(target);
+        var max = m + tol;
+        var min = m - tol;
+
+        if (n <= max && n >= min) {
+            return true;
+        }
+
+        return false;
     }
 
 });
