@@ -20,7 +20,13 @@ var player = function (name, ptype) {
     this.buyUnit = function (unitName) {
         // TODO: use the unit Entity
         settings = me.loader.getJSON(unitName);
-        if (settings !== null) {
+        
+        //Mark: adding some trace statements for the console
+        console.log(ptype + " purchases: ");
+        console.log(settings);
+        
+
+        if (settings !== null && ptype == "Human") {
             if (this.unitResources >= unit.cost) {
                 unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
@@ -35,7 +41,29 @@ var player = function (name, ptype) {
                 // TODO: display message on screen that there aren't
                 // enough resources?
             }
+        } else {
+
+        //Mark: I was trying to test out enemy unit spawning
+        if (settings !== null && ptype == "AI") {
+            if (this.unitResources >= unit.cost) {
+                unit = me.pool.pull(unitName, 10, 10, settings);
+                console.log("AI unit purchase trace: has enough resources to buy " + unit.name);
+                unit = me.pool.pull(unitName, 10, 10, settings);
+                unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
+                unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
+                unit.player = this;
+                this.unitResources -= unit.cost;
+                this.units.push(unit);
+                me.game.world.addChild(unit);
+                // TODO: render  enemy unit on map near enemy base
+            } else {
+                console.log("not enough money to buy unit");
+                // TODO: display message on screen that there aren't
+                // enough resources?
+            }
         }
+    }
+
     }
 
     this.selectUnit = function (unit) {
