@@ -153,8 +153,9 @@ game.Unit = me.Entity.extend({
  */
 game.selectedShape = me.Sprite.extend({
     init: function (x, y) {
-        this._super(me.Sprite, 'init', [x, y, { image: me.loader.getImage('select') }]);
-        this.isKinematic = true;
+        this._super(me.Sprite, 'init', [x, y, { image: "selection", framewidth: 128, frameheight: 64 }]);
+        this.addAnimation("loop", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], 50);
+        this.setCurrentAnimation("loop");
     },
 
 });
