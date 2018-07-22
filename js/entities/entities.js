@@ -68,6 +68,9 @@ game.Unit = me.Entity.extend({
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.NPC_OBJECT;
         this.body.gravity = 0;
+        this.body.setVelocity(1, 1);
+        this.moveTo = null;
+        this.alwaysUpdate = true;
 
         this.selected = false;
         this.selectedBox = null;
@@ -102,37 +105,64 @@ game.Unit = me.Entity.extend({
         return false;
     },
 
-    update: function () {
+    update: function (dt) {
+        if (this.moveTo !== null) {
+            var newX = this.moveTo.x;
+            var newY = this.moveTo.y;
+
+            if (newX && newX > this.pos.x) {
+                this.body.vel.x += this.body.accel.x * me.timer.tick;
+            } else if (newX && newX < this.pos.x) {
+                this.body.vel.x -= this.body.accel.x * me.timer.tick;
+            }
+
+            if (newY && newY > this.pos.y) {
+                this.body.vel.y += this.body.accel.y * me.timer.tick;
+            } else if (newY && newY < this.pos.y) {
+                this.body.vel.y -= this.body.accel.y * me.timer.tick;
+            }
+
+            if (Math.round(newX) === Math.round(this.pos.x)) {
+                this.moveTo.x = null;
+                this.body.vel.x = 0;
+            }
+
+            if (Math.round(newY) === Math.round(this.pos.y)) {
+                this.moveTo.y = null;
+                this.body.vel.y = 0;
+            }
+
+            if (this.moveTo.x === null && this.moveTo.y === null) {
+                this.moveTo = null;
+            }
+
+            this.selectedBox.pos.x = this.pos.x + (this.width / 2);
+            this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+
+        }
+
         if (this.selected) {
             if (!this.selectedBox && this.player.ptype === "Human") {
                 pos = this.getBounds().pos;
                 this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x + (this.width / 2), pos.y + (this.height / 1.25)), 2);
-                return true;
             }
         } else {
             if (this.selectedBox) {
                 me.game.world.removeChild(this.selectedBox);
                 this.selectedBox = null;
-                return true;
             }
         }
 
-        return me.collision.check(this);
+        this.body.update(dt);
+
+        me.collision.check(this);
+
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
-    onCollision: function (response, other) {
+    onCollision: function (response) {
         if (response.aInB) {
             response.a.pos.sub(response.overlapV);
-            // var x = response.a.pos.x;
-            // var y = response.a.pos.y;
-            // var tile = this.terrainLayer.getTile(x, y);
-            // if (!tile) {
-            //     console.log("new pos not on map");
-            //     console.log(x);
-            //     console.log(y);
-            // } else {
-            //     // console.log(tile);
-            // }
         }
         return false;
     },
@@ -143,6 +173,10 @@ game.Unit = me.Entity.extend({
 
     select: function () {
         this.selected = true;
+    },
+
+    move: function (x, y) {
+        this.moveTo = { "x": x, "y": y };
     }
 
 });

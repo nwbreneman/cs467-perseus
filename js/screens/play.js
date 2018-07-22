@@ -91,13 +91,17 @@ game.PlayScreen = me.ScreenObject.extend({
                 }
 
                 if (event.type === "pointerdown") {
-                    this.polyPoints = [];
-                    this.player.clearSelectedUnits();
-                    this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
-                    this.startSelection = true;
+                    if (event.button === 0) {  // left click
+                        this.polyPoints = [];
+                        this.player.clearSelectedUnits();
+                        this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
+                        this.startSelection = true;
+                    } else if (event.button === 2) { // right click
+                        this.player.moveUnits(event.gameWorldX, event.gameWorldY);
+                    }
                 }
 
-                if (event.type === "pointerup") {
+                if (event.type === "pointerup" && this.polyPoints.length > 0) {
                     this.polyPoints.splice(1, this.polyPoints.length);
                     this.polyPoints.push(new me.Vector2d(this.polyPoints[0].x, event.gameScreenY));
                     this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
@@ -107,11 +111,9 @@ game.PlayScreen = me.ScreenObject.extend({
                     units = this.player.getUnits();
                     for (var i = 0; i < units.length; i++) {
                         unit = units[i];
-                        if (unit.pos) {  // this if statement will be removed next week
-                            pos = me.game.viewport.worldToLocal(unit.pos._x, unit.pos._y);
-                            if (this.selectBox.containsPoint(pos.x, pos.y)) {
-                                this.player.addSelectedUnit(unit);
-                            }
+                        pos = me.game.viewport.worldToLocal(unit.pos._x, unit.pos._y);
+                        if (this.selectBox.containsPoint(pos.x, pos.y)) {
+                            this.player.addSelectedUnit(unit);
                         }
                     }
 
@@ -211,10 +213,10 @@ game.PlayScreen = me.ScreenObject.extend({
 
         this.refLayer.getRenderer().tileToPixelCoords(29, 4, this.vec);
         me.game.world.addChild(new game.flag(this.vec.x, this.vec.y, { width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72 }));
-    	
-    	//Mark: testing spawning blue civilian at start of new game by calling buyUnit()
-    	game.data.player1.buyUnit("civilian");
-    	
+
+        //Mark: testing spawning blue civilian at start of new game by calling buyUnit()
+        game.data.player1.buyUnit("civilian");
+
     },
 
     /**
