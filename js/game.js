@@ -67,6 +67,8 @@ var game = {
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.Unit, true);
         }
+        
+        // add red units to pool
         units = me.loader.getJSON("manifest_enemy").units;
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.EnemyUnit, true);
