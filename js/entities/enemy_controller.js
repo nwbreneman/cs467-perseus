@@ -8,11 +8,14 @@ game.AI = me.Renderable.extend({
         // (zero size makes this object non-renderable, so the Renderable.draw method won't get called)
         this._super(me.Renderable, 'init', [0, 0, 0, 0]);
 
-        console.log("Enemy AI instantiated")
+        // Mark:
+        // giving the enemy AI a resource count so it can buy units
+        unitResources = settings.unitResources;
+        units = settings.units; // initially this is empty list: []
+        console.log("Enemy AI instantiated with " + unitResources + " resources.")
 
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
-
 
         this.spawnPoint = settings.spawnPoint;
         this.resources = settings.resources;

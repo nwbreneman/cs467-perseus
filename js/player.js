@@ -11,6 +11,8 @@ var player = function (name, ptype) {
         this.ptype = ptype;
     }
     this.unitResources = 9999;
+    // Mark: I'm adding trace statements throughout to monitor unit purchasing
+    console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
     this.units = [];
     this.selectedUnits = [];
     // reference to player's base for buying units & spawn point
@@ -29,6 +31,10 @@ var player = function (name, ptype) {
                 this.unitResources -= unit.cost;
                 this.units.push(unit);
                 me.game.world.addChild(unit);
+                // Mark:
+                // Adding some trace statements to watch resources and unit purchasing
+                console.log(settings.name + " unit cost is " + settings.cost);
+                console.log(name + " " + ptype + " now has " + this.unitResources + " resources remaining");
             } else {
                 console.log("not enough money to buy unit");
                 // TODO: display message on screen that there aren't

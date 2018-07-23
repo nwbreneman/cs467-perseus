@@ -67,10 +67,9 @@ game.Unit = me.Entity.extend({
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.NPC_OBJECT;
-        this.body.gravity = 0;
-        this.body.setVelocity(1, 1);
         this.moveTo = null;
         this.alwaysUpdate = true;
+        this.body.bounce = 0;
 
         this.selected = false;
         this.selectedBox = null;
@@ -82,6 +81,7 @@ game.Unit = me.Entity.extend({
         this.defense = settings.defense;
         this.type = settings.type;
         this.image = settings.image;
+        this.body.setVelocity(this.speed, this.speed);
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -122,12 +122,12 @@ game.Unit = me.Entity.extend({
                 this.body.vel.y -= this.body.accel.y * me.timer.tick;
             }
 
-            if (Math.round(newX) === Math.round(this.pos.x)) {
+            if (this.atTargetPos(this.pos.x, newX, this.speed)) {
                 this.moveTo.x = null;
                 this.body.vel.x = 0;
             }
 
-            if (Math.round(newY) === Math.round(this.pos.y)) {
+            if (this.atTargetPos(this.pos.y, newY, this.speed)) {
                 this.moveTo.y = null;
                 this.body.vel.y = 0;
             }
@@ -136,8 +136,10 @@ game.Unit = me.Entity.extend({
                 this.moveTo = null;
             }
 
-            this.selectedBox.pos.x = this.pos.x + (this.width / 2);
-            this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+            if (this.selectedBox) {
+                this.selectedBox.pos.x = this.pos.x + (this.width / 2);
+                this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+            }
 
         }
 
@@ -164,6 +166,17 @@ game.Unit = me.Entity.extend({
         if (response.aInB) {
             response.a.pos.sub(response.overlapV);
         }
+
+        var aCollType = response.a.body.collisionType;
+        var bCollType = response.b.body.collisionType;
+        var NPC_OBJECT = me.collision.types.NPC_OBJECT;
+
+        if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT) {
+            if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
+                this.cancelMovement();
+                response.a.pos.sub(response.overlapV);
+            }
+        }
         return false;
     },
 
@@ -180,6 +193,25 @@ game.Unit = me.Entity.extend({
             "x": x - (this.width / 2),
             "y": y - (this.height)
         };
+    },
+
+    atTargetPos: function (current, target, tol) {
+        var n = Math.round(current);
+        var m = Math.round(target);
+        var max = m + tol;
+        var min = m - tol;
+
+        if (n <= max && n >= min) {
+            return true;
+        }
+
+        return false;
+    },
+
+    cancelMovement: function () {
+        this.body.vel.x = 0;
+        this.body.vel.y = 0;
+        this.moveTo = null;
     }
 
 });
@@ -208,6 +240,7 @@ game.flag = me.Entity.extend({
         this.renderable.anchorPoint.set(0.2, 0.7);
         this.renderable.addAnimation("flutter", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], 60);
         this.renderable.setCurrentAnimation("flutter");
+        this.isKinematic = true;
     },
 
 });

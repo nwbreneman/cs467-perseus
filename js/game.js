@@ -36,6 +36,9 @@ var game = {
     // Run on game resources loaded.
     loaded: function () {
 
+        // remove gravity
+        me.sys.gravity = 0;
+
         game.texture = new me.video.renderer.Texture(
             me.loader.getJSON("gui"),
             me.loader.getImage("gui")
@@ -50,6 +53,9 @@ var game = {
         // add the unit selection oval
         me.pool.register("selectedShape", game.selectedShape, true);
 
+        // add the map edge
+        me.pool.register("mapedge", me.Entity);
+
         // add our map bases & spawn points
         me.pool.register("bluebase", game.Base);
         me.pool.register("redbase", game.Base);
@@ -61,6 +67,8 @@ var game = {
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.Unit, true);
         }
+        
+        // add red units to pool
         units = me.loader.getJSON("manifest_enemy").units;
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.EnemyUnit, true);
