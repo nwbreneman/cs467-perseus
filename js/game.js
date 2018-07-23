@@ -36,6 +36,9 @@ var game = {
     // Run on game resources loaded.
     loaded: function () {
 
+        // remove gravity
+        me.sys.gravity = 0;
+
         game.texture = new me.video.renderer.Texture(
             me.loader.getJSON("gui"),
             me.loader.getImage("gui")

@@ -67,9 +67,9 @@ game.Unit = me.Entity.extend({
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.NPC_OBJECT;
-        this.body.gravity = 0;
         this.moveTo = null;
         this.alwaysUpdate = true;
+        this.body.bounce = 0;
 
         this.selected = false;
         this.selectedBox = null;
@@ -163,9 +163,19 @@ game.Unit = me.Entity.extend({
     onCollision: function (response) {
         if (response.aInB) {
             response.a.pos.sub(response.overlapV);
-            return false;
         }
-        return true;
+
+        var aCollType = response.a.body.collisionType;
+        var bCollType = response.b.body.collisionType;
+        var NPC_OBJECT = me.collision.types.NPC_OBJECT;
+
+        if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT) {
+            if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
+                this.cancelMovement();
+                response.a.pos.sub(response.overlapV);
+            }
+        }
+        return false;
     },
 
     deselect: function () {
@@ -194,6 +204,12 @@ game.Unit = me.Entity.extend({
         }
 
         return false;
+    },
+
+    cancelMovement: function () {
+        this.body.vel.x = 0;
+        this.body.vel.y = 0;
+        this.moveTo = null;
     }
 
 });
