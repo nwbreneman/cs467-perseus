@@ -4,18 +4,10 @@
 game.EnemyUnit = me.Entity.extend({
     init: function (x, y, settings) {
 
-        // below resizing was adapted from the enemy section of:
-        // http://melonjs.org/en/home/platformer#part5
-
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-        //settings.framewidth = settings.width = 64;
-        //settings.frameheight = settings.height = 64;
         settings.framewidth = settings.width = 88;
         settings.frameheight = settings.height = 108;
-
-        // redefine the default shape (used to define path) with a shape matching the renderable
-        //settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
@@ -28,14 +20,15 @@ game.EnemyUnit = me.Entity.extend({
         // To be assigned by the enemy controller
         this.controller = settings.controller;
 
-        // Go to the first state
-        this.changeState(settings.initialState);
+        this.state = settings.initialState;
+        
     },
 
 
     /** When the entity is created */
     onActivateEvent: function () {
-        //
+        console.log("enemy unit is created");
+        this.changeState(this.state);
     },
 
    
