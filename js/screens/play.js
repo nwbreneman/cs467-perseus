@@ -198,10 +198,12 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
 
         // Add the enemy AI controller with some settings
-        me.game.world.addChild(new game.AI( {
+        me.game.world.addChild(new game.AI({
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
+            resources: 100,
+            resourcePoints: 6   // Should be calculated from the map, hard-code for now
         }));
 
 

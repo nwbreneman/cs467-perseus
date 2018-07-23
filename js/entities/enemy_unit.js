@@ -19,13 +19,17 @@ game.EnemyUnit = me.Entity.extend({
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
-        // Define an initial 'state' for this entity, which at the moment hasn't been issued 
-        // any command by the AI controller
-        this.changeState('spawning');
+        // Always update even if this invisible entity is "off the screen"
+        this.alwaysUpdate = true;
 
         // testing out stuff
         this.health = 100;
 
+        // To be assigned by the enemy controller
+        this.controller = settings.controller;
+
+        // Go to the first state
+        this.changeState(settings.initialState);
     },
 
 
@@ -54,25 +58,36 @@ game.EnemyUnit = me.Entity.extend({
         this.enterState(newState);
     },
 
+
     // Called from changeState()
     enterState: function(newState) {
         // Maybe do something interesting here depending on the state
-
-        if (newState == 'spawning') {
-            console.log("enemy unit spawning at spawn point");
-        }
-        
-
-        if (newState == 'dying') {
-            // Start a death animation or particle effect or something
-            this.deathTimer = 0;
-        } else if (newState == 'dead') {
-            console.log("He's dead, Jim!");
-            console.log("enemy unit dead at", this.pos.x, this.pos.y);
-        }
-
         this.state = newState;
+
+        switch (this.state) {
+            case 'spawning':
+                console.log("enemy unit spawning at spawn point:", this.pos.x, this.pos.y);
+                this.spawnTimeout = me.timer.getTime() + 1000;
+                break;
+            case 'idle':
+                console.log("unit is now idle");
+                break;
+            case 'dying':
+                // Start a death animation or particle effect or something
+                this.deathTimeout = me.timer.getTime() + 1000;
+                break;
+            case 'dead':
+                console.log("He's dead, Jim!");
+                this.controller.report(this, 'dead');
+                me.game.world.removeChild(this);
+                break;
+            default:
+
+                break;
+        }
+       
     },
+
 
     // Called from changeState()
     leaveState: function(oldState) {
@@ -82,56 +97,46 @@ game.EnemyUnit = me.Entity.extend({
 
     update: function (dt) {
         // testing out some state change mechanics
-        this.health -= dt;
         
-       
+       //console.log("health:", this.health);
 
-
-        if (this.state == 'idle') {
-            //console.log(this.state, this.health);
-
-            if (this.health <= 0)
-                this.changeState('dying');
-
-        } else if (this.state == 'defending') {
-
-            if (this.health <= 0)
-                this.changeState('dying');
-
-        } else if (this.state == 'moving') {
-
-            if (this.health <= 0)
-                this.changeState('dying');
-
-        } else if (this.state == 'gathering') {
-
-            if (this.health <= 0)
-                this.changeState('dying');
-
-        } else if (this.state == 'attacking') {
-
-            if (this.health <= 0)
-                this.changeState('dying');
-
-        } else if (this.state == 'dying') {
-            this.deathTimer++;
-            //console.log("Dying:", this.deathTimer);
-            if (this.deathTimer == 30) {
-                this.changeState('dead');
-            }
-
-        } else if (this.state == 'dead') {
-            // Should be deleted from the map
-            
-        } else if (this.state == 'spawning') {
-            // wait for some animation to finish before changing state to idle?
-            //console.log('spawning');
-
-            this.changeState('idle');
-
-        } else {
-            // undefined state
+        if (this.health <= 0 && this.state != 'dying' && this.state != 'dead') {
+            this.changeState('dying');
         }
+    
+        switch (this.state) {
+            case 'spawning':
+                if (me.timer.getTime() > this.spawnTimeout) {
+                    this.changeState('idle');
+                }
+                break;
+            case 'idle':
+                this.health -= 1;
+                break;
+            case 'defending':
+
+                break;
+            case 'moving':
+
+                break;
+            case 'gathering':
+
+                break;
+            case 'attacking':
+
+                break;
+            case 'dying':
+                if (me.timer.getTime() > this.deathTimeout) {
+                    this.changeState('dead');
+                }
+                break;
+         
+            default:
+
+                break;
+        }
+
+
 
 
         return false;
