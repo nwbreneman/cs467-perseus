@@ -8,11 +8,7 @@ game.AI = me.Renderable.extend({
         // (zero size makes this object non-renderable, so the Renderable.draw method won't get called)
         this._super(me.Renderable, 'init', [0, 0, 0, 0]);
 
-        // Mark:
-        // giving the enemy AI a resource count so it can buy units
-        unitResources = settings.unitResources;
-        units = settings.units; // initially this is empty list: []
-        console.log("Enemy AI instantiated with " + unitResources + " resources.")
+        console.log("Enemy AI instantiated");
 
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
@@ -97,7 +93,7 @@ game.AI = me.Renderable.extend({
 
     // Accumulate resources based on how many resource points we are in control of
     accumulate: function() {
-        this.resources += this.resourceRate;
+        this.resources += this.resourceRate * (1 + this.resourcePointsCaptured);
     },
 
 
