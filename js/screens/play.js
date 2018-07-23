@@ -202,6 +202,8 @@ game.PlayScreen = me.ScreenObject.extend({
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
+            unitResources: 9999,
+            units: []
         }));
 
 
