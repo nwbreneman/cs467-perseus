@@ -136,8 +136,10 @@ game.Unit = me.Entity.extend({
                 this.moveTo = null;
             }
 
-            this.selectedBox.pos.x = this.pos.x + (this.width / 2);
-            this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+            if (this.selectedBox) {
+                this.selectedBox.pos.x = this.pos.x + (this.width / 2);
+                this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+            }
 
         }
 
