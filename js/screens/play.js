@@ -197,14 +197,7 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
 
-        // Add the enemy AI controller with some settings
-        me.game.world.addChild(new game.AI({
-            difficulty: game.data.difficulty,
-            base: me.game.world.getChildByName("redbase")[0],
-            spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
-            resources: 100,
-            resourcePoints: 6   // Should be calculated from the map, hard-code for now
-        }));
+        
 
 
         // To place something with a given tile coordinate
@@ -217,9 +210,27 @@ game.PlayScreen = me.ScreenObject.extend({
         redflagstand = me.game.world.getChildByName("redflagstand")[0];
         xOffset = 34;
         yOffset = 0;
-        me.game.world.addChild(new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72 }), 1);
-        me.game.world.addChild(new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72 }), 1);
+        blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72, name: "blueflag" });
+        redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72, name: "redflag" })
+        me.game.world.addChild(blueFlag, 1);
+        me.game.world.addChild(redFlag, 1);
         
+        game.data.player1.flagHomePosition = new me.Vector2d(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset);
+
+        // Add the enemy AI controller with initial settings. Should be added after the flags because this object
+        // references the flags in its constructor
+        me.game.world.addChild(new game.AI({
+            difficulty: game.data.difficulty,
+            base: me.game.world.getChildByName("redbase")[0],
+            spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
+            resources: 100,
+            resourcePoints: 6,   // Should be calculated from the map, hard-code for now
+            flagHomePosition: new me.Vector2d(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset),
+            playerFlagHomePosition: new me.Vector2d(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset),
+            flag: redFlag,
+            playerFlag: blueFlag
+        }));
+
         //Mark: testing spawning blue civilian at start of new game by calling buyUnit()
         game.data.player1.buyUnit("civilian");
 

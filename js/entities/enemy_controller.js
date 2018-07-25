@@ -17,6 +17,12 @@ game.AI = me.Renderable.extend({
         this.resources = settings.resources;
         this.resourcePointsOnMap = settings.resourcePoints;
         this.resourcePointsCaptured = 0;
+        this.flag = settings.flag;
+        this.playerFlag = settings.playerFlag;
+        this.flagHomePosition = settings.flagHomePosition;
+        this.playerFlagHomePosition = settings.playerFlagHomePosition;
+        this.flagAtHome = true;
+        this.playerFlagAtHome = true;
         this.unitList = [];
 
         // Perform a computation after elapsed number of frames (~ 60 frames per second).
@@ -43,16 +49,8 @@ game.AI = me.Renderable.extend({
     },
 
 
-    // AI does processing in here
-    process: function() {
-    	console.log("AI processing function");
-        
-        if (this.unitList.length == 0) {
-            this.buyUnit("enemy_civilian");
-        }
-    },
-
-
+    // Set up the intervals to call certain functions. Most AI processing won't be done in here
+    // because this function is being called 60 times/sec and that is overkill for high-level AI processing.
     update: function(dt) {
         // Dispatch timed functions
         this.processAccumulator++;
@@ -69,7 +67,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-
+    // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
     buyUnit: function(name) {
         console.log("Trying to buy", name);
         let settings = me.loader.getJSON(name);
@@ -103,15 +101,84 @@ game.AI = me.Renderable.extend({
             console.log("AI Controller: Unit reporting as dead");
             this.removeUnitFromList(unit);
         }
+        if (message == "return flag") {
+            this.sendFlagHome();
+        }
+
     },
 
 
+    // If a unit dies, we need to remove the reference to that unit from the array
     removeUnitFromList: function(unit) {
         var pos = this.unitList.indexOf(unit);
         if (pos != -1) {
             this.unitList.splice(pos, 1);
         }
     },
+
+
+    // Determine where the player's flag currently is (and note if it is at its base)
+    getOtherFlagPosition: function() {
+        this.playerFlagAtHome = this.playerFlag.pos.equals(this.playerFlagHomePosition);
+        
+    },
+
+
+    // Determine where my flag currently is (and note if it is at my base)
+    getMyFlagPosition: function() {
+        this.flagAtHome = this.flag.pos.equals(this.flagHomePosition);
+
+    },
+
+
+    // When one of my friendly units touches our flag, it should get returned to base
+    sendFlagHome: function() {
+        this.flag.pos.set(this.flagHomePosition.x, this.flagHomePosition.y);
+        console.log("Enemy AI: flag returned!");
+    },
+
+
+    // AI does processing in here
+    process: function() {
+    	console.log("AI processing function");
+
+        
+        
+        if (this.unitList.length == 0) {
+            this.buyUnit("enemy_civilian");
+        }
+
+        // Get location of other flag
+        if (this.playerFlagAtHome) {
+            //console.log("player flag is at home");
+        }
+        //console.log("Enemy AI: other flag is at", otherflagpos.x, otherflagpos.y);
+
+        // Get location of my flag
+        if (this.flagAtHome) {
+            //console.log("my flag is at home");
+        }
+        //console.log("Enemy AI: my flag is at", myflagpos.x, myflagpos.y, " home position", this.flagHomePosition.x, this.flagHomePosition.y);
+        //console.log(this.flagHomePosition.x - myflagpos.x, this.flagHomePosition.y - myflagpos.y);
+    },
+
+
+    
+
+
+
+    
+
+
+    
+
+
+    
+
+
+
+
+    
 
     
 

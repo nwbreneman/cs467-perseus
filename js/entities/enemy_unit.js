@@ -21,6 +21,14 @@ game.EnemyUnit = me.Entity.extend({
         this.controller = settings.controller;
 
         this.state = settings.initialState;
+
+        this.isHoldingFlag = false;
+        this.escortTarget = {};
+
+        // Orders take the form of an object, with a type, and some additional settings
+        this.currentOrders = {};
+        this.moveDestination = new me.Vector2d(0, 0);
+
         
     },
 
@@ -31,17 +39,38 @@ game.EnemyUnit = me.Entity.extend({
         this.changeState(this.state);
     },
 
-   
-    // Maybe have enemy units be clickable, maybe not (TBD)
-    pointerDown: function () {
-        //
-    },
 
-
+    // The enemy controller is issuing a command to this unit. The command is an object, consisting of:
+    // { type: string,
+    // other parameters: depending on the type }
+    // TBD, the unit should act immediately upon receiving a command from the 'boss'
     command: function(order) {
-        //console.log("Enemy unit received command:", order);
+        console.log("Enemy unit received command:", order);
+        this.currentOrders = order;
+        switch (order.type) {
+            case 'move to':
+                this.moveDestination.set(order.x, order.y);
+                this.changeState("moving");
+                break;
+            case 'capture flag':
+                this.moveDestination.set(order.x, order.y);
+                this.changeState("moving");
+                break;
+            case 'escort':
+                this.escortTarget = order.target;
+                this.moveDestination.set(order.target.pos.x, order.target.pos.y);
+                this.changeState("moving");
+                break;
+            case 'return flag':
+                this.moveDestination.set(order.x, order.y);
+                this.changeState("moving");
+                break;
+            default:
+                console.log("command(): order type \'" + order.type + "\' not handled");
+                break;
+        }
+       
 
-        
     },
 
 
@@ -75,7 +104,7 @@ game.EnemyUnit = me.Entity.extend({
                 me.game.world.removeChild(this);
                 break;
             default:
-
+                console.log("enterState(): state \'" + newState + "\' not handled");
                 break;
         }
        
@@ -85,6 +114,14 @@ game.EnemyUnit = me.Entity.extend({
     // Called from changeState()
     leaveState: function(oldState) {
         // Maybe do something interesting here depending on the state
+
+        switch (oldState) {
+            default:
+                console.log("leaveState(): state \'" + oldState + "\' not handled");
+                break;
+        }
+
+        this.state = null;
     },
 
 
@@ -110,7 +147,9 @@ game.EnemyUnit = me.Entity.extend({
 
                 break;
             case 'moving':
-
+                if (isHoldingFlag) {
+                    // get back to the base ASAP!
+                }
                 break;
             case 'gathering':
 

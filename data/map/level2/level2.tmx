@@ -35,6 +35,7 @@
     <property name="framewidth" type="int" value="128"/>
     <property name="image" value="bluespawn"/>
     <property name="player" value="player1"/>
+    <property name="z" type="int" value="1"/>
    </properties>
    <point/>
   </object>
@@ -44,6 +45,7 @@
     <property name="framewidth" type="int" value="128"/>
     <property name="image" value="redspawn"/>
     <property name="player" value="enemy"/>
+    <property name="z" type="int" value="1"/>
    </properties>
    <point/>
   </object>
