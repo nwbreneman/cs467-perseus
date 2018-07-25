@@ -61,6 +61,8 @@ var game = {
         me.pool.register("redbase", game.Base);
         me.pool.register("bluespawnpoint", me.Entity);
         me.pool.register("redspawnpoint", me.Entity);
+        me.pool.register("blueflagstand", me.Entity);
+        me.pool.register("redflagstand", me.Entity);
 
         // add units to pool
         units = me.loader.getJSON("manifest").units;

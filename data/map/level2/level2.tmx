@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="20">
+<map version="1.0" tiledversion="1.1.5" orientation="isometric" renderorder="right-down" width="34" height="24" tilewidth="128" tileheight="64" infinite="0" backgroundcolor="#424242" nextobjectid="22">
  <tileset firstgid="1" source="Plains.tsx"/>
  <tileset firstgid="3" source="Castles.tsx"/>
  <tileset firstgid="5" source="Generators.tsx"/>
@@ -44,6 +44,26 @@
     <property name="framewidth" type="int" value="128"/>
     <property name="image" value="redspawn"/>
     <property name="player" value="enemy"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="flagstands">
+  <object id="20" name="redflagstand" x="1869" y="305">
+   <properties>
+    <property name="frameheight" type="int" value="64"/>
+    <property name="framewidth" type="int" value="64"/>
+    <property name="image" value="flagstand"/>
+    <property name="z" type="int" value="2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="21" name="blueflagstand" x="168" y="1194">
+   <properties>
+    <property name="frameheight" type="int" value="64"/>
+    <property name="framewidth" type="int" value="64"/>
+    <property name="image" value="flagstand"/>
+    <property name="z" type="int" value="2"/>
    </properties>
    <point/>
   </object>
