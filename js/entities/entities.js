@@ -240,10 +240,52 @@ game.flag = me.Entity.extend({
         this.renderable.anchorPoint.set(0.2, 0.7);
         this.renderable.addAnimation("flutter", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], 60);
         this.renderable.setCurrentAnimation("flutter");
-        this.isKinematic = true;
+        this.alwaysUpdate = true;
+        //this.isKinematic = true;
         this.isHeld = false;
         this.holder = {};
+        this.homePosition = new me.Vector2d(x, y);
+        this.team = settings.team;
+        this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
+        this.body.setCollisionMask(me.collision.types.NPC_OBJECT);
     },
+
+
+    // Move to an x, y coordinate without altering its z-value
+    moveTo: function(x, y) {
+        this.pos.set(x, y, this.pos.z);
+    },
+
+    // Send the flag back to base
+    sendHome: function() {
+        this.moveTo(this.homePosition.x, this.homePosition.y);
+
+    },
+
+
+    // Query the flag to see if it is safe at the base
+    isHome: function() {
+        return this.pos.equals(this.homePosition);
+    },
+
+
+    // Collision handling. When the flag is touched, make it so it doesn't keep colliding with the object.
+    // TODO: set the collision mask back when the flag is returned
+    // TODO: different actions depending on if an enemy or friendly touches the flag
+    onCollision: function(response) {
+        console.log("flag collision");
+        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        return false;
+    },
+
+
+    update: function(dt) {
+        
+        me.collision.check(this);
+        this._super(me.Entity, "update", [dt]); // For the animation to continue to work
+        return true;
+    },
+
 
 });
 

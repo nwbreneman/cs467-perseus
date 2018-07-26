@@ -29,7 +29,6 @@ game.EnemyUnit = me.Entity.extend({
         this.currentOrders = {};
         this.moveDestination = new me.Vector2d(0, 0);
 
-        
     },
 
 
@@ -141,7 +140,7 @@ game.EnemyUnit = me.Entity.extend({
                 }
                 break;
             case 'idle':
-                this.health -= 1;
+                //this.health -= 1; // stop unit from dying for now. Too many console messages
                 break;
             case 'defending':
 

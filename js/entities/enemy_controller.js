@@ -19,10 +19,6 @@ game.AI = me.Renderable.extend({
         this.resourcePointsCaptured = 0;
         this.flag = settings.flag;
         this.playerFlag = settings.playerFlag;
-        this.flagHomePosition = settings.flagHomePosition;
-        this.playerFlagHomePosition = settings.playerFlagHomePosition;
-        this.flagAtHome = true;
-        this.playerFlagAtHome = true;
         this.unitList = [];
 
         // Perform a computation after elapsed number of frames (~ 60 frames per second).
@@ -46,6 +42,7 @@ game.AI = me.Renderable.extend({
         this.resourceAccumulator = 0;
         this.resourceInterval = 60;
 
+
     },
 
 
@@ -63,12 +60,15 @@ game.AI = me.Renderable.extend({
             this.resourceAccumulator = 0;
             this.accumulate();
         }
+
+
         
     },
 
 
     // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
     buyUnit: function(name) {
+
         console.log("Trying to buy", name);
         let settings = me.loader.getJSON(name);
 
@@ -102,7 +102,9 @@ game.AI = me.Renderable.extend({
             this.removeUnitFromList(unit);
         }
         if (message == "return flag") {
-            this.sendFlagHome();
+            console.log("AI Controller: Unit reporting to return the flag");
+          
+            this.flag.sendHome();
         }
 
     },
@@ -133,7 +135,7 @@ game.AI = me.Renderable.extend({
 
     // When one of my friendly units touches our flag, it should get returned to base
     sendFlagHome: function() {
-        this.flag.pos.set(this.flagHomePosition.x, this.flagHomePosition.y);
+        //this.flag.pos.set(this.flagHomePosition.x, this.flagHomePosition.y);
         console.log("Enemy AI: flag returned!");
     },
 
@@ -142,8 +144,6 @@ game.AI = me.Renderable.extend({
     process: function() {
     	console.log("AI processing function");
 
-        
-        
         if (this.unitList.length == 0) {
             this.buyUnit("enemy_civilian");
         }

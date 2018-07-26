@@ -208,10 +208,12 @@ game.PlayScreen = me.ScreenObject.extend({
         // Sylvan: Add flags using the new flag stand entities setup in Tiled
         blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
         redflagstand = me.game.world.getChildByName("redflagstand")[0];
-        xOffset = 34;
-        yOffset = 0;
-        blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_blue", framewidth: 44, frameheight: 72, name: "blueflag" });
-        redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: 0, height: 0, image: "flag_red", framewidth: 44, frameheight: 72, name: "redflag" })
+        hitWidth = 6;       // Giving the flags a hit box so we can detect collisions with players (for picking up and returning flags).
+        hitHeight = 10;
+        xOffset = 31;       // Make the image line up with the flag stand entity
+        yOffset = 8;
+        blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
+        redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_red", framewidth: 44, frameheight: 72, team: game.data.enemy })
         me.game.world.addChild(blueFlag, 1);
         me.game.world.addChild(redFlag, 1);
         
@@ -225,8 +227,6 @@ game.PlayScreen = me.ScreenObject.extend({
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
             resources: 100,
             resourcePoints: 6,   // Should be calculated from the map, hard-code for now
-            flagHomePosition: new me.Vector2d(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset),
-            playerFlagHomePosition: new me.Vector2d(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset),
             flag: redFlag,
             playerFlag: blueFlag
         }));
