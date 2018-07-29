@@ -6,8 +6,12 @@ game.EnemyUnit = me.Entity.extend({
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-        settings.framewidth = settings.width = 88;
-        settings.frameheight = settings.height = 108;
+        //settings.framewidth = settings.width = 88;
+        //settings.frameheight = settings.height = 108;
+        settings.width = 30;
+        settings.height = 60;
+        settings.frameheight = 108;
+        settings.framewidth = 88;
 
         this._super(me.Entity, 'init', [x, y, settings]);
 

@@ -79,7 +79,7 @@ game.AI = me.Renderable.extend({
 
             if (this.resources >= settings.cost) {
                 console.log("Purchasing unit", name);
-                let unit = me.pool.pull(name, 88, 108, settings);
+                let unit = me.pool.pull(name, 20, 20, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 this.resources -= settings.cost;
