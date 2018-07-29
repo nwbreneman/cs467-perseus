@@ -64,6 +64,15 @@ var game = {
         me.pool.register("blueflagstand", me.Entity);
         me.pool.register("redflagstand", me.Entity);
 
+        //Mark: 
+        //factory for lefthand side of map
+        me.pool.register("factory_1", game.factory);
+        //factory for righthand side of map
+        me.pool.register("factory_2", game.factory);
+        //testing out capture point collision settings
+        me.pool.register("capture_point", game.capturePoint);
+
+
         // add units to pool
         units = me.loader.getJSON("manifest").units;
         for (var i = 0; i < units.length; i++) {
