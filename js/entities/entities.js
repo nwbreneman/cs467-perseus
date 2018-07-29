@@ -74,7 +74,7 @@ game.Unit = me.Entity.extend({
         this.image = settings.image;
         this.body.setVelocity(this.speed, this.speed);
 
-        this.renderable.anchorPoint.set(0.5,0.5);
+        this.renderable.anchorPoint.set(0.5, 0.5);
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -102,12 +102,6 @@ game.Unit = me.Entity.extend({
 
         // if there are points in our moveTo array, move
         if (this.moveTo) {
-
-            // if there are points in the array and no next move,
-            // get the first point
-            if (this.moveTo.length > 0 && !this.nextMove) {
-                this.nextMove = this.moveTo.shift();
-            }
 
             // get the next xy coordinates
             var newX = this.nextMove.x;
@@ -195,7 +189,7 @@ game.Unit = me.Entity.extend({
             console.log("world shape");
             if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
                 this.cancelMovement();
-                response.a.pos.sub(response.overlapV);
+                response.a.pos.sub(response.overlapN);
             }
         }
         return false;
@@ -213,6 +207,8 @@ game.Unit = me.Entity.extend({
         var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
         this.moveTo = shortestPath(start, end);
+        // set next move immediately to allow for change in direction
+        this.nextMove = this.moveTo.shift();
     },
 
     atTargetPos: function (current, target, tol) {
@@ -330,7 +326,7 @@ game.flag = me.Entity.extend({
         me.collision.check(this);
 
         if (this.isHeld) {
-            this.moveTo(this.holder.pos.x + this.holder.width*0.5, this.holder.pos.y + this.holder.height*0.5);
+            this.moveTo(this.holder.pos.x + this.holder.width * 0.5, this.holder.pos.y + this.holder.height * 0.5);
         }
 
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
