@@ -252,19 +252,19 @@ game.flag = me.Entity.extend({
 
 
     // Move to an x, y coordinate without altering its z-value
-    moveTo: function(x, y) {
+    moveTo: function (x, y) {
         this.pos.set(x, y, this.pos.z);
     },
 
     // Send the flag back to base
-    sendHome: function() {
+    sendHome: function () {
         this.moveTo(this.homePosition.x, this.homePosition.y);
 
     },
 
 
     // Query the flag to see if it is safe at the base
-    isHome: function() {
+    isHome: function () {
         return this.pos.equals(this.homePosition);
     },
 
@@ -272,15 +272,15 @@ game.flag = me.Entity.extend({
     // Collision handling. When the flag is touched, make it so it doesn't keep colliding with the object.
     // TODO: set the collision mask back when the flag is returned
     // TODO: different actions depending on if an enemy or friendly touches the flag
-    onCollision: function(response) {
+    onCollision: function (response) {
         console.log("flag collision");
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         return false;
     },
 
 
-    update: function(dt) {
-        
+    update: function (dt) {
+
         me.collision.check(this);
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
         return true;
@@ -296,7 +296,7 @@ game.factory = me.Entity.extend({
     // Constructor
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
-        
+
         //set smoking animation
         this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("smoke");
@@ -311,16 +311,25 @@ game.capturePoint = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
         this.owner = ""; //human or AI currently owns, or "" for nobody owns
-        
+
         //Mark: not sure what collision type the capture point will need yet
         this.body.collisionType = me.collision.types.NO_OBJECT;
+
+        this.isKinematic = true;
     },
 
-    update: function (x, y, settings) {},
+    update: function (x, y, settings) { },
 
-    onCollision: function (response, other){
-        if (this.owner == ""){
+    onCollision: function (response, other) {
+        if (this.owner == "") {
             //capture point
-        }else{}
+        } else { }
+    }
+});
+
+game.SpawnPoint = me.Entity.extend({
+    init: function (x, y, settings) {
+        this._super(me.Entity, "init", [x, y, settings]);
+        this.isKinematic = true;
     }
 });
