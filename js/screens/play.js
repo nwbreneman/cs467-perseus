@@ -214,8 +214,13 @@ game.PlayScreen = me.ScreenObject.extend({
         yOffset = 8;
         blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
         redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_red", framewidth: 44, frameheight: 72, team: game.data.enemy })
-        me.game.world.addChild(blueFlag, 1);
-        me.game.world.addChild(redFlag, 1);
+        
+        // Get a reference to the "flags" layer so we can get the z-value, then add the flags to that layer
+        flagZ = me.game.world.getChildByName("flags")[0].pos.z;
+        me.game.world.addChild(blueFlag, flagZ);
+        me.game.world.addChild(redFlag, flagZ);
+        //console.log(blueFlag.pos.z);
+   
         
         game.data.player1.flagHomePosition = new me.Vector2d(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset);
 
