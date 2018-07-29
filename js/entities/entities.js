@@ -74,6 +74,8 @@ game.Unit = me.Entity.extend({
         this.image = settings.image;
         this.body.setVelocity(this.speed, this.speed);
 
+        this.anchorPoint.set(0,0);
+
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
 
@@ -316,14 +318,21 @@ game.flag = me.Entity.extend({
                 this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
             }
 
+            this.isHeld = true;
+            this.holder = other;
+
         }
         return false;
     },
 
 
     update: function (dt) {
-
         me.collision.check(this);
+
+        if (this.isHeld) {
+            this.moveTo(this.holder.pos.x, this.holder.pos.y);
+        }
+
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
         return true;
     },
