@@ -210,7 +210,6 @@ game.Unit = me.Entity.extend({
     move: function (x, y) {
         var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
-        console.log("setting moveTo");
         this.moveTo = shortestPath(start, end);
     },
 
@@ -265,7 +264,7 @@ game.flag = me.Entity.extend({
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
-        this.body.setMaxVelocity(0,0);
+        this.body.setMaxVelocity(0, 0);
         this.sendHome();
     },
 
