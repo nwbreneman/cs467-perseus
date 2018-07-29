@@ -74,7 +74,7 @@ game.Unit = me.Entity.extend({
         this.image = settings.image;
         this.body.setVelocity(this.speed, this.speed);
 
-        this.anchorPoint.set(0,0);
+        //this.anchorPoint.set(0,0);
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
