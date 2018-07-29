@@ -264,6 +264,7 @@ game.flag = me.Entity.extend({
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
         this.body.setMaxVelocity(0, 0);
         this.sendHome();
+       
     },
 
 
@@ -277,6 +278,8 @@ game.flag = me.Entity.extend({
     // Likewise the enemy flag, when stationed at the enemy base, should only collide with PLAYER objects
     sendHome: function () {
         this.moveTo(this.homePosition.x, this.homePosition.y);
+        this.renderable.currentTransform.rotate(0);
+
         if (this.team === game.data.player1) {
             console.log("setting collision mask to NPC_OBJECT");
             this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
@@ -316,6 +319,7 @@ game.flag = me.Entity.extend({
 
             this.isHeld = true;
             this.holder = other;
+            this.currentTransform.rotate(-0.5);
 
         }
         return false;
@@ -326,7 +330,7 @@ game.flag = me.Entity.extend({
         me.collision.check(this);
 
         if (this.isHeld) {
-            this.moveTo(this.holder.pos.x + this.holder.width * 0.5, this.holder.pos.y + this.holder.height * 0.5);
+            this.moveTo(this.holder.pos.x + this.holder.width * 0.4, this.holder.pos.y + this.holder.height * 0.3);
         }
 
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work

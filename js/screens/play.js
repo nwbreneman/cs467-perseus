@@ -213,8 +213,8 @@ game.PlayScreen = me.ScreenObject.extend({
         // Sylvan: Add flags using the new flag stand entities setup in Tiled
         blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
         redflagstand = me.game.world.getChildByName("redflagstand")[0];
-        hitWidth = 6;       // Giving the flags a hit box so we can detect collisions with players (for picking up and returning flags).
-        hitHeight = 10;
+        hitWidth = 8;       // Giving the flags a hit box so we can detect collisions with players (for picking up and returning flags).
+        hitHeight = 30;
         xOffset = 31;       // Make the image line up with the flag stand entity
         yOffset = 8;
         blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
