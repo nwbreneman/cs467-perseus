@@ -57,7 +57,7 @@ game.Unit = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
-        this.body.collisionType = me.collision.types.NPC_OBJECT;
+        this.body.collisionType = me.collision.types.PLAYER_OBJECT;
         this.moveTo = null;
         this.alwaysUpdate = true;
         this.body.bounce = 0;
@@ -179,7 +179,7 @@ game.Unit = me.Entity.extend({
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
-    onCollision: function (response) {
+    onCollision: function (response, other) {
         if (response.aInB) {
             response.a.pos.sub(response.overlapV);
         }
@@ -188,7 +188,9 @@ game.Unit = me.Entity.extend({
         var bCollType = response.b.body.collisionType;
         var NPC_OBJECT = me.collision.types.NPC_OBJECT;
 
-        if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT) {
+
+        if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT || other.body.collisionType == me.collision.types.WORLD_SHAPE) {
+            console.log("world shape");
             if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
                 this.cancelMovement();
                 response.a.pos.sub(response.overlapV);
@@ -258,13 +260,13 @@ game.flag = me.Entity.extend({
         this.renderable.addAnimation("flutter", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], 60);
         this.renderable.setCurrentAnimation("flutter");
         this.alwaysUpdate = true;
-        //this.isKinematic = true;
         this.isHeld = false;
         this.holder = {};
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
-        this.body.setCollisionMask(me.collision.types.NPC_OBJECT);
+        this.body.setMaxVelocity(0,0);
+        this.sendHome();
     },
 
 
@@ -273,10 +275,18 @@ game.flag = me.Entity.extend({
         this.pos.set(x, y, this.pos.z);
     },
 
-    // Send the flag back to base
+    // Send the flag back to base and set the appropriate collision mask setting:
+    // When the flag is at home at the player's base, it should only collide with enemy (NPC) objects.
+    // Likewise the enemy flag, when stationed at the enemy base, should only collide with PLAYER objects
     sendHome: function () {
         this.moveTo(this.homePosition.x, this.homePosition.y);
-
+        if (this.team === game.data.player1) {
+            console.log("setting collision mask to NPC_OBJECT");
+            this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
+        } else {
+            console.log("setting collision mask to PLAYER_OBJECT");
+            this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
+        }
     },
 
 
@@ -287,11 +297,27 @@ game.flag = me.Entity.extend({
 
 
     // Collision handling. When the flag is touched, make it so it doesn't keep colliding with the object.
-    // TODO: set the collision mask back when the flag is returned
-    // TODO: different actions depending on if an enemy or friendly touches the flag
-    onCollision: function (response) {
+    // When a flag is touched by a friendly:
+    //   This means that the flag was not at home base, so we should send it home
+    // When a flag is touched by an enemy:
+    //   The enemy gets to pick up the flag, and then collisions between the flag and the unit that picked it up should be disabled
+    //   Enable collisions between the flag and its own team so it can be returned
+    onCollision: function (response, other) {
         console.log("flag collision");
-        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        if (other.team === this.team) {
+            // Flag should be returned to base
+            console.log("Flag touched by same team");
+            this.sendHome();
+        } else {
+            // Flag should be picked up
+            console.log("Flag picked up by opposing team");
+            if (this.team === game.data.player1) {
+                this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
+            } else {
+                this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
+            }
+
+        }
         return false;
     },
 
@@ -318,8 +344,7 @@ game.factory = me.Entity.extend({
         this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("smoke");
 
-        this.body.collisionType = me.collision.types.NPC_OBJECT;
-        this.body.setCollisionMask(me.collision.types.NPC_OBJECT);
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
     },
 
 });
