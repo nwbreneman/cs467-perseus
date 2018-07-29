@@ -97,36 +97,58 @@ game.Unit = me.Entity.extend({
     },
 
     update: function (dt) {
-        if (this.moveTo !== null) {
-            var newX = this.moveTo.x;
-            var newY = this.moveTo.y;
 
+        // if there are points in our moveTo array, move
+        if (this.moveTo) {
+
+            // if there are points in the array and no next move,
+            // get the first point
+            if (this.moveTo.length > 0 && !this.nextMove) {
+                this.nextMove = this.moveTo.shift();
+            }
+
+            // get the next xy coordinates
+            var newX = this.nextMove.x;
+            var newY = this.nextMove.y;
+
+            // accelerate in the correct X direction
             if (newX && newX > this.pos.x) {
                 this.body.vel.x += this.body.accel.x * me.timer.tick;
             } else if (newX && newX < this.pos.x) {
                 this.body.vel.x -= this.body.accel.x * me.timer.tick;
             }
 
+            // accelerate in the correct Y direction
             if (newY && newY > this.pos.y) {
                 this.body.vel.y += this.body.accel.y * me.timer.tick;
             } else if (newY && newY < this.pos.y) {
                 this.body.vel.y -= this.body.accel.y * me.timer.tick;
             }
 
+            // stop accelerating on X axis when we reach the (rough) destination
             if (this.atTargetPos(this.pos.x, newX, this.speed)) {
-                this.moveTo.x = null;
+                this.nextMove.x = null;
                 this.body.vel.x = 0;
             }
 
+            // stop accelerating on Y axis when we reach the (rough) destination
             if (this.atTargetPos(this.pos.y, newY, this.speed)) {
-                this.moveTo.y = null;
+                this.nextMove.y = null;
                 this.body.vel.y = 0;
             }
 
-            if (this.moveTo.x === null && this.moveTo.y === null) {
-                this.moveTo = null;
+            // if we stopped accelerating on both axes, check if there's another
+            // point in our moveTo path; if not, set both to null to stop moving
+            if (this.nextMove.x === null && this.nextMove.y === null) {
+                if (this.moveTo.length > 0) {
+                    this.nextMove = this.moveTo.shift();
+                } else {
+                    this.nextMove = null;
+                    this.moveTo = null;
+                }
             }
 
+            // update selectedBox position as we move as well
             if (this.selectedBox) {
                 this.selectedBox.pos.x = this.pos.x + (this.width / 2);
                 this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
@@ -134,12 +156,15 @@ game.Unit = me.Entity.extend({
 
         }
 
+        // if unit is selected, belongs to a human player and has no box
+        // already, draw it
         if (this.selected) {
             if (!this.selectedBox && this.player.ptype === "Human") {
                 pos = this.getBounds().pos;
                 this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x + (this.width / 2), pos.y + (this.height / 1.25)), 2);
             }
         } else {
+            // remove select box if present and unit not selected
             if (this.selectedBox) {
                 me.game.world.removeChild(this.selectedBox);
                 this.selectedBox = null;
@@ -150,6 +175,7 @@ game.Unit = me.Entity.extend({
 
         me.collision.check(this);
 
+        // return true to update if we are moving
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
@@ -180,14 +206,10 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
-        this.moveTo = {
-            "x": x - (this.width / 2),
-            "y": y - (this.height)
-        };
-
         var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
-        console.log(shortestPath(start, end));
+        console.log("setting moveTo");
+        this.moveTo = shortestPath(start, end);
     },
 
     atTargetPos: function (current, target, tol) {
