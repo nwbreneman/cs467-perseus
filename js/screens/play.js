@@ -10,6 +10,9 @@ game.PlayScreen = me.ScreenObject.extend({
         // load a level
         me.levelDirector.loadLevel("level2");
 
+        // create the visibility graph
+        game.data.visGraph = buildGraph();
+
         // Add invisible renderable for panning the level
         me.game.world.addChild(new (me.Renderable.extend({
             init: function () {
@@ -197,10 +200,13 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
 
+<<<<<<< HEAD
         // Manually setting the collision type for the world boundary
         // TODO: set the type for the factories as well
         me.game.world.getChildByName("mapedge")[0].body.collisionType = me.collision.types.WORLD_SHAPE;
 
+=======
+>>>>>>> e68026a25bd9e1045cf30ef456306e14d31fb7ec
         // To place something with a given tile coordinate
         //this.vec = new me.Vector2d(0, 0);
         //this.refLayer = me.game.world.getChildByName("Plains")[0];
@@ -215,13 +221,18 @@ game.PlayScreen = me.ScreenObject.extend({
         yOffset = 8;
         blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
         redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_red", framewidth: 44, frameheight: 72, team: game.data.enemy })
-        
+
         // Get a reference to the "flags" layer so we can get the z-value, then add the flags to that layer
         flagZ = me.game.world.getChildByName("flags")[0].pos.z;
         me.game.world.addChild(blueFlag, flagZ);
         me.game.world.addChild(redFlag, flagZ);
         //console.log(blueFlag.pos.z);
+<<<<<<< HEAD
         
+=======
+
+
+>>>>>>> e68026a25bd9e1045cf30ef456306e14d31fb7ec
         game.data.player1.flagHomePosition = new me.Vector2d(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset);
 
         // Add the enemy AI controller with initial settings. Should be added after the flags because this object
