@@ -189,7 +189,7 @@ game.Unit = me.Entity.extend({
             console.log("world shape");
             if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
                 this.cancelMovement();
-                response.a.pos.sub(response.overlapV);
+                response.a.pos.sub(response.overlapN);
             }
         }
         return false;
