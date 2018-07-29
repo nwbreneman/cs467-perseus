@@ -1,12 +1,12 @@
 /**
  * Unit Spawn Point
  */
-// game.SpawnPoint = me.Entity.extend({
-//     init: function (x, y, settings) {
-//         this._super(me.Entity, 'init', [x, y, settings]);
-//         this.isKinematic = true;
-//     }
-// });
+game.SpawnPoint = me.Entity.extend({
+    init: function (x, y, settings) {
+        this._super(me.Entity, 'init', [x, y, settings]);
+        this.isKinematic = true;
+    }
+});
 
 /**
  * Base Entity
@@ -193,6 +193,10 @@ game.Unit = me.Entity.extend({
             "x": x - (this.width / 2),
             "y": y - (this.height)
         };
+
+        var start = new Vertex(this.pos.x, this.pos.y);
+        var end = new Vertex(x - (this.width / 2), y - (this.height));
+        console.log(shortestPath(start, end));
     },
 
     atTargetPos: function (current, target, tol) {
@@ -300,7 +304,7 @@ game.factory = me.Entity.extend({
         //set smoking animation
         this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("smoke");
-        
+
         this.body.collisionType = me.collision.types.NPC_OBJECT;
         this.body.setCollisionMask(me.collision.types.NPC_OBJECT);
     },
@@ -327,12 +331,5 @@ game.capturePoint = me.Entity.extend({
         if (this.owner == "") {
             //capture point
         } else { }
-    }
-});
-
-game.SpawnPoint = me.Entity.extend({
-    init: function (x, y, settings) {
-        this._super(me.Entity, "init", [x, y, settings]);
-        this.isKinematic = true;
     }
 });
