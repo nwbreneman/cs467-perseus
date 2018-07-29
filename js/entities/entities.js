@@ -300,6 +300,9 @@ game.factory = me.Entity.extend({
         //set smoking animation
         this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("smoke");
+        
+        this.body.collisionType = me.collision.types.NPC_OBJECT;
+        this.body.setCollisionMask(me.collision.types.NPC_OBJECT);
     },
 
 });
