@@ -289,3 +289,38 @@ game.flag = me.Entity.extend({
 
 });
 
+/**
+ * factory entity
+ */
+game.factory = me.Entity.extend({
+    // Constructor
+    init: function (x, y, settings) {
+        this._super(me.Entity, "init", [x, y, settings]);
+        
+        //set smoking animation
+        this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
+        this.renderable.setCurrentAnimation("smoke");
+    },
+
+});
+
+/**
+ * capture resource point entity
+ */
+game.capturePoint = me.Entity.extend({
+    init: function (x, y, settings) {
+        this._super(me.Entity, "init", [x, y, settings]);
+        this.owner = ""; //human or AI currently owns, or "" for nobody owns
+        
+        //Mark: not sure what collision type the capture point will need yet
+        this.body.collisionType = me.collision.types.NO_OBJECT;
+    },
+
+    update: function (x, y, settings) {},
+
+    onCollision: function (response, other){
+        if (this.owner == ""){
+            //capture point
+        }else{}
+    }
+});
