@@ -17,6 +17,8 @@ game.EnemyUnit = me.Entity.extend({
         // testing out stuff
         this.health = 100;
 
+        this.renderable.anchorPoint.set(0.5, 0.5);
+
         // To be assigned by the enemy controller
         this.controller = settings.controller;
         this.team = settings.team;

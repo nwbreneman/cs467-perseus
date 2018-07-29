@@ -74,7 +74,7 @@ game.Unit = me.Entity.extend({
         this.image = settings.image;
         this.body.setVelocity(this.speed, this.speed);
 
-        //this.anchorPoint.set(0,0);
+        this.renderable.anchorPoint.set(0.5,0.5);
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -330,7 +330,7 @@ game.flag = me.Entity.extend({
         me.collision.check(this);
 
         if (this.isHeld) {
-            this.moveTo(this.holder.pos.x, this.holder.pos.y);
+            this.moveTo(this.holder.pos.x + this.holder.width*0.5, this.holder.pos.y + this.holder.height*0.5);
         }
 
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
