@@ -74,6 +74,7 @@ game.AI = me.Renderable.extend({
 
         if (settings !== null) {
             settings.controller = this;
+            settings.team = game.data.enemy;
             settings.initialState = 'spawning';
 
             if (this.resources >= settings.cost) {

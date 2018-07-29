@@ -19,6 +19,7 @@ game.EnemyUnit = me.Entity.extend({
 
         // To be assigned by the enemy controller
         this.controller = settings.controller;
+        this.team = settings.team;
 
         this.state = settings.initialState;
 
@@ -28,6 +29,8 @@ game.EnemyUnit = me.Entity.extend({
         // Orders take the form of an object, with a type, and some additional settings
         this.currentOrders = {};
         this.moveDestination = new me.Vector2d(0, 0);
+
+        this.body.collisionType = me.collision.types.ENEMY_OBJECT;
 
     },
 
