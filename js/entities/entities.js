@@ -307,12 +307,13 @@ game.flag = me.Entity.extend({
         this.pos.set(x, y, this.pos.z);
     },
 
+
     // Send the flag back to base and set the appropriate collision mask setting:
     // When the flag is at home at the player's base, it should only collide with enemy (NPC) objects.
     // Likewise the enemy flag, when stationed at the enemy base, should only collide with PLAYER objects
     sendHome: function () {
+        console.log("Sending flag home");
         this.moveTo(this.homePosition.x, this.homePosition.y);
-        this.renderable.currentTransform.rotate(0);
 
         if (this.team === game.data.player1) {
             console.log("setting collision mask to NPC_OBJECT");
@@ -330,6 +331,16 @@ game.flag = me.Entity.extend({
     },
 
 
+    // Drop the flag if the unit that was carrying it has died
+    // At this point, it can be touched by either team, so set the collision mask appropriately
+    drop: function() {
+        console.log("Flag dropped");
+        this.isHeld = false;
+        this.holder = {};
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
+    },
+
+
     // Collision handling. When the flag is touched, make it so it doesn't keep colliding with the object.
     // When a flag is touched by a friendly:
     //   This means that the flag was not at home base, so we should send it home
@@ -341,19 +352,15 @@ game.flag = me.Entity.extend({
         if (other.team === this.team) {
             // Flag should be returned to base
             console.log("Flag touched by same team");
+            this.isHeld = false;
+            this.holder = {};
             this.sendHome();
         } else {
-            // Flag should be picked up
+            // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
             console.log("Flag picked up by opposing team");
-            if (this.team === game.data.player1) {
-                this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
-            } else {
-                this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
-            }
-
+            this.body.setCollisionMask(me.collision.types.NO_OBJECT);
             this.isHeld = true;
             this.holder = other;
-            this.currentTransform.rotate(-0.5);
 
         }
         return false;

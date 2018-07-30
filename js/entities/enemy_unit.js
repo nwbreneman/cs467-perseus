@@ -15,6 +15,13 @@ game.EnemyUnit = game.Unit.extend({
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
+        this.name = settings.name;
+        this.attack = settings.attack;
+        this.range = settings.range;
+        this.speed = settings.speed;
+        this.defense = settings.defense;
+        this.type = settings.type;
+
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
 
@@ -82,11 +89,18 @@ game.EnemyUnit = game.Unit.extend({
     },
 
 
+    // Enemy specific override
+    die: function() {
+        this.changeState('dying');
+    },
+
+
     // Function to call when you want to switch unit states
     changeState: function (newState) {
         this.leaveState(this.state);
         this.enterState(newState);
     },
+
 
 
     // Called from changeState()
@@ -138,9 +152,9 @@ game.EnemyUnit = game.Unit.extend({
 
         //console.log("health:", this.health);
 
-        if (this.health <= 0 && this.state != 'dying' && this.state != 'dead') {
-            this.changeState('dying');
-        }
+        // if (this.damage <= 0 && this.state != 'dying' && this.state != 'dead') {
+        //     this.changeState('dying');
+        // }
 
         switch (this.state) {
             case 'spawning':
