@@ -333,7 +333,7 @@ game.flag = me.Entity.extend({
 
     // Drop the flag if the unit that was carrying it has died
     // At this point, it can be touched by either team, so set the collision mask appropriately
-    drop: function() {
+    drop: function () {
         console.log("Flag dropped");
         this.isHeld = false;
         this.holder = {};
@@ -432,29 +432,19 @@ game.projectile = me.Entity.extend({
             me.collision.types.WORLD_SHAPE | game.collisionTypes.ENEMY_UNIT);
         this.alwaysUpdate = true;
         this.damage = settings.damage;
-
-        if (settings.targetX > this.pos.x) {
-            this.accelX = 1;
-        } else {
-            this.accelX = -1;
-        }
-
-
-        if (settings.targetY > this.pos.y) {
-            this.accelY = 1;
-        } else {
-            this.accelY = -1;
-        }
+        this.direction = new me.Vector2d(settings.targetX, settings.targetY);
+        this.direction = this.direction.sub(this.pos);
+        this.direction = this.direction.normalize();
 
         this.body.setVelocity(settings.speed, settings.speed);
     },
 
-    update: function () {
+    update: function (dt) {
 
-        this.body.vel.x += this.accelX * me.timer.tick;
-        // this.body.vel.y += this.accelY * me.timer.tick;
+        this.body.vel.x += this.direction.x * dt;
+        this.body.vel.y += this.direction.y * dt;
 
-        this.body.update();
+        this.body.update(dt);
         me.collision.check(this);
 
         return true;
