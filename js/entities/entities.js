@@ -74,6 +74,8 @@ game.Unit = me.Entity.extend({
         this.image = settings.image;
         this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
+        this.isHoldingFlag = false;
+        this.carriedFlag = {};
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -261,6 +263,12 @@ game.Unit = me.Entity.extend({
     },
 
     die: function () {
+        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        if (this.isHoldingFlag) {
+            this.carriedFlag.drop();
+            this.isHoldingFlag = false;
+        }
+        game.data.player1.removeUnit(this);
         me.game.world.removeChild(this);
     }
 
@@ -292,7 +300,7 @@ game.flag = me.Entity.extend({
         this.renderable.setCurrentAnimation("flutter");
         this.alwaysUpdate = true;
         this.isHeld = false;
-        this.holder = {};
+        this.other = {};
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
@@ -353,7 +361,6 @@ game.flag = me.Entity.extend({
             // Flag should be returned to base
             console.log("Flag touched by same team");
             this.isHeld = false;
-            this.holder = {};
             this.sendHome();
         } else {
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
@@ -361,13 +368,15 @@ game.flag = me.Entity.extend({
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
             this.isHeld = true;
             this.holder = other;
-
+            other.isHoldingFlag = true;
+            other.carriedFlag = this;
         }
         return false;
     },
 
 
     update: function (dt) {
+
         me.collision.check(this);
 
         if (this.isHeld) {

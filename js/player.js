@@ -74,6 +74,13 @@ var player = function (name, ptype) {
         }
     }
 
+    this.removeUnit = function(unit) {
+        var pos = this.units.indexOf(unit);
+        if (pos != -1) {
+            this.units.splice(pos, 1);
+        }
+    }
+
     this.orderAttack = function (x, y) {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].unitAttack(x, y);

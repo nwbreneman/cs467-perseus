@@ -134,13 +134,6 @@ game.AI = me.Renderable.extend({
     },
 
 
-    // When one of my friendly units touches our flag, it should get returned to base
-    sendFlagHome: function() {
-        //this.flag.pos.set(this.flagHomePosition.x, this.flagHomePosition.y);
-        console.log("Enemy AI: flag returned!");
-    },
-
-
     // AI does processing in here
     process: function() {
     	console.log("AI processing function");
