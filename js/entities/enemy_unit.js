@@ -26,7 +26,7 @@ game.EnemyUnit = game.Unit.extend({
         this.alwaysUpdate = true;
 
         // testing out stuff
-        this.health = 100;
+        //this.health = 100;
 
         this.renderable.anchorPoint.set(0.5, 0.5);
 

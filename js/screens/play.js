@@ -49,6 +49,15 @@ game.PlayScreen = me.ScreenObject.extend({
                     me.game.viewport.move(dir.x, dir.y);
                 }
 
+                if (me.input.isKeyPressed("kill")) {
+                    selectedUnits = game.data.player1.getSelectedUnits();
+                    game.data.player1.clearSelectedUnits();
+                    for (let thisUnit of selectedUnits) {
+                        thisUnit.die();
+                    }                    
+                    
+                }
+
                 return panned;
             }
         })));
@@ -185,6 +194,9 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.bindKey(me.input.KEY.SHIFT, "shift");
         // Bind ctrl key for attack orders
         me.input.bindKey(me.input.KEY.CTRL, "ctrl");
+
+        // Bind keys for debug/testing
+        me.input.bindKey(me.input.KEY.K, "kill");
 
         // Register for pointer events
         me.input.registerPointerEvent("pointerdown", me.game.viewport,
