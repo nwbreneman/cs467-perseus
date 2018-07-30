@@ -441,8 +441,13 @@ game.projectile = me.Entity.extend({
 
     update: function (dt) {
 
-        this.body.vel.x += this.direction.x * dt;
-        this.body.vel.y += this.direction.y * dt;
+        if (this.body.vel.x === 0) {
+            this.body.vel.x += this.direction.x * dt;
+        }
+
+        if (this.body.vel.y === 0) {
+            this.body.vel.y += this.direction.y * dt;
+        }
 
         this.body.update(dt);
         me.collision.check(this);
