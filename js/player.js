@@ -19,8 +19,8 @@ var player = function (name, ptype) {
     this.base = null;
     this.spawnPoint = null;
 
+    // Buys a unit given a unit name (equivalent to JSON file name)
     this.buyUnit = function (unitName) {
-        // TODO: use the unit Entity
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
