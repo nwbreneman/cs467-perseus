@@ -28,7 +28,7 @@ var player = function (name, ptype) {
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 unit.player = this;
-                this.unitResources -= unit.cost;
+                this.unitResources -= settings.cost;
                 this.units.push(unit);
                 me.game.world.addChild(unit);
                 // Mark:
