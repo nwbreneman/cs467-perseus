@@ -89,8 +89,14 @@ game.PlayScreen = me.ScreenObject.extend({
              */
             pointerClick: function (event) {
 
+                // do nothing if shift is held to select multiple units
                 if (me.input.isKeyPressed("shift")) {
                     return;
+                }
+
+                // ctrl-left click orders attack
+                if (me.input.isKeyPressed("ctrl") && event.button === 0) {
+                    this.player.orderAttack(event.gameWorldX, event.gameWorldY);
                 }
 
                 if (event.type === "pointerdown") {
@@ -177,6 +183,8 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Bind shift key for multi-selecting units with click
         me.input.bindKey(me.input.KEY.SHIFT, "shift");
+        // Bind ctrl key for attack orders
+        me.input.bindKey(me.input.KEY.CTRL, "ctrl");
 
         // Register for pointer events
         me.input.registerPointerEvent("pointerdown", me.game.viewport,

@@ -1,0 +1,14 @@
+{
+    "list": [
+        "bullet"
+    ],
+    "settings": [
+        {
+            "name": "bullet",
+            "image": "bullet",
+            "height": 12,
+            "width": 20,
+            "speed": 20
+        }
+    ]
+}

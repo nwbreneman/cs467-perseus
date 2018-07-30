@@ -39,6 +39,10 @@ var game = {
         // remove gravity
         me.sys.gravity = 0;
 
+        game.collisionTypes = {
+            ENEMY_UNIT: me.collision.types.USER << 0
+        };
+
         game.texture = new me.video.renderer.Texture(
             me.loader.getJSON("gui"),
             me.loader.getImage("gui")
@@ -64,7 +68,7 @@ var game = {
         me.pool.register("blueflagstand", me.Entity);
         me.pool.register("redflagstand", me.Entity);
 
-        //Mark: 
+        //Mark:
         //factory for lefthand side of map
         me.pool.register("factory_1", game.factory);
         //factory for righthand side of map
@@ -78,11 +82,17 @@ var game = {
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.Unit, true);
         }
-        
+
         // add red units to pool
         units = me.loader.getJSON("manifest_enemy").units;
         for (var i = 0; i < units.length; i++) {
             me.pool.register(units[i], game.EnemyUnit, true);
+        }
+
+        // add projectiles to pool
+        projectiles = me.loader.getJSON("projectiles").list;
+        for (var i = 0; i < projectiles.length; i++) {
+            me.pool.register(projectiles[i], game.projectile, true);
         }
 
         // Start the game.

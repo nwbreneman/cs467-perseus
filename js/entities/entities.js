@@ -72,7 +72,17 @@ game.Unit = me.Entity.extend({
         this.defense = settings.defense;
         this.type = settings.type;
         this.image = settings.image;
+        this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
+
+        // find correct projectile settings
+        var projectiles = me.loader.getJSON("projectiles").settings;
+        for (var i = 0; i < projectiles.length; i++) {
+            if (projectiles[i].name === this.projectile) {
+                this.projectileSettings = projectiles[i];
+                break;
+            }
+        }
 
         this.renderable.anchorPoint.set(0.5, 0.5);
 
@@ -94,7 +104,7 @@ game.Unit = me.Entity.extend({
         } else {
             this.player.selectUnit(this);
         }
-        this.selected = true;
+        this.select();
         return false;
     },
 
@@ -184,7 +194,6 @@ game.Unit = me.Entity.extend({
         var bCollType = response.b.body.collisionType;
         var NPC_OBJECT = me.collision.types.NPC_OBJECT;
 
-
         if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT || other.body.collisionType == me.collision.types.WORLD_SHAPE) {
             console.log("world shape");
             if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
@@ -228,6 +237,31 @@ game.Unit = me.Entity.extend({
         this.body.vel.x = 0;
         this.body.vel.y = 0;
         this.moveTo = null;
+        this.nextMove = null;
+    },
+
+    unitAttack: function (x, y) {
+        settings = this.projectileSettings;
+        settings.targetX = x;
+        settings.targetY = y;
+        settings.damage = this.attack;
+        me.game.world.addChild(me.pool.pull(
+            this.projectile,
+            this.pos.x + this.width,
+            this.pos.y + (this.height / 2),
+            settings
+        ));
+    },
+
+    takeDamage: function (damage) {
+        this.defense -= damage;
+        if (this.defense <= 0) {
+            this.die();
+        }
+    },
+
+    die: function () {
+        me.game.world.removeChild(this);
     }
 
 });
@@ -264,7 +298,7 @@ game.flag = me.Entity.extend({
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
         this.body.setMaxVelocity(0, 0);
         this.sendHome();
-       
+
     },
 
 
@@ -379,3 +413,59 @@ game.capturePoint = me.Entity.extend({
         } else { }
     }
 });
+
+/**
+ * Projectile entity for weapons
+ */
+game.projectile = me.Entity.extend({
+    init: function (x, y, settings) {
+        this._super(me.Entity, "init", [x, y, settings]);
+        this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
+        this.body.setCollisionMask(
+            me.collision.types.WORLD_SHAPE | game.collisionTypes.ENEMY_UNIT);
+        this.alwaysUpdate = true;
+        this.damage = settings.damage;
+
+        if (settings.targetX > this.pos.x) {
+            this.accelX = 1;
+        } else {
+            this.accelX = -1;
+        }
+
+
+        if (settings.targetY > this.pos.y) {
+            this.accelY = 1;
+        } else {
+            this.accelY = -1;
+        }
+
+        this.body.setVelocity(settings.speed, settings.speed);
+    },
+
+    update: function () {
+
+        this.body.vel.x += this.accelX * me.timer.tick;
+        // this.body.vel.y += this.accelY * me.timer.tick;
+
+        this.body.update();
+        me.collision.check(this);
+
+        return true;
+    },
+
+    onCollision: function (response, other) {
+        otherType = other.body.collisionType;
+        if (otherType === me.collision.types.WORLD_SHAPE) {
+            me.game.world.removeChild(this);
+            return true;
+        }
+
+        if (otherType === game.collisionTypes.ENEMY_UNIT) {
+            other.takeDamage(this.damage);
+            me.game.world.removeChild(this);
+            return true;
+        }
+
+        return false;
+    }
+})

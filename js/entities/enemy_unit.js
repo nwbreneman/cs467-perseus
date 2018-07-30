@@ -1,7 +1,7 @@
 /**
  * EnemyUnit Entity
  */
-game.EnemyUnit = me.Entity.extend({
+game.EnemyUnit = game.Unit.extend({
     init: function (x, y, settings) {
 
         // adjust the size setting information to match the sprite size
@@ -36,7 +36,7 @@ game.EnemyUnit = me.Entity.extend({
         this.currentOrders = {};
         this.moveDestination = new me.Vector2d(0, 0);
 
-        this.body.collisionType = me.collision.types.ENEMY_OBJECT;
+        this.body.collisionType = game.collisionTypes.ENEMY_UNIT;
 
     },
 
@@ -52,7 +52,7 @@ game.EnemyUnit = me.Entity.extend({
     // { type: string,
     // other parameters: depending on the type }
     // TBD, the unit should act immediately upon receiving a command from the 'boss'
-    command: function(order) {
+    command: function (order) {
         console.log("Enemy unit received command:", order);
         this.currentOrders = order;
         switch (order.type) {
@@ -77,20 +77,20 @@ game.EnemyUnit = me.Entity.extend({
                 console.log("command(): order type \'" + order.type + "\' not handled");
                 break;
         }
-       
+
 
     },
 
 
     // Function to call when you want to switch unit states
-    changeState: function(newState) {
+    changeState: function (newState) {
         this.leaveState(this.state);
         this.enterState(newState);
     },
 
 
     // Called from changeState()
-    enterState: function(newState) {
+    enterState: function (newState) {
         // Maybe do something interesting here depending on the state
         this.state = newState;
 
@@ -115,12 +115,12 @@ game.EnemyUnit = me.Entity.extend({
                 console.log("enterState(): state \'" + newState + "\' not handled");
                 break;
         }
-       
+
     },
 
 
     // Called from changeState()
-    leaveState: function(oldState) {
+    leaveState: function (oldState) {
         // Maybe do something interesting here depending on the state
 
         switch (oldState) {
@@ -135,13 +135,13 @@ game.EnemyUnit = me.Entity.extend({
 
     update: function (dt) {
         // testing out some state change mechanics
-        
-       //console.log("health:", this.health);
+
+        //console.log("health:", this.health);
 
         if (this.health <= 0 && this.state != 'dying' && this.state != 'dead') {
             this.changeState('dying');
         }
-    
+
         switch (this.state) {
             case 'spawning':
                 if (me.timer.getTime() > this.spawnTimeout) {
@@ -170,7 +170,7 @@ game.EnemyUnit = me.Entity.extend({
                     this.changeState('dead');
                 }
                 break;
-         
+
             default:
 
                 break;

@@ -73,4 +73,10 @@ var player = function (name, ptype) {
             this.selectedUnits[i].move(x, y);
         }
     }
+
+    this.orderAttack = function (x, y) {
+        for (var i = 0; i < this.selectedUnits.length; i++) {
+            this.selectedUnits[i].unitAttack(x, y);
+        }
+    }
 }
