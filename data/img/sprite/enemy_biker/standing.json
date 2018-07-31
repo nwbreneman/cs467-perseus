@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "color0_Infantry_S_Large_face0_0",
+	"frame": {"x":1,"y":1,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face0_1",
+	"frame": {"x":1,"y":79,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face0_2",
+	"frame": {"x":1,"y":157,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face0_3",
+	"frame": {"x":1,"y":235,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face1_0",
+	"frame": {"x":1,"y":313,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face1_1",
+	"frame": {"x":1,"y":391,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face1_2",
+	"frame": {"x":1,"y":469,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face1_3",
+	"frame": {"x":1,"y":547,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face2_0",
+	"frame": {"x":1,"y":625,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face2_1",
+	"frame": {"x":1,"y":699,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face2_2",
+	"frame": {"x":1,"y":773,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face2_3",
+	"frame": {"x":1,"y":847,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face3_0",
+	"frame": {"x":1,"y":921,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face3_1",
+	"frame": {"x":1,"y":995,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face3_2",
+	"frame": {"x":1,"y":1069,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color0_Infantry_S_Large_face3_3",
+	"frame": {"x":1,"y":1143,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "standing.png",
+	"format": "RGBA8888",
+	"size": {"w":52,"h":1216},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bab1d54f4baaac3a4765f155b92ad2e3:a8c9eda91cd6c7c5edaa13d3dafb5299:2ee97642ccc49e0a9a6de0b14d52efec$"
+}
+}
