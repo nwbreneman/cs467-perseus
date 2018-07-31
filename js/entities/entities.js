@@ -57,7 +57,7 @@ game.Unit = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
-        this.body.collisionType = me.collision.types.PLAYER_OBJECT;
+        this.body.collisionType = game.collisionTypes.PLAYER_UNIT;
         this.moveTo = null;
         this.alwaysUpdate = true;
         this.body.bounce = 0;
@@ -76,6 +76,7 @@ game.Unit = me.Entity.extend({
         this.body.setVelocity(this.speed, this.speed);
         this.isHoldingFlag = false;
         this.carriedFlag = {};
+        this.team = game.data.player1;
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -305,6 +306,7 @@ game.flag = me.Entity.extend({
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
+        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
         this.body.setMaxVelocity(0, 0);
         this.sendHome();
 
@@ -317,20 +319,11 @@ game.flag = me.Entity.extend({
     },
 
 
-    // Send the flag back to base and set the appropriate collision mask setting:
-    // When the flag is at home at the player's base, it should only collide with enemy (NPC) objects.
-    // Likewise the enemy flag, when stationed at the enemy base, should only collide with PLAYER objects
+    // Send the flag back to base
     sendHome: function () {
         console.log("Sending flag home");
         this.moveTo(this.homePosition.x, this.homePosition.y);
 
-        if (this.team === game.data.player1) {
-            console.log("setting collision mask to NPC_OBJECT");
-            this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
-        } else {
-            console.log("setting collision mask to PLAYER_OBJECT");
-            this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
-        }
     },
 
 
@@ -346,7 +339,7 @@ game.flag = me.Entity.extend({
         console.log("Flag dropped");
         this.isHeld = false;
         this.holder = {};
-        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
+        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
     },
 
 
@@ -359,11 +352,26 @@ game.flag = me.Entity.extend({
     onCollision: function (response, other) {
         console.log("flag collision");
         if (other.team === this.team) {
-            // Flag should be returned to base
-            console.log("Flag touched by same team");
-            this.isHeld = false;
-            this.sendHome();
+            // Touched by a member of this flag's team
+
+            // If this flag is at home, and the unit is carrying the opposing team's flag, then it's a win
+            if (this.isHome()) {
+                //console.log("Flag is at home");
+                if (other.isHoldingFlag) {
+                    console.log("VICTORY!")
+                } else {
+                    // If this flag is at home, and the unit is NOT carrying a flag, then do nothing
+                    return false;
+                }
+            } else {
+                // If this flag is not at home, then the flag should be returned to base
+                console.log("Flag touched by same team");
+                this.isHeld = false;
+                this.sendHome();
+            }
+            
         } else {
+            // Touched by a member of the opposite team
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
             console.log("Flag picked up by opposing team");
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
@@ -377,8 +385,6 @@ game.flag = me.Entity.extend({
 
 
     update: function (dt) {
-
-        me.collision.check(this);
 
         if (this.isHeld) {
             this.moveTo(this.holder.pos.x + this.holder.width * 0.4, this.holder.pos.y + this.holder.height * 0.3);
