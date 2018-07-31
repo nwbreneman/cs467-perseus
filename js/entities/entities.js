@@ -247,6 +247,7 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
+        settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
             this.pos.x + this.width,
@@ -437,10 +438,25 @@ game.projectile = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
-        this.body.setCollisionMask(
-            me.collision.types.WORLD_SHAPE | game.collisionTypes.ENEMY_UNIT);
         this.alwaysUpdate = true;
         this.damage = settings.damage;
+        this.ownerUnit = settings.ownerUnit;
+
+        // no friendly fire:
+        // if fired by a player, only collide with world or enemy units;
+        // if fired by an enemy, only collide with world or player units
+        if (this.ownerUnit === game.collisionTypes.PLAYER_UNIT) {
+            this.body.setCollisionMask(
+                me.collision.types.WORLD_SHAPE
+                | game.collisionTypes.ENEMY_UNIT
+            );
+        } else if (this.ownerUnit === game.collisionTypes.ENEMY_UNIT) {
+            this.body.setCollisionMask(
+                me.collision.types.WORLD_SHAPE
+                | game.collisionTypes.PLAYER_UNIT
+            );
+        }
+
         this.direction = new me.Vector2d(settings.targetX, settings.targetY);
         this.direction = this.direction.sub(this.pos);
         this.direction = this.direction.normalize();
@@ -465,18 +481,19 @@ game.projectile = me.Entity.extend({
     },
 
     onCollision: function (response, other) {
-        otherType = other.body.collisionType;
+
+        var otherType = other.body.collisionType;
+
         if (otherType === me.collision.types.WORLD_SHAPE) {
             me.game.world.removeChild(this);
             return true;
         }
 
-        if (otherType === game.collisionTypes.ENEMY_UNIT) {
+        if (otherType === game.collisionTypes.ENEMY_UNIT
+            || otherType === game.collisionTypes.PLAYER_UNIT) {
             other.takeDamage(this.damage);
             me.game.world.removeChild(this);
             return true;
         }
-
-        return false;
     }
 })

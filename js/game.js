@@ -40,7 +40,8 @@ var game = {
         me.sys.gravity = 0;
 
         game.collisionTypes = {
-            ENEMY_UNIT: me.collision.types.USER << 0
+            ENEMY_UNIT: me.collision.types.USER << 0,
+            PLAYER_UNIT: me.collision.types.USER << 1,
         };
 
         game.texture = new me.video.renderer.Texture(
