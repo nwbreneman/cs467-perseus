@@ -1,3 +1,21 @@
+game.TestJetpackAnimation = me.Entity.extend({
+    // Constructor
+    init: function (x, y, settings) {
+
+
+
+        this._super(me.Entity, "init", [x, y, settings]);
+
+        //test all four faces (directions) of the standing frame
+        this.renderable.addAnimation("facingSE", [0, 1, 2, 3], 60);
+        this.renderable.setCurrentAnimation("facingSE");
+
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
+    },
+
+});
+
+
 
 /**
  * Base Entity
@@ -57,7 +75,7 @@ game.Unit = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
-        this.body.collisionType = game.collisionTypes.PLAYER_UNIT;
+        this.body.collisionType = me.collision.types.PLAYER_OBJECT;
         this.moveTo = null;
         this.alwaysUpdate = true;
         this.body.bounce = 0;
@@ -72,11 +90,11 @@ game.Unit = me.Entity.extend({
         this.defense = settings.defense;
         this.type = settings.type;
         this.image = settings.image;
+
         this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
         this.isHoldingFlag = false;
         this.carriedFlag = {};
-        this.team = game.data.player1;
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -88,6 +106,13 @@ game.Unit = me.Entity.extend({
         }
 
         this.renderable.anchorPoint.set(0.5, 0.5);
+
+        // Mark:
+        // trying to set standing animations working 
+        /*
+        this.renderable.addAnimation("standingSE", [0, 1, 2, 3], 60);
+        this.renderable.setCurrentAnimation("standingSE");
+		*/
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -248,7 +273,6 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
-        settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
             this.pos.x + this.width,
@@ -306,7 +330,6 @@ game.flag = me.Entity.extend({
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
-        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
         this.body.setMaxVelocity(0, 0);
         this.sendHome();
 
@@ -319,11 +342,20 @@ game.flag = me.Entity.extend({
     },
 
 
-    // Send the flag back to base
+    // Send the flag back to base and set the appropriate collision mask setting:
+    // When the flag is at home at the player's base, it should only collide with enemy (NPC) objects.
+    // Likewise the enemy flag, when stationed at the enemy base, should only collide with PLAYER objects
     sendHome: function () {
         console.log("Sending flag home");
         this.moveTo(this.homePosition.x, this.homePosition.y);
 
+        if (this.team === game.data.player1) {
+            console.log("setting collision mask to NPC_OBJECT");
+            this.body.setCollisionMask(me.collision.types.ENEMY_OBJECT);
+        } else {
+            console.log("setting collision mask to PLAYER_OBJECT");
+            this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT);
+        }
     },
 
 
@@ -339,7 +371,7 @@ game.flag = me.Entity.extend({
         console.log("Flag dropped");
         this.isHeld = false;
         this.holder = {};
-        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
+        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
     },
 
 
@@ -352,26 +384,11 @@ game.flag = me.Entity.extend({
     onCollision: function (response, other) {
         console.log("flag collision");
         if (other.team === this.team) {
-            // Touched by a member of this flag's team
-
-            // If this flag is at home, and the unit is carrying the opposing team's flag, then it's a win
-            if (this.isHome()) {
-                //console.log("Flag is at home");
-                if (other.isHoldingFlag) {
-                    console.log("VICTORY!")
-                } else {
-                    // If this flag is at home, and the unit is NOT carrying a flag, then do nothing
-                    return false;
-                }
-            } else {
-                // If this flag is not at home, then the flag should be returned to base
-                console.log("Flag touched by same team");
-                this.isHeld = false;
-                this.sendHome();
-            }
-            
+            // Flag should be returned to base
+            console.log("Flag touched by same team");
+            this.isHeld = false;
+            this.sendHome();
         } else {
-            // Touched by a member of the opposite team
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
             console.log("Flag picked up by opposing team");
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
@@ -385,6 +402,8 @@ game.flag = me.Entity.extend({
 
 
     update: function (dt) {
+
+        me.collision.check(this);
 
         if (this.isHeld) {
             this.moveTo(this.holder.pos.x + this.holder.width * 0.4, this.holder.pos.y + this.holder.height * 0.3);
@@ -444,25 +463,10 @@ game.projectile = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
+        this.body.setCollisionMask(
+            me.collision.types.WORLD_SHAPE | game.collisionTypes.ENEMY_UNIT);
         this.alwaysUpdate = true;
         this.damage = settings.damage;
-        this.ownerUnit = settings.ownerUnit;
-
-        // no friendly fire:
-        // if fired by a player, only collide with world or enemy units;
-        // if fired by an enemy, only collide with world or player units
-        if (this.ownerUnit === game.collisionTypes.PLAYER_UNIT) {
-            this.body.setCollisionMask(
-                me.collision.types.WORLD_SHAPE
-                | game.collisionTypes.ENEMY_UNIT
-            );
-        } else if (this.ownerUnit === game.collisionTypes.ENEMY_UNIT) {
-            this.body.setCollisionMask(
-                me.collision.types.WORLD_SHAPE
-                | game.collisionTypes.PLAYER_UNIT
-            );
-        }
-
         this.direction = new me.Vector2d(settings.targetX, settings.targetY);
         this.direction = this.direction.sub(this.pos);
         this.direction = this.direction.normalize();
@@ -487,19 +491,18 @@ game.projectile = me.Entity.extend({
     },
 
     onCollision: function (response, other) {
-
-        var otherType = other.body.collisionType;
-
+        otherType = other.body.collisionType;
         if (otherType === me.collision.types.WORLD_SHAPE) {
             me.game.world.removeChild(this);
             return true;
         }
 
-        if (otherType === game.collisionTypes.ENEMY_UNIT
-            || otherType === game.collisionTypes.PLAYER_UNIT) {
+        if (otherType === game.collisionTypes.ENEMY_UNIT) {
             other.takeDamage(this.damage);
             me.game.world.removeChild(this);
             return true;
         }
+
+        return false;
     }
 })

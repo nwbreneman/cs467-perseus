@@ -40,8 +40,7 @@ var game = {
         me.sys.gravity = 0;
 
         game.collisionTypes = {
-            ENEMY_UNIT: me.collision.types.USER << 0,
-            PLAYER_UNIT: me.collision.types.USER << 1,
+            ENEMY_UNIT: me.collision.types.USER << 0
         };
 
         game.texture = new me.video.renderer.Texture(
@@ -76,6 +75,9 @@ var game = {
         me.pool.register("factory_2", game.factory);
         //testing out capture point collision settings
         me.pool.register("capture_point", game.capturePoint);
+
+        //testing standing frames of jetpack guy
+        me.pool.register("TestJetpackAnimation", game.TestJetpackAnimation);
 
 
         // add units to pool
