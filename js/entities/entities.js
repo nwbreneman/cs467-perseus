@@ -409,7 +409,7 @@ game.factory = me.Entity.extend({
         this.renderable.addAnimation("smoke", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("smoke");
 
-        this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
+        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
     },
 
 });
@@ -422,19 +422,19 @@ game.capturePoint = me.Entity.extend({
         this._super(me.Entity, "init", [x, y, settings]);
         this.owner = ""; //human or AI currently owns, or "" for nobody owns
 
-        //Mark: not sure what collision type the capture point will need yet
-        this.body.collisionType = me.collision.types.NO_OBJECT;
-
-        this.isKinematic = true;
+        this.body.collisionType = me.collision.types.ACTION_OBJECT;
+        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
     },
 
-    update: function (x, y, settings) { },
 
     onCollision: function (response, other) {
+        console.log("Resource point collision");
         if (this.owner == "") {
             //capture point
         } else { }
-    }
+
+        return false;
+    },
 });
 
 /**
