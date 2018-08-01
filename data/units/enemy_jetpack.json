@@ -1,0 +1,10 @@
+{
+    "name": "enemy_jetpack",
+    "attack": 1,
+    "range": 1,
+    "defense": 1,
+    "speed": 2,
+    "type": "paper",
+    "cost": 1,
+    "image": "jetpacktest"
+}

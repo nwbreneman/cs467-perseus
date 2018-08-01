@@ -1,0 +1,10 @@
+{
+    "name": "enemy_bomber",
+    "attack": 1,
+    "range": 1,
+    "defense": 1,
+    "speed": 3,
+    "type": "paper",
+    "cost": 20,
+    "image": "bombertest"
+}

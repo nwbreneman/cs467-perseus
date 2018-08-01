@@ -32,7 +32,7 @@ game.EnemyUnit = game.Unit.extend({
 
         // To be assigned by the enemy controller
         this.controller = settings.controller;
-        this.team = settings.team;
+        this.team = game.data.enemy;
 
         this.state = settings.initialState;
 
@@ -64,6 +64,10 @@ game.EnemyUnit = game.Unit.extend({
         this.currentOrders = order;
         switch (order.type) {
             case 'move to':
+                this.moveDestination.set(order.x, order.y);
+                this.changeState("moving");
+                break;
+            case 'capture resource':
                 this.moveDestination.set(order.x, order.y);
                 this.changeState("moving");
                 break;
@@ -169,7 +173,7 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'moving':
-                if (isHoldingFlag) {
+                if (this.isHoldingFlag) {
                     // get back to the base ASAP!
                 }
                 break;

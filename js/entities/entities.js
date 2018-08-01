@@ -321,7 +321,7 @@ game.flag = me.Entity.extend({
 
     // Send the flag back to base
     sendHome: function () {
-        console.log("Sending flag home");
+        //console.log("Sending flag home");
         this.moveTo(this.homePosition.x, this.homePosition.y);
 
     },
@@ -336,7 +336,7 @@ game.flag = me.Entity.extend({
     // Drop the flag if the unit that was carrying it has died
     // At this point, it can be touched by either team, so set the collision mask appropriately
     drop: function () {
-        console.log("Flag dropped");
+        //console.log("Flag dropped");
         this.isHeld = false;
         this.holder = {};
         this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
@@ -350,7 +350,7 @@ game.flag = me.Entity.extend({
     //   The enemy gets to pick up the flag, and then collisions between the flag and the unit that picked it up should be disabled
     //   Enable collisions between the flag and its own team so it can be returned
     onCollision: function (response, other) {
-        console.log("flag collision");
+        //console.log("flag collision");
         if (other.team === this.team) {
             // Touched by a member of this flag's team
 
@@ -365,7 +365,7 @@ game.flag = me.Entity.extend({
                 }
             } else {
                 // If this flag is not at home, then the flag should be returned to base
-                console.log("Flag touched by same team");
+                //console.log("Flag touched by same team");
                 this.isHeld = false;
                 this.sendHome();
             }
@@ -373,7 +373,7 @@ game.flag = me.Entity.extend({
         } else {
             // Touched by a member of the opposite team
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
-            console.log("Flag picked up by opposing team");
+            //console.log("Flag picked up by opposing team");
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
             this.isHeld = true;
             this.holder = other;

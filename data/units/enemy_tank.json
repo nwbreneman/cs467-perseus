@@ -1,0 +1,10 @@
+{
+    "name": "enemy_tank",
+    "attack": 1,
+    "range": 1,
+    "defense": 1,
+    "speed": 2,
+    "type": "paper",
+    "cost": 10,
+    "image": "tanktest"
+}

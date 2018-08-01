@@ -1,0 +1,10 @@
+{
+    "name": "enemy_engineer",
+    "attack": 0,
+    "range": 1,
+    "defense": 10,
+    "speed": 1,
+    "type": "paper",
+    "cost": 15,
+    "image": "engineertest"
+}

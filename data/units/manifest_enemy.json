@@ -1,5 +1,14 @@
 {
     "units": [
-        "enemy_civilian"
+        "enemy_civilian",
+        "enemy_infantry",
+        "enemy_bazooka",
+        "enemy_biker",
+        "enemy_plane",
+        "enemy_engineer",
+        "enemy_jetpack",
+        "enemy_tank",
+        "enemy_sniper",
+        "enemy_bomber"
     ]
 }
