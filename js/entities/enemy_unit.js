@@ -114,7 +114,7 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (this.state) {
             case 'spawning':
-                console.log("enemy unit spawning at spawn point:", this.pos.x, this.pos.y);
+                console.log("enemy unit spawning at spawn point:", this.pos.toString());
                 this.spawnTimeout = me.timer.getTime() + 1000;
                 break;
             case 'idle':

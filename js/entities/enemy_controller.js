@@ -101,7 +101,7 @@ game.AI = me.Renderable.extend({
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 this.resources -= settings.cost;
                 this.unitList.push(unit);
-                me.game.world.addChild(unit);
+                me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
             }
         }
     },

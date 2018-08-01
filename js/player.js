@@ -30,7 +30,7 @@ var player = function (name, ptype) {
                 unit.player = this;
                 this.unitResources -= settings.cost;
                 this.units.push(unit);
-                me.game.world.addChild(unit);
+                me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
                 // Mark:
                 // Adding some trace statements to watch resources and unit purchasing
                 console.log(settings.name + " unit cost is " + settings.cost);
