@@ -8,13 +8,14 @@ game.EnemyUnit = game.Unit.extend({
         // so that the entity object is created with the right size
         //settings.framewidth = settings.width = 88;
         //settings.frameheight = settings.height = 108;
-        settings.width = 30;
-        settings.height = 60;
+        settings.width = 40;
+        settings.height = 70;
         settings.frameheight = 108;
         settings.framewidth = 88;
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
+   
         this.name = settings.name;
         this.attack = settings.attack;
         this.range = settings.range;
@@ -22,11 +23,10 @@ game.EnemyUnit = game.Unit.extend({
         this.defense = settings.defense;
         this.type = settings.type;
 
+        this.body.setVelocity(this.speed, this.speed);
+
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
-
-        // testing out stuff
-        //this.health = 100;
 
         this.renderable.anchorPoint.set(0.5, 0.5);
 
@@ -35,16 +35,18 @@ game.EnemyUnit = game.Unit.extend({
         this.team = game.data.enemy;
 
         this.state = settings.initialState;
-
-        this.isHoldingFlag = false;
+        this.moveTo = null;
+        this.body.bounce = 0;
+        this.isHoldingFlag = false; 
         this.escortTarget = {};
 
         // Orders take the form of an object, with a type, and some additional settings
         this.currentOrders = {};
         this.moveDestination = new me.Vector2d(0, 0);
 
+        // Temporarily not colliding with WORLD_SHAPE because there are some pathfinding issues at the moment
         this.body.collisionType = game.collisionTypes.ENEMY_UNIT;
-
+        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | me.collision.types.COLLECTABLE_OBJECT | me.collision.types.ACTION_OBJECT);
     },
 
 
@@ -120,6 +122,10 @@ game.EnemyUnit = game.Unit.extend({
             case 'idle':
                 console.log("unit is now idle");
                 break;
+            case 'moving':
+                console.log("unit is now moving to", this.moveDestination.toString());
+                this.move(this.moveDestination.x, this.moveDestination.y);
+                break;
             case 'dying':
                 // Start a death animation or particle effect or something
                 this.deathTimeout = me.timer.getTime() + 1000;
@@ -176,6 +182,50 @@ game.EnemyUnit = game.Unit.extend({
                 if (this.isHoldingFlag) {
                     // get back to the base ASAP!
                 }
+                if (this.moveTo) {
+                    // get the next xy coordinates
+                    var newX = this.nextMove.x;
+                    var newY = this.nextMove.y;
+
+                    // accelerate in the correct X direction
+                    if (newX && newX > this.pos.x) {
+                        this.body.vel.x += this.body.accel.x * dt;
+                    } else if (newX && newX < this.pos.x) {
+                        this.body.vel.x -= this.body.accel.x * dt;
+                    }
+
+                    // accelerate in the correct Y direction
+                    if (newY && newY > this.pos.y) {
+                        this.body.vel.y += this.body.accel.y * dt;
+                    } else if (newY && newY < this.pos.y) {
+                        this.body.vel.y -= this.body.accel.y * dt;
+                    }
+
+                    // stop accelerating on X axis when we reach the (rough) destination
+                    if (this.atTargetPos(this.pos.x, newX, this.speed)) {
+                        this.nextMove.x = null;
+                        this.body.vel.x = 0;
+                    }
+
+                    // stop accelerating on Y axis when we reach the (rough) destination
+                    if (this.atTargetPos(this.pos.y, newY, this.speed)) {
+                        this.nextMove.y = null;
+                        this.body.vel.y = 0;
+                    }
+
+                    // if we stopped accelerating on both axes, check if there's another
+                    // point in our moveTo path; if not, set both to null to stop moving
+                    if (this.nextMove.x === null && this.nextMove.y === null) {
+                        if (this.moveTo.length > 0) {
+                            this.nextMove = this.moveTo.shift();
+                        } else {
+                            this.nextMove = null;
+                            this.moveTo = null;
+                        }
+                    }
+
+
+                }
                 break;
             case 'gathering':
 
@@ -197,7 +247,12 @@ game.EnemyUnit = game.Unit.extend({
 
 
 
-        return false;
+        this.body.update(dt);
+
+        me.collision.check(this);
+
+        // return true to update if we are moving
+        return (this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
 

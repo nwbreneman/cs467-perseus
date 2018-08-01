@@ -197,7 +197,7 @@ game.AI = me.Renderable.extend({
                     case "captureFlag":
                         console.log("Enemy controller: commanding newly purchased unit to capture the flag");
                         destination = this.playerFlag.pos;
-                        unit.command({ type: "capture flag", x: destination.x, y: destination.y })
+                        unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 })
                         break;
                     default:
                         // Take no action for now
@@ -350,7 +350,7 @@ game.AI = me.Renderable.extend({
     // Get the nearest resource point that hasn't been captured yet
     getNearestUncapturedResource: function() {
         // TODO: compute location of nearest uncaptured resource point
-        return new me.Vector2d(0,0);
+        return new me.Vector2d(2000,1200);
     },
     
 
