@@ -24,7 +24,7 @@ var player = function (name, ptype) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
-                let unit = me.pool.pull(unitName, 10, 10, settings);
+                var unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 unit.player = this;
@@ -74,7 +74,7 @@ var player = function (name, ptype) {
         }
     }
 
-    this.removeUnit = function(unit) {
+    this.removeUnit = function (unit) {
         var pos = this.units.indexOf(unit);
         if (pos != -1) {
             this.units.splice(pos, 1);

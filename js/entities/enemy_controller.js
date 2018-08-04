@@ -30,12 +30,12 @@ game.AI = me.Renderable.extend({
         if (settings.difficulty == "Easy") {
             console.log("Easy difficulty.");
 
-        	this.processInterval = 150;
+            this.processInterval = 150;
             this.resourceRate = 1;
         } else {
             console.log("Hard difficulty.");
 
-        	this.processInterval = 30;
+            this.processInterval = 30;
             this.resourceRate = 4;
         }
 
@@ -44,7 +44,7 @@ game.AI = me.Renderable.extend({
         this.resourceAccumulator = 0;
         this.resourceInterval = 60;
 
-        
+
         this.resourceCapturePriorities = [8, 5, 3, 1, 1, 1];    // Priority level for capturing 1 resource point, 2 resource points, 3 resource points, 4 resource points, etc.
         this.unitQtyPriorities = [10, 9, 7, 5, 3, 1, 1, 1];     // Priority level for having 1 unit alive, 2 units alive, 3 units alive, etc.
         this.defendFlagPriority = 6;          // Priority for keeping own flag at home base guarded
@@ -65,7 +65,7 @@ game.AI = me.Renderable.extend({
 
     // Set up the intervals to call certain functions. Most AI processing won't be done in here
     // because this function is being called 60 times/sec and that is overkill for high-level AI processing.
-    update: function(dt) {
+    update: function (dt) {
         // Dispatch timed functions
         this.processAccumulator++;
         this.resourceAccumulator++;
@@ -79,12 +79,12 @@ game.AI = me.Renderable.extend({
         }
 
 
-        
+
     },
 
 
     // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
-    buyUnit: function(name) {
+    buyUnit: function (name) {
 
         console.log("Trying to buy", name);
         let settings = me.loader.getJSON(name);
@@ -96,11 +96,12 @@ game.AI = me.Renderable.extend({
 
             if (this.resources >= settings.cost) {
                 console.log("Purchasing unit", name);
-                let unit = me.pool.pull(name, 20, 20, settings);
+                var unit = me.pool.pull(name, 20, 20, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
                 this.resources -= settings.cost;
                 this.unitList.push(unit);
+                unit.player = this;
                 me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
             }
         }
@@ -108,20 +109,20 @@ game.AI = me.Renderable.extend({
 
 
     // Accumulate resources based on how many resource points we are in control of
-    accumulate: function() {
+    accumulate: function () {
         this.resources += this.resourceRate * (1 + this.resourcePointsCaptured);
     },
 
 
     // Receive a message from a unit so we can act on the information
-    report: function(unit, message) {
+    report: function (unit, message) {
         if (message == 'dead') {
             console.log("AI Controller: Unit reporting as dead");
             this.removeUnitFromList(unit);
         }
         if (message == "return flag") {
             console.log("AI Controller: Unit reporting to return the flag");
-          
+
             this.flag.sendHome();
         }
 
@@ -129,7 +130,7 @@ game.AI = me.Renderable.extend({
 
 
     // If a unit dies, we need to remove the reference to that unit from the array
-    removeUnitFromList: function(unit) {
+    removeUnitFromList: function (unit) {
         var pos = this.unitList.indexOf(unit);
         if (pos != -1) {
             this.unitList.splice(pos, 1);
@@ -138,26 +139,26 @@ game.AI = me.Renderable.extend({
 
 
     // Determine where the player's flag currently is (and note if it is at its base)
-    getOtherFlagPosition: function() {
+    getOtherFlagPosition: function () {
         this.playerFlagAtHome = this.playerFlag.pos.equals(this.playerFlagHomePosition);
-        
+
     },
 
 
     // Determine where my flag currently is (and note if it is at my base)
-    getMyFlagPosition: function() {
+    getMyFlagPosition: function () {
         //this.flagAtHome = this.flag.pos.equals(this.flagHomePosition);
 
     },
 
 
     // AI does processing in here
-    process: function() {
-    	console.log("AI processing function");
+    process: function () {
+        console.log("AI processing function");
 
         // Generate priorities object
         let priorities = {
-            acquireResource: this.resourceCapturePriorities[this.resourcePointsPending], 
+            acquireResource: this.resourceCapturePriorities[this.resourcePointsPending],
             acquireUnit: this.unitQtyPriorities[this.unitList.length],
             guardFlag: this.flag.isHome() ? this.defendFlagPriority : 0,
             returnFlag: this.flag.isHome() ? 0 : this.returnFlagPriority,
@@ -204,7 +205,7 @@ game.AI = me.Renderable.extend({
                         break;
                 }
             }
-            
+
         }
 
         // if (this.unitList.length == 0) {
@@ -226,8 +227,8 @@ game.AI = me.Renderable.extend({
     },
 
 
-    
-    getHighestPriority: function(priorities) {
+
+    getHighestPriority: function (priorities) {
         var highestP = "";
         var highVal = 0;
         for (let p in priorities) {
@@ -235,7 +236,7 @@ game.AI = me.Renderable.extend({
                 highVal = priorities[p];
                 highestP = p;
             } else if (priorities[p] == highVal) {
-                // need a tie breaker. 
+                // need a tie breaker.
                 if (Math.floor(Math.random() * 2) == 0) {
                     highVal = priorities[p];
                     highestP = p;
@@ -249,7 +250,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getUnitActionPriority: function(priorities) {
+    getUnitActionPriority: function (priorities) {
         var highestP = "";
         var highVal = 0;
         for (let p in priorities) {
@@ -260,7 +261,7 @@ game.AI = me.Renderable.extend({
                 highVal = priorities[p];
                 highestP = p;
             } else if (priorities[p] == highVal) {
-                // need a tie breaker. 
+                // need a tie breaker.
                 if (Math.floor(Math.random() * 2) == 0) {
                     highVal = priorities[p];
                     highestP = p;
@@ -275,7 +276,7 @@ game.AI = me.Renderable.extend({
 
 
     // Unit with highest speed attribute whose cost is less than or equal to my current resource count
-    getFastestUnitICanAfford: function() {
+    getFastestUnitICanAfford: function () {
         var fastest = "";
         var highSpeed = 0;
         var highAtt = 0;
@@ -336,32 +337,32 @@ game.AI = me.Renderable.extend({
 
 
     // Unit with highest attack attribute whose cost is less than or equal to my current resource count
-    getStrongestUnitICanAfford: function() {
+    getStrongestUnitICanAfford: function () {
 
     },
 
 
     // Unit with highest defense attribute whose cost is less than or equal to my current resource count
-    getToughestUnitICanAfford: function() {
+    getToughestUnitICanAfford: function () {
 
     },
 
 
     // Get the nearest resource point that hasn't been captured yet
-    getNearestUncapturedResource: function() {
+    getNearestUncapturedResource: function () {
         // TODO: compute location of nearest uncaptured resource point
-        return new me.Vector2d(2000,1200);
+        return new me.Vector2d(2000, 1200);
     },
-    
-
-
-    
 
 
 
 
-    
 
-    
+
+
+
+
+
+
 
 });

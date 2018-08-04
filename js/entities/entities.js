@@ -67,7 +67,7 @@ game.Unit = me.Entity.extend({
         this.name = settings.name;
         this.cost = settings.cost;
         this.attack = settings.attack;
-        this.range = settings.range;
+        this.range = settings.range * 10;
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
@@ -77,6 +77,7 @@ game.Unit = me.Entity.extend({
         this.isHoldingFlag = false;
         this.carriedFlag = {};
         this.team = game.data.player1;
+        this.lastAttack = 0;
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -112,6 +113,16 @@ game.Unit = me.Entity.extend({
     },
 
     update: function (dt) {
+
+        // check if we need to attack anything
+        var enemyPos = this.inRangeOfEnemy();
+        if (enemyPos) {
+            this.lastAttack += dt;
+            if (this.lastAttack >= 1000) {
+                this.unitAttack(enemyPos.x, enemyPos.y);
+                this.lastAttack = 0;
+            }
+        }
 
         // if there are points in our moveTo array, move
         if (this.moveTo) {
@@ -272,6 +283,32 @@ game.Unit = me.Entity.extend({
         }
         game.data.player1.removeUnit(this);
         me.game.world.removeChild(this);
+    },
+
+    inRangeOfEnemy: function () {
+        // using unit's range, each update, check if within firing range of an enemy
+        // if so, fire in an enemy's direction
+
+        // make a shape centered around center of unit -- width/height is unit's width and height + the unit's range
+        var detectionRect = new me.Rect(
+            this.pos.x,
+            this.pos.y,
+            this.width + this.range,
+            this.height + this.range
+        );
+        var allUnits = me.game.world.getChildByType(game.Unit);
+        for (var i = 0; i < allUnits.length; i++) {
+            var unit = allUnits[i];
+            if (this.player.ptype !== unit.player.ptype) {
+                if (detectionRect.containsPoint(unit.pos.x, unit.pos.y)) {
+                    return {
+                        "x": unit.pos.x,
+                        "y": unit.pos.y
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 });
@@ -369,7 +406,7 @@ game.flag = me.Entity.extend({
                 this.isHeld = false;
                 this.sendHome();
             }
-            
+
         } else {
             // Touched by a member of the opposite team
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
@@ -447,6 +484,7 @@ game.projectile = me.Entity.extend({
         this.alwaysUpdate = true;
         this.damage = settings.damage;
         this.ownerUnit = settings.ownerUnit;
+        this.speed = settings.speed;
 
         // no friendly fire:
         // if fired by a player, only collide with world or enemy units;
@@ -486,7 +524,7 @@ game.projectile = me.Entity.extend({
         return true;
     },
 
-    onCollision: function (response, other) {
+    onCollision: function (_, other) {
 
         var otherType = other.body.collisionType;
 
