@@ -67,7 +67,7 @@
   </object>
   <object id="39" name="TestJetpackAnimation" x="252.5" y="1023.5">
    <properties>
-    <property name="frameheight" type="int" value="80"/>
+    <property name="frameheight" type="int" value="75"/>
     <property name="image" value="standing"/>
    </properties>
    <point/>
