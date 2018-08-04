@@ -67,7 +67,7 @@ game.Unit = me.Entity.extend({
         // so that the entity object is created with the right size
         settings.framewidth = settings.width;
         settings.frameheight = settings.height / 16;   //16 frames per standing-animation spritesheet
-        
+
 
         console.log(settings.frameheight);
         console.log(settings.framewidth);
@@ -110,12 +110,12 @@ game.Unit = me.Entity.extend({
         }
 
         // Mark:
-        // trying to set standing animations working 
+        // trying to set standing animations working
         console.log(this.renderable);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
         this.renderable.anchorPoint.set(0.5, 0.5); //this isn't setting...you can see the anchor point is (0,0) in the console
-		
+
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -245,7 +245,7 @@ game.Unit = me.Entity.extend({
 
     move: function (x, y) {
         var start = new Vertex(this.pos.x, this.pos.y);
-        var end = new Vertex(x - (this.width / 2), y - (this.height));
+        var end = new Vertex(x, y);
         this.moveTo = shortestPath(start, end);
         // set next move immediately to allow for change in direction
         this.nextMove = this.moveTo.shift();
