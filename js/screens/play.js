@@ -216,6 +216,16 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD);
 
+
+        //Mark
+        //testing unit animations
+        blueflagstand1 = me.game.world.getChildByName("blueflagstand")[0];
+        testJetpack = new game.TestJetpackAnimation(blueflagstand1.pos.x + 70, blueflagstand1.pos.y + 170, {width: 51, height: 76, image: "jetpackSE", framewidth: 51, frameheight: 76});
+        flagZ = me.game.world.getChildByName("flags")[0].pos.z;
+        me.game.world.addChild(testJetpack, flagZ);
+
+
+
         // associate bases & spawn points with players
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];

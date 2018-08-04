@@ -77,8 +77,7 @@ var game = {
         me.pool.register("capture_point", game.capturePoint);
 
         //testing standing frames of jetpack guy
-        me.pool.register("TestJetpackAnimation", game.TestJetpackAnimation);
-
+       // me.pool.register("TestJetpackAnimation", game.TestJetpackAnimation);
 
         // add units to pool
         units = me.loader.getJSON("manifest").units;

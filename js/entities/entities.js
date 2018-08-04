@@ -2,19 +2,17 @@ game.TestJetpackAnimation = me.Entity.extend({
     // Constructor
     init: function (x, y, settings) {
 
-
-
         this._super(me.Entity, "init", [x, y, settings]);
-
+        this.renderable.anchorPoint.set(0.5, 0.5);
         //test all four faces (directions) of the standing frame
-        this.renderable.addAnimation("facingSE", [0, 1, 2, 3], 60);
-        this.renderable.setCurrentAnimation("facingSE");
+        this.renderable.addAnimation("facingSE_Jetpack", [0, 1, 2, 3], 60);
+        this.renderable.setCurrentAnimation("facingSE_Jetpack");
+        this.alwaysUpdate = true;
 
         this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
     },
 
 });
-
 
 
 /**
@@ -109,10 +107,9 @@ game.Unit = me.Entity.extend({
 
         // Mark:
         // trying to set standing animations working 
-        /*
         this.renderable.addAnimation("standingSE", [0, 1, 2, 3], 60);
         this.renderable.setCurrentAnimation("standingSE");
-		*/
+		
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
