@@ -6,6 +6,6 @@
     "speed": 2,
     "type": "rock",
     "cost": 1,
-    "image": "civtest",
+    "image": "standing",
     "projectile": "bullet"
 }
