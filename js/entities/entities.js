@@ -457,18 +457,41 @@ game.factory = me.Entity.extend({
 game.capturePoint = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
-        this.owner = ""; //human or AI currently owns, or "" for nobody owns
+        this.owner = null;
+        this.capturingUnit = null;
+        this.captureStatus = 0;
+        this.lastCaptureCheck = 0;
+        this.timeToCapture = 10; // time in seconds
 
         this.body.collisionType = me.collision.types.ACTION_OBJECT;
         this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
     },
 
+    update: function (dt) {
+        this.lastCaptureCheck += dt;
+        if (this.lastCaptureCheck >= 1000) {
+            if (this.capturingUnit === game.collisionTypes.PLAYER_UNIT) {
+                if (this.captureStatus !== this.timeToCapture) {
+                    this.captureStatus += 1;
+                }
+            } else if (this.capturingUnit === game.collisionTypes.ENEMY_UNIT) {
+                if (this.captureStatus !== -this.timeToCapture) {
+                    this.captureStatus -= 1;
+                }
+            }
 
-    onCollision: function (response, other) {
-        console.log("Resource point collision");
-        if (this.owner == "") {
-            //capture point
-        } else { }
+            if (this.captureStatus === this.timeToCapture) {
+                this.owner = game.data.player1;
+            } else if (this.captureStatus === -this.timeToCapture) {
+                this.owner = game.data.enemy;
+            }
+
+            this.lastCaptureCheck = 0;
+        }
+    },
+
+    onCollision: function (_, other) {
+        this.capturingUnit = other.body.collisionType;
 
         return false;
     },
