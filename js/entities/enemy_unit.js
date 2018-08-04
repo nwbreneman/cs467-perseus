@@ -15,7 +15,7 @@ game.EnemyUnit = game.Unit.extend({
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
-   
+
         this.name = settings.name;
         this.attack = settings.attack;
         this.range = settings.range;
@@ -37,7 +37,7 @@ game.EnemyUnit = game.Unit.extend({
         this.state = settings.initialState;
         this.moveTo = null;
         this.body.bounce = 0;
-        this.isHoldingFlag = false; 
+        this.isHoldingFlag = false;
         this.escortTarget = {};
 
         // Orders take the form of an object, with a type, and some additional settings
@@ -46,7 +46,8 @@ game.EnemyUnit = game.Unit.extend({
 
         // Temporarily not colliding with WORLD_SHAPE because there are some pathfinding issues at the moment
         this.body.collisionType = game.collisionTypes.ENEMY_UNIT;
-        this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | me.collision.types.COLLECTABLE_OBJECT | me.collision.types.ACTION_OBJECT);
+        this.body.setCollisionMask(
+            game.collisionTypes.PLAYER_UNIT | me.collision.types.COLLECTABLE_OBJECT | me.collision.types.ACTION_OBJECT | me.collision.types.PROJECTILE_OBJECT);
     },
 
 
@@ -96,7 +97,7 @@ game.EnemyUnit = game.Unit.extend({
 
 
     // Enemy specific override
-    die: function() {
+    die: function () {
         this.changeState('dying');
     },
 
