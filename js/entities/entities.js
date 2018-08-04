@@ -2,17 +2,19 @@ game.TestJetpackAnimation = me.Entity.extend({
     // Constructor
     init: function (x, y, settings) {
 
+
+
         this._super(me.Entity, "init", [x, y, settings]);
-        this.renderable.anchorPoint.set(0.5, 0.5);
+
         //test all four faces (directions) of the standing frame
-        this.renderable.addAnimation("facingSE_Jetpack", [0, 1, 2, 3], 60);
-        this.renderable.setCurrentAnimation("facingSE_Jetpack");
-        this.alwaysUpdate = true;
+        this.renderable.addAnimation("facingSE", [4, 5, 6, 7], 60);
+        this.renderable.setCurrentAnimation("facingSE");
 
         this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
     },
 
 });
+
 
 
 /**
@@ -64,11 +66,15 @@ game.Unit = me.Entity.extend({
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
         settings.framewidth = settings.width;
-        settings.frameheight = settings.height;
+        settings.frameheight = settings.height / 16;   //16 frames per standing-animation spritesheet
+        
+
+        console.log(settings.frameheight);
+        console.log(settings.framewidth);
 
         // redefine the default shape (used to define path) with a shape matching the renderable
         settings.shapes = [];
-        settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
+        settings.shapes[0] = new me.Rect(x, y, settings.framewidth, settings.frameheight);
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
@@ -87,7 +93,7 @@ game.Unit = me.Entity.extend({
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
-        this.image = settings.image;
+        this.image = settings.image; //loads with standing spritesheet, from JSON file in /data/units
 
         this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
@@ -103,12 +109,12 @@ game.Unit = me.Entity.extend({
             }
         }
 
-        this.renderable.anchorPoint.set(0.5, 0.5);
-
         // Mark:
         // trying to set standing animations working 
-        this.renderable.addAnimation("standingSE", [0, 1, 2, 3], 60);
-        this.renderable.setCurrentAnimation("standingSE");
+        console.log(this.renderable);
+        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
+        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+        this.renderable.anchorPoint.set(0.5, 0.5); //this isn't setting...you can see the anchor point is (0,0) in the console
 		
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
@@ -192,7 +198,7 @@ game.Unit = me.Entity.extend({
         if (this.selected) {
             if (!this.selectedBox && this.player.ptype === "Human") {
                 pos = this.getBounds().pos;
-                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x + (this.width / 2), pos.y + (this.height / 1.25)), 2);
+                this.selectedBox = me.game.world.addChild(me.pool.pull("selectedShape", pos.x /*+ (this.width / 2)*/, pos.y /*+ (this.height / 1.25)*/), 2);
             }
         } else {
             // remove select box if present and unit not selected

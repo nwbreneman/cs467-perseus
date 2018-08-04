@@ -25,8 +25,8 @@ var player = function (name, ptype) {
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
                 let unit = me.pool.pull(unitName, 10, 10, settings);
-                unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
-                unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
+                unit.pos.x = this.spawnPoint.pos.x;// + unit.width * 0.1;
+                unit.pos.y = this.spawnPoint.pos.y;// - unit.height * 0.5;
                 unit.player = this;
                 this.unitResources -= settings.cost;
                 this.units.push(unit);
