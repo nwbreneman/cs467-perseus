@@ -462,6 +462,7 @@ game.capturePoint = me.Entity.extend({
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
         this.timeToCapture = 10; // time in seconds
+        this.rate = settings.rate || 1; // resources gained per second
 
         this.body.collisionType = me.collision.types.ACTION_OBJECT;
         this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
@@ -470,6 +471,8 @@ game.capturePoint = me.Entity.extend({
     update: function (dt) {
         this.lastCaptureCheck += dt;
         if (this.lastCaptureCheck >= 1000) {
+
+            // capture point if not already captured for unit's player
             if (this.capturingUnit === game.collisionTypes.PLAYER_UNIT) {
                 if (this.captureStatus !== this.timeToCapture) {
                     this.captureStatus += 1;
@@ -480,10 +483,32 @@ game.capturePoint = me.Entity.extend({
                 }
             }
 
-            if (this.captureStatus === this.timeToCapture) {
+            var playerOwner = (this.owner === game.data.player1);
+            var playerCapture = (this.captureStatus === this.timeToCapture);
+            var enemyOwner = (this.owner === game.data.enemy);
+            var enemyCapture = (this.captureStatus === -this.timeToCapture);
+
+            // figure out if there's a change in owner
+            // if there is, increase/decrease resource rate as appropriate
+            // probably a simpler logical construct here
+            if (playerCapture && !playerOwner) {
+                if (enemyOwner) {
+                    this.owner.loseResourcePoint(this.rate);
+                }
                 this.owner = game.data.player1;
-            } else if (this.captureStatus === -this.timeToCapture) {
+                this.owner.captureResourcePoint(this.rate);
+            } else if (enemyCapture && !enemyOwner) {
+                if (playerOwner) {
+                    this.owner.loseResourcePoint(this.rate);
+                }
                 this.owner = game.data.enemy;
+                this.owner.captureResourcePoint(this.rate);
+            }
+
+            // no owner once status reaches 0
+            if (this.captureStatus === 0 && this.owner) {
+                this.owner.loseResourcePoint(this.rate);
+                this.owner = null;
             }
 
             this.lastCaptureCheck = 0;
