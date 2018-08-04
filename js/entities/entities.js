@@ -67,7 +67,7 @@ game.Unit = me.Entity.extend({
         this.name = settings.name;
         this.cost = settings.cost;
         this.attack = settings.attack;
-        this.range = settings.range * 10;
+        this.range = settings.range * 100;
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
@@ -209,11 +209,10 @@ game.Unit = me.Entity.extend({
         var NPC_OBJECT = me.collision.types.NPC_OBJECT;
 
         if (aCollType === NPC_OBJECT || bCollType === NPC_OBJECT || other.body.collisionType == me.collision.types.WORLD_SHAPE) {
-            console.log("world shape");
             if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
-                this.cancelMovement();
                 response.a.pos.sub(response.overlapN);
             }
+            return true;
         }
         return false;
     },
