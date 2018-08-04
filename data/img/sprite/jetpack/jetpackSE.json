@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "color6_Infantry_ST_Large_face0_0",
+	"frame": {"x":154,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":20,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color6_Infantry_ST_Large_face0_1",
+	"frame": {"x":52,"y":1,"w":49,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":19,"w":49,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color6_Infantry_ST_Large_face0_2",
+	"frame": {"x":1,"y":1,"w":49,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":18,"w":49,"h":74},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "color6_Infantry_ST_Large_face0_3",
+	"frame": {"x":103,"y":1,"w":49,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":19,"w":49,"h":73},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "jetpackSE.png",
+	"format": "RGBA8888",
+	"size": {"w":204,"h":76},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:24a9abd19b5769dacc75cfb0c28d3ad9:abcf4c98ef1dd71729ef012ac3fcbe77:7eca50d1feb264583c50959e40bba4b2$"
+}
+}
