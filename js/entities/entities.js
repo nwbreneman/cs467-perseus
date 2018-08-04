@@ -470,14 +470,15 @@ game.capturePoint = me.Entity.extend({
 
     update: function (dt) {
         this.lastCaptureCheck += dt;
-        if (this.lastCaptureCheck >= 1000) {
+        if (this.lastCaptureCheck >= 1000 && this.capturingUnit) {
+            var bodyType = this.capturingUnit.body.collisionType;
 
             // capture point if not already captured for unit's player
-            if (this.capturingUnit === game.collisionTypes.PLAYER_UNIT) {
+            if (bodyType === game.collisionTypes.PLAYER_UNIT) {
                 if (this.captureStatus !== this.timeToCapture) {
                     this.captureStatus += 1;
                 }
-            } else if (this.capturingUnit === game.collisionTypes.ENEMY_UNIT) {
+            } else if (bodyType === game.collisionTypes.ENEMY_UNIT) {
                 if (this.captureStatus !== -this.timeToCapture) {
                     this.captureStatus -= 1;
                 }
@@ -493,30 +494,34 @@ game.capturePoint = me.Entity.extend({
             // probably a simpler logical construct here
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
-                    this.owner.loseResourcePoint(this.rate);
+                    this.owner.changeResourceRate(-this.rate);
                 }
                 this.owner = game.data.player1;
-                this.owner.captureResourcePoint(this.rate);
+                this.owner.changeResourceRate(this.rate);
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
-                    this.owner.loseResourcePoint(this.rate);
+                    this.owner.changeResourceRate(-this.rate);
                 }
                 this.owner = game.data.enemy;
-                this.owner.captureResourcePoint(this.rate);
+                this.owner.changeResourceRate(this.rate);
             }
 
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
-                this.owner.loseResourcePoint(this.rate);
+                this.owner.changeResourceRate(-this.rate);
                 this.owner = null;
             }
 
             this.lastCaptureCheck = 0;
+
+            if (!me.collision.check(this)) {
+                this.capturingUnit = null;
+            }
         }
     },
 
     onCollision: function (_, other) {
-        this.capturingUnit = other.body.collisionType;
+        this.capturingUnit = other;
 
         return false;
     },

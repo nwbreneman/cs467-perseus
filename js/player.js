@@ -11,13 +11,17 @@ var player = function (name, ptype) {
         this.ptype = ptype;
     }
     this.unitResources = 9999;
+    this.resourceRate = 0;
     // Mark: I'm adding trace statements throughout to monitor unit purchasing
-    console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
+    // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
     this.units = [];
     this.selectedUnits = [];
     // reference to player's base for buying units & spawn point
     this.base = null;
     this.spawnPoint = null;
+
+    // interval in milliseconds to gain resources
+    this.resourceGainInterval = 1000;
 
     // Buys a unit given a unit name (equivalent to JSON file name)
     this.buyUnit = function (unitName) {
@@ -85,5 +89,21 @@ var player = function (name, ptype) {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].unitAttack(x, y);
         }
+    }
+
+    this.changeResourceRate = function (rate) {
+        this.resourceRate += rate;
+        if (this.ratePromise) {
+            me.timer.clearInterval(this.ratePromise);
+        }
+
+        this.ratePromise = me.timer.setInterval(
+            this.increaseResource.bind(this),
+            this.resourceGainInterval
+        );
+    }
+
+    this.increaseResource = function () {
+        this.unitResources += this.resourceRate;
     }
 }
