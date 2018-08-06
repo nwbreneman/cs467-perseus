@@ -67,10 +67,15 @@ game.Unit = me.Entity.extend({
         // so that the entity object is created with the right size
         settings.framewidth = settings.width;
         settings.frameheight = settings.height / 16;   //16 frames per standing-animation spritesheet
+        settings.height = settings.height / 16;
+        settings.anchorPoint = new me.Vector2d(0, 0);
 
 
-        console.log(settings.frameheight);
-        console.log(settings.framewidth);
+        console.log("width: "+settings.width);
+        console.log("height: "+settings.height);
+        console.log("framewidth: "+settings.framewidth);
+        console.log("frameheight: "+settings.frameheight);
+        
 
         // redefine the default shape (used to define path) with a shape matching the renderable
         settings.shapes = [];
@@ -113,16 +118,20 @@ game.Unit = me.Entity.extend({
         // trying to set standing animations working
         console.log(this.renderable);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
-        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-        this.renderable.anchorPoint.set(0.5, 0.5); //this isn't setting...you can see the anchor point is (0,0) in the console
+        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
 
-
+  
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
 
     /** Registers this entity to pointer events when the entity is created */
     onActivateEvent: function () {
         me.input.registerPointerEvent("pointerdown", this, this.pointerDown.bind(this));
+        //spawn facing southeast
+        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+
     },
 
     /**
@@ -130,6 +139,10 @@ game.Unit = me.Entity.extend({
      * to selection.
      */
     pointerDown: function () {
+         
+        //Just adding this for progress report demonstration video
+        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+
         if (me.input.isKeyPressed("shift")) {
             this.player.addSelectedUnit(this);
         } else {
