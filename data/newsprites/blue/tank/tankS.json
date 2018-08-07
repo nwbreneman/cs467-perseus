@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "tankS0",
+	"frame": {"x":1,"y":1,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS1",
+	"frame": {"x":1,"y":76,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS2",
+	"frame": {"x":1,"y":151,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS3",
+	"frame": {"x":1,"y":226,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS4",
+	"frame": {"x":1,"y":301,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS5",
+	"frame": {"x":1,"y":376,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS6",
+	"frame": {"x":1,"y":451,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS7",
+	"frame": {"x":1,"y":526,"w":57,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":23,"w":57,"h":73},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS8",
+	"frame": {"x":1,"y":739,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":32,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS9",
+	"frame": {"x":1,"y":808,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":32,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS10",
+	"frame": {"x":1,"y":601,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":32,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS11",
+	"frame": {"x":1,"y":670,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":32,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS12",
+	"frame": {"x":1,"y":877,"w":57,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":33,"w":57,"h":66},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS13",
+	"frame": {"x":1,"y":945,"w":57,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":33,"w":57,"h":66},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS14",
+	"frame": {"x":1,"y":1013,"w":57,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":33,"w":57,"h":66},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "tankS15",
+	"frame": {"x":1,"y":1081,"w":57,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":33,"w":57,"h":66},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "tankS.png",
+	"format": "RGBA8888",
+	"size": {"w":60,"h":1148},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2339614b821ed49b02427abe02365d7c:d5cf4778627eef9a3892abf10688cad5:303904c9b9a2080ed984da8fe666d341$"
+}
+}
