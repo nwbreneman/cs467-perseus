@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "enemycivilianS0",
+	"frame": {"x":2,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS1",
+	"frame": {"x":31,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS2",
+	"frame": {"x":60,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS3",
+	"frame": {"x":89,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS4",
+	"frame": {"x":118,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS5",
+	"frame": {"x":147,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS6",
+	"frame": {"x":176,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS7",
+	"frame": {"x":205,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS8",
+	"frame": {"x":234,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS9",
+	"frame": {"x":263,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS10",
+	"frame": {"x":292,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS11",
+	"frame": {"x":321,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS12",
+	"frame": {"x":350,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS13",
+	"frame": {"x":379,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS14",
+	"frame": {"x":408,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemycivilianS15",
+	"frame": {"x":437,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemycivilianS.png",
+	"format": "RGBA8888",
+	"size": {"w":464,"h":60},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2c258a7b646b33f749ffb3a02e0f2a92:1c075247daa80800b639ab440811280c:9972774ab8fe1c31465194c3b05744fb$"
+}
+}

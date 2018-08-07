@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "enemybikerS0",
+	"frame": {"x":1,"y":1,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS1",
+	"frame": {"x":57,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS2",
+	"frame": {"x":112,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS3",
+	"frame": {"x":166,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS4",
+	"frame": {"x":221,"y":1,"w":47,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":47,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS5",
+	"frame": {"x":274,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS6",
+	"frame": {"x":328,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS7",
+	"frame": {"x":383,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS8",
+	"frame": {"x":437,"y":1,"w":47,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":47,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS9",
+	"frame": {"x":490,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS10",
+	"frame": {"x":544,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS11",
+	"frame": {"x":599,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS12",
+	"frame": {"x":653,"y":1,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS13",
+	"frame": {"x":709,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS14",
+	"frame": {"x":764,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemybikerS15",
+	"frame": {"x":818,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemybikerS.png",
+	"format": "RGBA8888",
+	"size": {"w":868,"h":80},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:826daa06a017a3f48beba7c5a8858f10:66481f0952c8201f1059ebcf5a357539:16aceba81eb6940f8906cd05e088f973$"
+}
+}

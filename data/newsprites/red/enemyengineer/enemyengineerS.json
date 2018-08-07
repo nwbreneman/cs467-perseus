@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "enemyengineerS0",
+	"frame": {"x":2,"y":2,"w":33,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":31,"w":33,"h":60},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS1",
+	"frame": {"x":39,"y":2,"w":33,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":31,"w":33,"h":60},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS2",
+	"frame": {"x":76,"y":2,"w":33,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":31,"w":33,"h":60},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS3",
+	"frame": {"x":113,"y":2,"w":33,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":31,"w":33,"h":60},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS4",
+	"frame": {"x":150,"y":2,"w":40,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":31,"w":40,"h":62},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS5",
+	"frame": {"x":194,"y":2,"w":40,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":31,"w":40,"h":62},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS6",
+	"frame": {"x":238,"y":2,"w":40,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":31,"w":40,"h":62},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS7",
+	"frame": {"x":282,"y":2,"w":40,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":31,"w":40,"h":62},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS8",
+	"frame": {"x":326,"y":2,"w":33,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":32,"w":33,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS9",
+	"frame": {"x":363,"y":2,"w":33,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":32,"w":33,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS10",
+	"frame": {"x":400,"y":2,"w":33,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":32,"w":33,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS11",
+	"frame": {"x":437,"y":2,"w":33,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":32,"w":33,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS12",
+	"frame": {"x":474,"y":2,"w":40,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":32,"w":40,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS13",
+	"frame": {"x":518,"y":2,"w":40,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":32,"w":40,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS14",
+	"frame": {"x":562,"y":2,"w":40,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":32,"w":40,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyengineerS15",
+	"frame": {"x":606,"y":2,"w":40,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":32,"w":40,"h":58},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemyengineerS.png",
+	"format": "RGBA8888",
+	"size": {"w":648,"h":70},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c6296297b715f658c737f6f7964e6c73:5e2c2594fa7e362cc02e70a90855ac4c:f5071a05cbdf62fa0ac63b4cacbe0cd3$"
+}
+}
