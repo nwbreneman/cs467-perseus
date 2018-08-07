@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "bikerS0",
+	"frame": {"x":1,"y":1,"w":50,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":20,"w":50,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS1",
+	"frame": {"x":57,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS2",
+	"frame": {"x":112,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS3",
+	"frame": {"x":166,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS4",
+	"frame": {"x":221,"y":1,"w":47,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":47,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS5",
+	"frame": {"x":274,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS6",
+	"frame": {"x":328,"y":1,"w":49,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":49,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS7",
+	"frame": {"x":383,"y":1,"w":48,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":48,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS8",
+	"frame": {"x":437,"y":1,"w":47,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":47,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS9",
+	"frame": {"x":490,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS10",
+	"frame": {"x":544,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS11",
+	"frame": {"x":599,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS12",
+	"frame": {"x":653,"y":1,"w":50,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":50,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS13",
+	"frame": {"x":709,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS14",
+	"frame": {"x":764,"y":1,"w":48,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":22,"w":48,"h":72},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bikerS15",
+	"frame": {"x":818,"y":1,"w":49,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":22,"w":49,"h":72},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "bikerS.png",
+	"format": "RGBA8888",
+	"size": {"w":868,"h":80},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ec589af3df3651e498ac711e98b5d2f4:69b46629efb53dd18d6e158952325c6a:bb08d3660a1fe8a2026e92fc45db6bd3$"
+}
+}

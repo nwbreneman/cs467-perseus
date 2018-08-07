@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "civilianS0",
+	"frame": {"x":2,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS1",
+	"frame": {"x":31,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS2",
+	"frame": {"x":60,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS3",
+	"frame": {"x":89,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS4",
+	"frame": {"x":118,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS5",
+	"frame": {"x":147,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS6",
+	"frame": {"x":176,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS7",
+	"frame": {"x":205,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":33,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS8",
+	"frame": {"x":234,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS9",
+	"frame": {"x":263,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS10",
+	"frame": {"x":292,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS11",
+	"frame": {"x":321,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":36,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS12",
+	"frame": {"x":350,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS13",
+	"frame": {"x":379,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS14",
+	"frame": {"x":408,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "civilianS15",
+	"frame": {"x":437,"y":2,"w":25,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":35,"w":25,"h":55},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "civilianS.png",
+	"format": "RGBA8888",
+	"size": {"w":464,"h":60},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c61493bb49ed1bb1be4849bf8cec96a1:f27d9883d9ac1e560513b30297ebbb49:8fa062a045ecd164de9759aa4e36f6fb$"
+}
+}

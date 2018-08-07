@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "bazookaS0",
+	"frame": {"x":2,"y":2,"w":44,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":36,"w":44,"h":56},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS1",
+	"frame": {"x":50,"y":2,"w":44,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":36,"w":44,"h":56},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS2",
+	"frame": {"x":98,"y":2,"w":44,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":36,"w":44,"h":56},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS3",
+	"frame": {"x":146,"y":2,"w":44,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":36,"w":44,"h":56},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS4",
+	"frame": {"x":194,"y":2,"w":32,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":33,"w":32,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS5",
+	"frame": {"x":230,"y":2,"w":32,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":33,"w":32,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS6",
+	"frame": {"x":266,"y":2,"w":32,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":33,"w":32,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS7",
+	"frame": {"x":302,"y":2,"w":32,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":33,"w":32,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS8",
+	"frame": {"x":338,"y":2,"w":44,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":32,"w":44,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS9",
+	"frame": {"x":386,"y":2,"w":44,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":32,"w":44,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS10",
+	"frame": {"x":434,"y":2,"w":44,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":32,"w":44,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS11",
+	"frame": {"x":482,"y":2,"w":44,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":32,"w":44,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS12",
+	"frame": {"x":530,"y":2,"w":32,"h":59},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":38,"w":32,"h":59},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS13",
+	"frame": {"x":566,"y":2,"w":32,"h":59},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":38,"w":32,"h":59},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS14",
+	"frame": {"x":602,"y":2,"w":32,"h":59},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":38,"w":32,"h":59},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bazookaS15",
+	"frame": {"x":638,"y":2,"w":32,"h":59},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":38,"w":32,"h":59},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "bazookaS.png",
+	"format": "RGBA8888",
+	"size": {"w":672,"h":63},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:75403a2b7b074f130cc319ccfd32f6d6:ef93fad0f05d8b8edd1874e390a33fee:96f0d0a984386d4de19b6ef9957b580e$"
+}
+}
