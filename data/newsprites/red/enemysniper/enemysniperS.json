@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "enemysniperS0",
+	"frame": {"x":2,"y":2,"w":52,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":52,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS1",
+	"frame": {"x":2,"y":73,"w":52,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":52,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS2",
+	"frame": {"x":2,"y":144,"w":52,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":52,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS3",
+	"frame": {"x":2,"y":215,"w":52,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":52,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS4",
+	"frame": {"x":2,"y":286,"w":46,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":46,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS5",
+	"frame": {"x":2,"y":353,"w":46,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":46,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS6",
+	"frame": {"x":2,"y":420,"w":46,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":46,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS7",
+	"frame": {"x":2,"y":487,"w":46,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":31,"w":46,"h":63},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS8",
+	"frame": {"x":2,"y":554,"w":52,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":33,"w":52,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS9",
+	"frame": {"x":2,"y":616,"w":52,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":33,"w":52,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS10",
+	"frame": {"x":2,"y":678,"w":52,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":33,"w":52,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS11",
+	"frame": {"x":2,"y":740,"w":52,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":33,"w":52,"h":58},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS12",
+	"frame": {"x":2,"y":802,"w":44,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":44,"h":65},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS13",
+	"frame": {"x":2,"y":871,"w":44,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":44,"h":65},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS14",
+	"frame": {"x":2,"y":940,"w":44,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":44,"h":65},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemysniperS15",
+	"frame": {"x":2,"y":1009,"w":44,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":33,"w":44,"h":65},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemysniperS.png",
+	"format": "RGBA8888",
+	"size": {"w":60,"h":1076},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:925365f152386b9c28cc6b706bb00c80:acee0d2c3360f2c99df4479d9f69c4ee:79ef22a996e46207d12217798a20dcc7$"
+}
+}

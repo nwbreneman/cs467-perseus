@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "enemyplaneS0",
+	"frame": {"x":2,"y":2,"w":55,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":21,"w":55,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS1",
+	"frame": {"x":2,"y":78,"w":55,"h":77},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":55,"h":77},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS2",
+	"frame": {"x":2,"y":155,"w":55,"h":78},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":19,"w":55,"h":78},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS3",
+	"frame": {"x":2,"y":233,"w":55,"h":77},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":20,"w":55,"h":77},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS4",
+	"frame": {"x":2,"y":310,"w":55,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":21,"w":55,"h":76},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS5",
+	"frame": {"x":2,"y":386,"w":55,"h":77},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":20,"w":55,"h":77},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS6",
+	"frame": {"x":2,"y":463,"w":55,"h":78},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":19,"w":55,"h":78},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS7",
+	"frame": {"x":2,"y":541,"w":55,"h":77},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":20,"w":55,"h":77},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS8",
+	"frame": {"x":2,"y":618,"w":55,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":31,"w":55,"h":66},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS9",
+	"frame": {"x":2,"y":684,"w":55,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":30,"w":55,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS10",
+	"frame": {"x":2,"y":751,"w":55,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":29,"w":55,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS11",
+	"frame": {"x":2,"y":819,"w":55,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":30,"w":55,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS12",
+	"frame": {"x":2,"y":886,"w":55,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":30,"w":55,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS13",
+	"frame": {"x":2,"y":953,"w":55,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":29,"w":55,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS14",
+	"frame": {"x":2,"y":1021,"w":55,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":30,"w":55,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "enemyplaneS15",
+	"frame": {"x":2,"y":1088,"w":55,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":31,"w":55,"h":66},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "enemyplaneS.png",
+	"format": "RGBA8888",
+	"size": {"w":60,"h":1156},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d3c7ca2d61fc66fc4067e80cae6af39c:b5cad29498104da451a1dcb7de1aea65:2838d7e73e1c67d9ebc6bc86cf884618$"
+}
+}
