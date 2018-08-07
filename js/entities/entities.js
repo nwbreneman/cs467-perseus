@@ -398,9 +398,7 @@ game.flag = me.Entity.extend({
             if (this.isHome()) {
                 //console.log("Flag is at home");
                 if (other.isHoldingFlag) {
-                    if (game.data.sylvanLogs) {
-                        console.log("VICTORY!");
-                    }
+                    game.sylvanlog("VICTORY!");
                     
                 } else {
                     // If this flag is at home, and the unit is NOT carrying a flag, then do nothing

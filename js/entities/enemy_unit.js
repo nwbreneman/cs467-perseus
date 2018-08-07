@@ -53,9 +53,7 @@ game.EnemyUnit = game.Unit.extend({
 
     /** When the entity is created */
     onActivateEvent: function () {
-        if (game.data.sylvanLogs) {
-            console.log("enemy unit is created");
-        }
+        game.sylvanlog("enemy unit is created");
         
         this.changeState(this.state);
     },
@@ -66,9 +64,7 @@ game.EnemyUnit = game.Unit.extend({
     // other parameters: depending on the type }
     // TBD, the unit should act immediately upon receiving a command from the 'boss'
     command: function (order) {
-        if (game.data.sylvanLogs) {
-            console.log("Enemy unit received command:", order);
-        }
+        game.sylvanlog("Enemy unit received command:", order);
         this.currentOrders = order;
         switch (order.type) {
             case 'move to':
@@ -95,9 +91,7 @@ game.EnemyUnit = game.Unit.extend({
                 this.changeState("moving");
                 break;
             default:
-                if (game.data.sylvanLogs) {
-                    console.log("command(): order type \'" + order.type + "\' not handled");
-                }
+                game.sylvanlog("command(): order type \'" + order.type + "\' not handled");
                 break;
         }
 
@@ -112,17 +106,14 @@ game.EnemyUnit = game.Unit.extend({
 
 
     pickedUpFlag: function() {
-        if (game.data.sylvanLogs) {
-            console.log("Enemy unit: picked up the flag.");
-        }
+        game.sylvanlog("Enemy unit: picked up the flag.");
         
         this.controller.report(this, 'got flag');
     },
 
     capturedResource: function(resourcePoint) {
-        if (game.data.sylvanLogs) {
-            console.log("Enemy Unit: captured a resource point:", resourcePoint);
-        }
+        game.sylvanlog("Enemy Unit: captured a resource point:", resourcePoint);
+        
         this.changeState("idle");
 
     },
@@ -143,20 +134,17 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (this.state) {
             case 'spawning':
-                if (game.data.sylvanLogs) {
-                    console.log("enemy unit spawning at spawn point:", this.pos.toString());
-                }
+                game.sylvanlog("enemy unit spawning at spawn point:", this.pos.toString());
+            
                 this.spawnTimeout = me.timer.getTime() + 1000;
                 break;
             case 'idle':
-                if (game.data.sylvanLogs) {
-                    console.log("unit is now idle");
-                }
+                game.sylvanlog("unit is now idle");
+                
                 break;
             case 'moving':
-                if (game.data.sylvanLogs) {
-                    console.log("unit is now moving to", this.moveDestination.toString());
-                }
+                game.sylvanlog("unit is now moving to", this.moveDestination.toString());
+                
                 this.move(this.moveDestination.x, this.moveDestination.y);
                 break;
             case 'dying':
@@ -164,17 +152,13 @@ game.EnemyUnit = game.Unit.extend({
                 this.deathTimeout = me.timer.getTime() + 1000;
                 break;
             case 'dead':
-                if (game.data.sylvanLogs) {
-                    console.log("He's dead, Jim!");
-                }
+                game.sylvanlog("He's dead, Jim!");
                 
                 this.controller.report(this, 'dead');
                 me.game.world.removeChild(this);
                 break;
             default:
-                if (game.data.sylvanLogs) {
-                    console.log("enterState(): state \'" + newState + "\' not handled");
-                }
+                game.sylvanlog("enterState(): state \'" + newState + "\' not handled");
                 
                 break;
         }
@@ -188,9 +172,7 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (oldState) {
             default:
-                if (game.data.sylvanLogs) {
-                    console.log("leaveState(): state \'" + oldState + "\' not handled");
-                }
+                game.sylvanlog("leaveState(): state \'" + oldState + "\' not handled");
                 
                 break;
         }
