@@ -53,7 +53,10 @@ game.EnemyUnit = game.Unit.extend({
 
     /** When the entity is created */
     onActivateEvent: function () {
-        console.log("enemy unit is created");
+        if (game.data.sylvanLogs) {
+            console.log("enemy unit is created");
+        }
+        
         this.changeState(this.state);
     },
 
@@ -63,7 +66,9 @@ game.EnemyUnit = game.Unit.extend({
     // other parameters: depending on the type }
     // TBD, the unit should act immediately upon receiving a command from the 'boss'
     command: function (order) {
-        console.log("Enemy unit received command:", order);
+        if (game.data.sylvanLogs) {
+            console.log("Enemy unit received command:", order);
+        }
         this.currentOrders = order;
         switch (order.type) {
             case 'move to':
@@ -90,7 +95,9 @@ game.EnemyUnit = game.Unit.extend({
                 this.changeState("moving");
                 break;
             default:
-                console.log("command(): order type \'" + order.type + "\' not handled");
+                if (game.data.sylvanLogs) {
+                    console.log("command(): order type \'" + order.type + "\' not handled");
+                }
                 break;
         }
 
@@ -105,12 +112,17 @@ game.EnemyUnit = game.Unit.extend({
 
 
     pickedUpFlag: function() {
-        console.log("Enemy unit: picked up the flag.");
+        if (game.data.sylvanLogs) {
+            console.log("Enemy unit: picked up the flag.");
+        }
+        
         this.controller.report(this, 'got flag');
     },
 
     capturedResource: function(resourcePoint) {
-        console.log("Enemy Unit: captured a resource point:", resourcePoint);
+        if (game.data.sylvanLogs) {
+            console.log("Enemy Unit: captured a resource point:", resourcePoint);
+        }
         this.changeState("idle");
 
     },
@@ -131,14 +143,20 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (this.state) {
             case 'spawning':
-                console.log("enemy unit spawning at spawn point:", this.pos.toString());
+                if (game.data.sylvanLogs) {
+                    console.log("enemy unit spawning at spawn point:", this.pos.toString());
+                }
                 this.spawnTimeout = me.timer.getTime() + 1000;
                 break;
             case 'idle':
-                console.log("unit is now idle");
+                if (game.data.sylvanLogs) {
+                    console.log("unit is now idle");
+                }
                 break;
             case 'moving':
-                console.log("unit is now moving to", this.moveDestination.toString());
+                if (game.data.sylvanLogs) {
+                    console.log("unit is now moving to", this.moveDestination.toString());
+                }
                 this.move(this.moveDestination.x, this.moveDestination.y);
                 break;
             case 'dying':
@@ -146,12 +164,18 @@ game.EnemyUnit = game.Unit.extend({
                 this.deathTimeout = me.timer.getTime() + 1000;
                 break;
             case 'dead':
-                console.log("He's dead, Jim!");
+                if (game.data.sylvanLogs) {
+                    console.log("He's dead, Jim!");
+                }
+                
                 this.controller.report(this, 'dead');
                 me.game.world.removeChild(this);
                 break;
             default:
-                console.log("enterState(): state \'" + newState + "\' not handled");
+                if (game.data.sylvanLogs) {
+                    console.log("enterState(): state \'" + newState + "\' not handled");
+                }
+                
                 break;
         }
 
@@ -164,7 +188,10 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (oldState) {
             default:
-                console.log("leaveState(): state \'" + oldState + "\' not handled");
+                if (game.data.sylvanLogs) {
+                    console.log("leaveState(): state \'" + oldState + "\' not handled");
+                }
+                
                 break;
         }
 

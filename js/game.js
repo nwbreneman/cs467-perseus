@@ -13,6 +13,7 @@ var game = {
         player1: new player("Player 1", "Human"),
         enemy: new player("Enemy", "AI"),
         difficulty: "Easy",
+        sylvanLogs: false,  // false to suppress sylvan's console logs
     },
 
     // Run on page load.
@@ -98,5 +99,7 @@ var game = {
 
         // Start the game.
         me.state.change(me.state.MENU);
-    }
+    },
+
+
 };

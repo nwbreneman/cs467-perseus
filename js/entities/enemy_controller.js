@@ -8,7 +8,6 @@ game.AI = me.Renderable.extend({
         // (zero size makes this object non-renderable, so the Renderable.draw method won't get called)
         this._super(me.Renderable, 'init', [0, 0, 0, 0]);
 
-        console.log("Enemy AI instantiated");
 
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
@@ -28,12 +27,16 @@ game.AI = me.Renderable.extend({
         // This is a parameter that can be tweaked to hopefully alter the difficulty of the AI
 
         if (settings.difficulty == "Easy") {
-            console.log("Easy difficulty.");
+            if (game.data.sylvanLogs) {
+                console.log("Easy difficulty.");
+            }
 
             this.processInterval = 150;
             this.resourceRate = 1;
         } else {
-            console.log("Hard difficulty.");
+            if (game.data.sylvanLogs) {
+                console.log("Hard difficulty.");
+            }
 
             this.processInterval = 30;
             this.resourceRate = 4;
@@ -87,8 +90,9 @@ game.AI = me.Renderable.extend({
 
     // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
     buyUnit: function (name) {
-
-        console.log("Trying to buy", name);
+        if (game.data.sylvanLogs) {
+            console.log("Trying to buy", name);
+        }
         let settings = me.loader.getJSON(name);
 
         if (settings !== null) {
@@ -97,7 +101,9 @@ game.AI = me.Renderable.extend({
             settings.initialState = 'spawning';
 
             if (this.resources >= settings.cost) {
-                console.log("Purchasing unit", name);
+                if (game.data.sylvanLogs) {
+                    console.log("Purchasing unit", name);
+                }
                 var unit = me.pool.pull(name, 20, 20, settings);
                 unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
@@ -119,16 +125,22 @@ game.AI = me.Renderable.extend({
     // Receive a message from a unit so we can act on the information
     report: function (unit, message) {
         if (message == 'dead') {
-            console.log("AI Controller: Unit reporting as dead");
+            if (game.data.sylvanLogs) {
+                console.log("AI Controller: Unit reporting as dead");
+            }
             this.removeUnitFromList(unit);
         }
         if (message == "return flag") {
-            console.log("AI Controller: Unit reporting to return the flag");
+            if (game.data.sylvanLogs) {
+                console.log("AI Controller: Unit reporting to return the flag");
+            }
 
             this.flag.sendHome();
         }
         if (message == "got flag") {
-            console.log("AI Controller: Unit reporting picked up flag");
+            if (game.data.sylvanLogs) {
+                console.log("AI Controller: Unit reporting picked up flag");
+            }
             destination = this.flag.homePosition;
             unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
         }
@@ -161,7 +173,9 @@ game.AI = me.Renderable.extend({
 
     // AI does processing in here
     process: function () {
-        console.log("AI processing function");
+        if (game.data.sylvanLogs) {
+            console.log("AI processing function");
+        }
 
         // Generate priorities object
         let priorities = {
@@ -174,15 +188,19 @@ game.AI = me.Renderable.extend({
 
         let highestPriority = this.getHighestPriority(priorities);
 
-        console.log("Enemy controller priorities:", priorities);
-        console.log("Highest priority:", highestPriority, priorities[highestPriority]);
+        if (game.data.sylvanLogs) {
+            console.log("Enemy controller priorities:", priorities);
+            console.log("Highest priority:", highestPriority, priorities[highestPriority]);
+        }
 
         if (highestPriority == "acquireUnit") {
             // For general unit purchases not tied to a specific goal, I will prioritize speed because fast units can
             // capture resource points faster, and can capture the flag or return flag faster than others
             let nameOfUnit = this.getFastestUnitICanAfford();
             if (nameOfUnit == "") {
-                console.log("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+                if (game.data.sylvanLogs) {
+                    console.log("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+                }
             } else {
                 this.buyUnit(nameOfUnit);
                 // What should we have the new unit do?
@@ -192,19 +210,28 @@ game.AI = me.Renderable.extend({
                 switch (actionPriority) {
                     case "acquireResource":
                         resourcePoint = this.getNearestUncapturedResource(unit);
-                        console.log("Destination: ", resourcePoint.pos.toString());
+                        if (game.data.sylvanLogs) {
+                            console.log("Destination: ", resourcePoint.pos.toString());
                         // order the unit to move to the resource point and capture it
-                        console.log("Enemy controller: commanding newly purchased unit to acquire resource");
+                            console.log("Enemy controller: commanding newly purchased unit to acquire resource");
+                        }
                         unit.command({ type: "capture resource", point: resourcePoint })
                         break;
                     case "guardFlag":
-                        console.log("Enemy controller: commanding newly purchased unit to guard the flag");
+                        if (game.data.sylvanLogs) {
+                            console.log("Enemy controller: commanding newly purchased unit to guard the flag");
+                        }
                         break;
                     case "returnFlag":
-                        console.log("Enemy controller: commanding newly purchased unit to return the flag");
+                        if (game.data.sylvanLogs) {
+                            console.log("Enemy controller: commanding newly purchased unit to return the flag");
+                        }
                         break;
                     case "captureFlag":
-                        console.log("Enemy controller: commanding newly purchased unit to capture the flag");
+                        if (game.data.sylvanLogs) {
+                            console.log("Enemy controller: commanding newly purchased unit to capture the flag");
+                        }
+                        
                         destination = this.playerFlag.pos;
                         unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
                         break;
@@ -215,7 +242,7 @@ game.AI = me.Renderable.extend({
             }
 
         }
-        
+
     },
 
 
@@ -345,7 +372,9 @@ game.AI = me.Renderable.extend({
         if (unit == null) {
             return;
         }
-        console.log(unit);
+        if (game.data.sylvanLogs) {
+            console.log(unit);
+        }
         let resourceList = me.game.world.getChildByName("capture_point");
         var index = -1;
         var dist = 100000;
@@ -377,7 +406,10 @@ game.AI = me.Renderable.extend({
         var destPoint = null;
         if (index != -1) {
             destPoint = resourceList[index];
-            console.log("nearest uncaptured resource:", destPoint.pos.toString());
+            if (game.data.sylvanLogs) {
+                console.log("nearest uncaptured resource:", destPoint.pos.toString());
+            }
+            
         }
 
         return destPoint;
