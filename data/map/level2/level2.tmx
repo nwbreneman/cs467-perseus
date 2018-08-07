@@ -120,12 +120,42 @@
   </object>
  </objectgroup>
  <objectgroup name="capturepoints">
-  <object id="32" name="capture_point" x="106.5" y="111" width="128" height="128"/>
-  <object id="33" name="capture_point" x="683.5" y="688" width="128" height="128"/>
-  <object id="35" name="capture_point" x="1324" y="1259.5" width="128" height="128"/>
-  <object id="36" name="capture_point" x="1900.5" y="1261" width="128" height="128"/>
-  <object id="37" name="capture_point" x="1324" y="685.5" width="128" height="128"/>
-  <object id="38" name="capture_point" x="682" y="111.5" width="128" height="128"/>
+  <object id="32" name="capture_point" x="106.5" y="111" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="25"/>
+    <property name="factory_type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="33" name="capture_point" x="683.5" y="688" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="22"/>
+    <property name="factory_type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="35" name="capture_point" x="1324" y="1259.5" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="24"/>
+    <property name="factory_type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="36" name="capture_point" x="1900.5" y="1261" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="31"/>
+    <property name="factory_type" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="37" name="capture_point" x="1324" y="685.5" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="30"/>
+    <property name="factory_type" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="38" name="capture_point" x="682" y="111.5" width="128" height="128">
+   <properties>
+    <property name="factory_id" type="int" value="26"/>
+    <property name="factory_type" type="int" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="units" width="34" height="24">
   <data encoding="base64">

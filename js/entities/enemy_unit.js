@@ -71,8 +71,10 @@ game.EnemyUnit = game.Unit.extend({
                 this.changeState("moving");
                 break;
             case 'capture resource':
-                this.moveDestination.set(order.x, order.y);
-                this.changeState("moving");
+                if (order.point != null) {
+                    this.moveDestination.set(order.point.pos.x, order.point.pos.y + order.point.height * 0.5);
+                    this.changeState("moving");
+                }
                 break;
             case 'capture flag':
                 this.moveDestination.set(order.x, order.y);
@@ -99,6 +101,18 @@ game.EnemyUnit = game.Unit.extend({
     // Enemy specific override
     die: function () {
         this.changeState('dying');
+    },
+
+
+    pickedUpFlag: function() {
+        console.log("Enemy unit: picked up the flag.");
+        this.controller.report(this, 'got flag');
+    },
+
+    capturedResource: function(resourcePoint) {
+        console.log("Enemy Unit: captured a resource point:", resourcePoint);
+        this.changeState("idle");
+
     },
 
 
@@ -257,6 +271,15 @@ game.EnemyUnit = game.Unit.extend({
     },
 
 
+
+    onCollision: function(response, other) {
+        if (other.body.collisionType == me.collision.types.COLLECTABLE_OBJECT && other.team != this.team) {
+            // Got the flag
+            this.pickedUpFlag();
+        }
+
+        return false;
+    },
 
 
 });

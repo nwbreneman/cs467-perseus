@@ -308,7 +308,12 @@ game.Unit = me.Entity.extend({
             }
         }
         return false;
-    }
+    }, 
+
+    // Stub function, will be overridden in enemy_unit
+    capturedResource: function(resourcePoint) {
+
+    },
 
 });
 
@@ -381,10 +386,9 @@ game.flag = me.Entity.extend({
 
     // Collision handling. When the flag is touched, make it so it doesn't keep colliding with the object.
     // When a flag is touched by a friendly:
-    //   This means that the flag was not at home base, so we should send it home
+    //   Do nothing if flag is at home, otherwise send it home
     // When a flag is touched by an enemy:
     //   The enemy gets to pick up the flag, and then collisions between the flag and the unit that picked it up should be disabled
-    //   Enable collisions between the flag and its own team so it can be returned
     onCollision: function (response, other) {
         //console.log("flag collision");
         if (other.team === this.team) {
@@ -462,9 +466,16 @@ game.capturePoint = me.Entity.extend({
         this.lastCaptureCheck = 0;
         this.timeToCapture = 10; // time in seconds
         this.rate = settings.rate || 1; // resources gained per second
+        this.factoryType = settings.factory_type;
+        this.factoryId = settings.factory_id;
 
         this.body.collisionType = me.collision.types.ACTION_OBJECT;
         this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
+    },
+
+    /** When the entity is created */
+    onActivateEvent: function () {
+        this.factory = this.getFactory(this.factoryType, this.factoryId);
     },
 
     update: function (dt) {
@@ -497,12 +508,14 @@ game.capturePoint = me.Entity.extend({
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
+                this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
+                this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
 
             // no owner once status reaches 0
@@ -516,6 +529,10 @@ game.capturePoint = me.Entity.extend({
             if (!me.collision.check(this)) {
                 this.capturingUnit = null;
             }
+        } else if (this.capturingUnit) {
+            if (this.factory != null) {
+                this.factory.renderable.flicker(40);
+            }
         }
     },
 
@@ -523,6 +540,21 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = other;
 
         return false;
+    },
+
+    getFactory: function(type, id) {
+        var factory = null;
+
+        var factoryName = "factory_" + type;
+
+        let factoryList = me.game.world.getChildByName(factoryName);
+        for (let item of factoryList) {
+            if (item.id == id) {
+                factory = item;
+            }
+        }
+
+        return factory;
     },
 });
 

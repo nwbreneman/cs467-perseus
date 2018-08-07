@@ -59,6 +59,8 @@ game.AI = me.Renderable.extend({
             this.availableUnits.push(unit);
         }
 
+        // Generate list of resource points on the map
+        this.resourcePointList = me.game.world.getChildByName("capture_point")
 
     },
 
@@ -125,6 +127,11 @@ game.AI = me.Renderable.extend({
 
             this.flag.sendHome();
         }
+        if (message == "got flag") {
+            console.log("AI Controller: Unit reporting picked up flag");
+            destination = this.flag.homePosition;
+            unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
+        }
 
     },
 
@@ -140,7 +147,7 @@ game.AI = me.Renderable.extend({
 
     // Determine where the player's flag currently is (and note if it is at its base)
     getOtherFlagPosition: function () {
-        this.playerFlagAtHome = this.playerFlag.pos.equals(this.playerFlagHomePosition);
+        this.playerFlagAtHome = this.playerFlag.pos.equals(this.playerFlag.homePosition);
 
     },
 
@@ -184,10 +191,11 @@ game.AI = me.Renderable.extend({
                 var destination;
                 switch (actionPriority) {
                     case "acquireResource":
-                        destination = this.getNearestUncapturedResource();
+                        resourcePoint = this.getNearestUncapturedResource(unit);
+                        console.log("Destination: ", resourcePoint.pos.toString());
                         // order the unit to move to the resource point and capture it
                         console.log("Enemy controller: commanding newly purchased unit to acquire resource");
-                        unit.command({ type: "capture resource", x: destination.x, y: destination.y })
+                        unit.command({ type: "capture resource", point: resourcePoint })
                         break;
                     case "guardFlag":
                         console.log("Enemy controller: commanding newly purchased unit to guard the flag");
@@ -198,7 +206,7 @@ game.AI = me.Renderable.extend({
                     case "captureFlag":
                         console.log("Enemy controller: commanding newly purchased unit to capture the flag");
                         destination = this.playerFlag.pos;
-                        unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 })
+                        unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
                         break;
                     default:
                         // Take no action for now
@@ -207,23 +215,7 @@ game.AI = me.Renderable.extend({
             }
 
         }
-
-        // if (this.unitList.length == 0) {
-        //     this.buyUnit("enemy_civilian");
-        // }
-
-        // Get location of other flag
-        if (this.playerFlagAtHome) {
-            //console.log("player flag is at home");
-        }
-        //console.log("Enemy AI: other flag is at", otherflagpos.x, otherflagpos.y);
-
-        // Get location of my flag
-        if (this.flagAtHome) {
-            //console.log("my flag is at home");
-        }
-        //console.log("Enemy AI: my flag is at", myflagpos.x, myflagpos.y, " home position", this.flagHomePosition.x, this.flagHomePosition.y);
-        //console.log(this.flagHomePosition.x - myflagpos.x, this.flagHomePosition.y - myflagpos.y);
+        
     },
 
 
@@ -349,12 +341,48 @@ game.AI = me.Renderable.extend({
 
 
     // Get the nearest resource point that hasn't been captured yet
-    getNearestUncapturedResource: function () {
-        // TODO: compute location of nearest uncaptured resource point
-        return new me.Vector2d(2000, 1200);
+    getNearestUncapturedResource: function (unit) {
+        if (unit == null) {
+            return;
+        }
+        console.log(unit);
+        let resourceList = me.game.world.getChildByName("capture_point");
+        var index = -1;
+        var dist = 100000;
+        var destPoint = null;
+        for (var i = 0; i < resourceList.length; i++) {
+            let point = resourceList[i];
+            if (point.owner != null) {
+                continue;
+            }
+            // Check other units to see if they've been ordered to capture the same resource point
+            var alreadyOrdered = false;
+            for (let eachUnit of this.unitList) {
+                let orderPoint = eachUnit.currentOrders.point;
+                if (orderPoint != null && orderPoint == point) {
+                    alreadyOrdered = true;
+                }
+            }
+            if (alreadyOrdered) {
+                continue;
+            }
+            let thisDist = unit.pos.distance(point.pos);
+            if (thisDist < dist) {
+                dist = thisDist;
+                index = i;
+            }
+        }
+
+        
+        var destPoint = null;
+        if (index != -1) {
+            destPoint = resourceList[index];
+            console.log("nearest uncaptured resource:", destPoint.pos.toString());
+        }
+
+        return destPoint;
+
     },
-
-
 
 
 
