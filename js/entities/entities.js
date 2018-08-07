@@ -420,6 +420,7 @@ game.flag = me.Entity.extend({
             this.holder = other;
             other.isHoldingFlag = true;
             other.carriedFlag = this;
+            me.audio.play("short_horn");
         }
         return false;
     },
