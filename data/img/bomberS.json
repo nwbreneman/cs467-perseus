@@ -1,0 +1,140 @@
+{"frames": [
+
+{
+	"filename": "bomberS0",
+	"frame": {"x":1,"y":1,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":27,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS1",
+	"frame": {"x":1,"y":68,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":26,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS2",
+	"frame": {"x":1,"y":136,"w":57,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":25,"w":57,"h":69},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS3",
+	"frame": {"x":1,"y":205,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":26,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS4",
+	"frame": {"x":1,"y":273,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":27,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS5",
+	"frame": {"x":1,"y":340,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":26,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS6",
+	"frame": {"x":1,"y":408,"w":57,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":25,"w":57,"h":69},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS7",
+	"frame": {"x":1,"y":477,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":26,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS8",
+	"frame": {"x":1,"y":545,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":35,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS9",
+	"frame": {"x":1,"y":612,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":34,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS10",
+	"frame": {"x":1,"y":680,"w":57,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":33,"w":57,"h":69},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS11",
+	"frame": {"x":1,"y":749,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":34,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS12",
+	"frame": {"x":1,"y":817,"w":57,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":35,"w":57,"h":67},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS13",
+	"frame": {"x":1,"y":884,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":34,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS14",
+	"frame": {"x":1,"y":952,"w":57,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":33,"w":57,"h":69},
+	"sourceSize": {"w":88,"h":108}
+},
+{
+	"filename": "bomberS15",
+	"frame": {"x":1,"y":1021,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":34,"w":57,"h":68},
+	"sourceSize": {"w":88,"h":108}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "bomberS.png",
+	"format": "RGBA8888",
+	"size": {"w":60,"h":1090},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:556cb4c66dfa3d491f4f00fa709a2b16:117ee2aeb338211fe849a1f626103871:16dafaaf45af45458725476d76ea597d$"
+}
+}
