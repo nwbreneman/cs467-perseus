@@ -131,7 +131,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "standing.png",
+	"image": "civilian_standing.png",
 	"format": "RGBA8888",
 	"size": {"w":30,"h":944},
 	"scale": "1",

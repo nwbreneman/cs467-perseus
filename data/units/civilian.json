@@ -6,6 +6,8 @@
     "speed": 2,
     "type": "rock",
     "cost": 1,
-    "image": "standing",
-    "projectile": "bullet"
+    "image": "civilian_test",
+    "projectile": "bullet",
+    "framewidth": 88,
+    "frameheight": 108
 }

@@ -75,10 +75,15 @@ game.Unit = me.Entity.extend({
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
        
-        settings.anchorPoint = new me.Vector2d(0, 0);
-        settings.framewidth = settings.width;
-        settings.frameheight = (settings.height / 16) + 2; //Mark: tried adding two to frame size to prevent frame bleeding bug - no success
-        settings.height = settings.height / 16; //16 standing frames per sprite sheet
+        //settings.anchorPoint = new me.Vector2d(0, 0);
+
+        //settings.framewidth = settings.width;
+        //settings.frameheight = (settings.height / 16) + 2; //Mark: tried adding two to frame size to prevent frame bleeding bug - no success
+        //settings.height = settings.height / 16; //16 standing frames per sprite sheet
+        //settings.framewidth = 108;
+        //settings.frameheight = 88;
+        settings.width = settings.framewidth * 0.3;
+        settings.height = settings.frameheight * 0.6;
 
         console.log("width: "+settings.width);
         console.log("height: "+settings.height);
@@ -87,10 +92,13 @@ game.Unit = me.Entity.extend({
         
 
         // redefine the default shape (used to define path) with a shape matching the renderable
-        settings.shapes = [];
-        settings.shapes[0] = new me.Rect(x, y, settings.framewidth, settings.frameheight); //match hitbox shape to framesize (debug ?hitbox[x] red shape)
+        //settings.shapes = [];
+        //settings.shapes[0] = new me.Rect(x, y, settings.framewidth, settings.frameheight); //match hitbox shape to framesize (debug ?hitbox[x] red shape)
 
         this._super(me.Entity, 'init', [x, y, settings]);
+
+        //this.framewidth = settings.framewidth;
+        //this.frameheight = settings.frameheight;
 
         // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = me.collision.types.PLAYER_OBJECT;
@@ -126,6 +134,7 @@ game.Unit = me.Entity.extend({
         // Mark:
         // add standing animations for all four facing directions
         console.log(this.renderable);
+        this.renderable.anchorPoint.set(0.5, 0.5);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
