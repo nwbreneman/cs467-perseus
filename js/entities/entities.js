@@ -47,12 +47,20 @@ game.Unit = me.Entity.extend({
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-        settings.framewidth = settings.width;
-        settings.frameheight = settings.height;
+       // settings.framewidth = settings.width;
+        //settings.frameheight = settings.height;
+
+        settings.width = settings.framewidth * 0.3;
+        settings.height = settings.frameheight * 0.6;
+
+        console.log("width: "+settings.width);
+        console.log("height: "+settings.height);
+        console.log("framewidth: "+settings.framewidth);
+        console.log("frameheight: "+settings.frameheight);
 
         // redefine the default shape (used to define path) with a shape matching the renderable
-        settings.shapes = [];
-        settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
+        //settings.shapes = [];
+        //settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
@@ -88,7 +96,16 @@ game.Unit = me.Entity.extend({
             }
         }
 
+        // Mark:
+        // add standing animations for all four facing directions
+        console.log(this.renderable);
         this.renderable.anchorPoint.set(0.5, 0.5);
+        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
+        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
+        // init facing southeast
+        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -130,6 +147,44 @@ game.Unit = me.Entity.extend({
             // get the next xy coordinates
             var newX = this.nextMove.x;
             var newY = this.nextMove.y;
+
+
+
+             //Mark:
+            //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y) 
+            /*
+
+            (-x,  y) | (x,  y)
+            __________________
+            
+            (-x, -y) | (x, -y)
+
+            */
+            //
+
+            if (newX && newY){
+                if (newX > this.pos.x && newY > this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                    console.log("set current animation to " + this.name + "STANDING_SE");
+
+                } else if (newX < this.pos.x && newY > this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                    console.log("set current animation to " + this.name + "STANDING_SW");
+
+                } else if (newX > this.pos.x && newY < this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                    console.log("set current animation to " + this.name + "STANDING_NE");
+
+                } else if (newX < this.pos.x && newY < this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                    console.log("set current animation to " + this.name + "STANDING_NW");
+
+                }else{ //default
+                    this.renderable.setCurrentAnimation(this.name+"STANDING_SE");
+                    console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
+
+                }
+            }
 
             // accelerate in the correct X direction
             if (newX && newX > this.pos.x) {
