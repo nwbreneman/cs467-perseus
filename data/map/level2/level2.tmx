@@ -49,7 +49,7 @@
   </data>
  </layer>
  <objectgroup name="flagstands">
-  <object id="20" name="redflagstand" x="1963.5" y="302.5">
+  <object id="20" name="redflagstand" x="1962.5" y="302.5">
    <properties>
     <property name="frameheight" type="int" value="64"/>
     <property name="framewidth" type="int" value="64"/>
@@ -70,7 +70,7 @@
   <object id="19" name="mapedge" x="106.5" y="1387.5">
    <polyline points="0,0 1918.5,1.5 1921.5,-1277.5 2,-1278 0.5,1.5"/>
   </object>
-  <object id="22" name="factory_1" x="680" y="722">
+  <object id="22" name="factory_1" x="741" y="743">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>
@@ -78,7 +78,7 @@
    </properties>
    <point/>
   </object>
-  <object id="24" name="factory_1" x="1321" y="1305">
+  <object id="24" name="factory_1" x="1386" y="1322">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>
@@ -86,7 +86,7 @@
    </properties>
    <point/>
   </object>
-  <object id="25" name="factory_1" x="108.5" y="149.5">
+  <object id="25" name="factory_1" x="170" y="172">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>
@@ -94,7 +94,7 @@
    </properties>
    <point/>
   </object>
-  <object id="26" name="factory_2" x="680" y="148">
+  <object id="26" name="factory_2" x="745" y="171">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>
@@ -102,7 +102,7 @@
    </properties>
    <point/>
   </object>
-  <object id="30" name="factory_2" x="1320.5" y="721.5">
+  <object id="30" name="factory_2" x="1386" y="746">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>
@@ -110,7 +110,7 @@
    </properties>
    <point/>
   </object>
-  <object id="31" name="factory_2" x="1897.5" y="1298.5">
+  <object id="31" name="factory_2" x="1964" y="1324">
    <properties>
     <property name="frameheight" value="108"/>
     <property name="framewidth" value="88"/>

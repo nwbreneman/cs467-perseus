@@ -224,6 +224,8 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
         game.data.player1.spawnPoint.renderable.anchorPoint.set(0.5, 0.5);
+        me.game.world.getChildByName("redspawnpoint")[0].renderable.anchorPoint.set(0.5, 0.5);
+
 
         // Manually setting the collision type for the world boundary
         // TODO: set the type for the factories as well
@@ -239,8 +241,11 @@ game.PlayScreen = me.ScreenObject.extend({
         blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
         redflagstand = me.game.world.getChildByName("redflagstand")[0];
 
+        // Have to set these because the default is (0, 0)
+        // Helps position the sprite correctly at the Tiled pointer position
         blueflagstand.renderable.anchorPoint.set(0.5, 0.5);
         redflagstand.renderable.anchorPoint.set(0.5, 0.5);
+
 
         hitWidth = 8;       // Giving the flags a hit box so we can detect collisions with players (for picking up and returning flags).
         hitHeight = 30;

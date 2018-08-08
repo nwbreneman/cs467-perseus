@@ -13,7 +13,6 @@ game.AI = me.Renderable.extend({
         this.alwaysUpdate = true;
 
         this.spawnPoint = settings.spawnPoint;
-        this.spawnPoint.renderable.anchorPoint.set(0.5, 0.5);
         this.resources = settings.resources;
         this.resourcePointsOnMap = settings.resourcePoints;
         this.resourcePointsCaptured = 0;
