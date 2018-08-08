@@ -7,7 +7,6 @@
     "type": "paper",
     "cost": 20,
     "image": "bomber_standing",
-    "shop_icon": "bomber_shop",
     "framewidth": 88,
-    "frameheight": 108,
+    "frameheight": 108
 }
