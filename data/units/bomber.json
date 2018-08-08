@@ -6,5 +6,8 @@
     "speed": 3,
     "type": "paper",
     "cost": 20,
-    "image": "bombertest"
+    "image": "bomber_standing",
+    "shop_icon": "bomber_shop",
+    "framewidth": 88,
+    "frameheight": 108,
 }
