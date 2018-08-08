@@ -121,10 +121,9 @@ game.AI = me.Renderable.extend({
             game.sylvanlog("AI Controller: Unit reporting as dead");
             this.removeUnitFromList(unit);
         }
-        if (message == "return flag") {
-            game.sylvanlog("AI Controller: Unit reporting to return the flag");
+        if (message == "returned flag") {
+            game.sylvanlog("AI Controller: Unit reporting it returned the flag");
 
-            this.flag.sendHome();
         }
         if (message == "got flag") {
             game.sylvanlog("AI Controller: Unit reporting picked up flag");
@@ -177,7 +176,7 @@ game.AI = me.Renderable.extend({
         game.sylvanlog("Enemy controller priorities:", priorities);
         game.sylvanlog("Highest priority:", highestPriority, priorities[highestPriority]);
         
-
+/*
         if (highestPriority == "acquireUnit") {
             // For general unit purchases not tied to a specific goal, I will prioritize speed because fast units can
             // capture resource points faster, and can capture the flag or return flag faster than others
@@ -218,7 +217,24 @@ game.AI = me.Renderable.extend({
                 }
             }
 
+        } */
+
+        // Trying new tactic
+
+        // I want at least one flag defender at all times
+
+        if (this.unitList.length < 2) {
+            
+        } else {
+            // I have met the minimum requirement, now I should consider saving for a better unit next
+
         }
+
+        if (this.unitList.length == 0) {
+            return;     // Can't do anything this turn until I get some more resources
+        }
+
+        // What action do I want to take?
 
     },
 
