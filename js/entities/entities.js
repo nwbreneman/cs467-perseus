@@ -6,9 +6,18 @@ game.TestJetpackAnimation = me.Entity.extend({
 
         this._super(me.Entity, "init", [x, y, settings]);
 
-        //test all four faces (directions) of the standing frame
-        this.renderable.addAnimation("facingSE", [4, 5, 6, 7], 60);
-        this.renderable.setCurrentAnimation("facingSE");
+        //This shows the frame bleeding problem
+        this.renderable.addAnimation("facingNW-NE", [12, 13, 14, 15, 11, 10, 9, 8], 400); //400fps to see the frame bleeding
+        this.renderable.setCurrentAnimation("facingNW-NE");
+
+        //Mark: I tried adding the animation by individual file name, but received an error
+        // https://melonjs.github.io/melonJS/docs/me.Sprite.html#addAnimation
+
+        /* Console logs error: {name: "me.Renderable.Error", message: "string parameters for addAnimation are not allowed for standard spritesheet based Texture"}*/
+        /*this.renderable.addAnimation("facingSE", [{ name: "color6_Infantry_ST_Large_face0_0" },
+            { name: "color6_Infantry_ST_Large_face0_1"},
+            { name: "color6_Infantry_ST_Large_face0_2"},
+            { name:"color6_Infantry_ST_Large_face0_3"} ]);*/
 
         this.body.setCollisionMask(me.collision.types.PLAYER_OBJECT | me.collision.types.ENEMY_OBJECT);
     },
@@ -65,11 +74,11 @@ game.Unit = me.Entity.extend({
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-        settings.framewidth = settings.width;
-        settings.frameheight = settings.height / 16;   //16 frames per standing-animation spritesheet
-        settings.height = settings.height / 16;
+       
         settings.anchorPoint = new me.Vector2d(0, 0);
-
+        settings.framewidth = settings.width;
+        settings.frameheight = (settings.height / 16) + 2; //Mark: tried adding two to frame size to prevent frame bleeding bug - no success
+        settings.height = settings.height / 16; //16 standing frames per sprite sheet
 
         console.log("width: "+settings.width);
         console.log("height: "+settings.height);
@@ -79,7 +88,7 @@ game.Unit = me.Entity.extend({
 
         // redefine the default shape (used to define path) with a shape matching the renderable
         settings.shapes = [];
-        settings.shapes[0] = new me.Rect(x, y, settings.framewidth, settings.frameheight);
+        settings.shapes[0] = new me.Rect(x, y, settings.framewidth, settings.frameheight); //match hitbox shape to framesize (debug ?hitbox[x] red shape)
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
@@ -98,7 +107,7 @@ game.Unit = me.Entity.extend({
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
-        this.image = settings.image; //loads with standing spritesheet, from JSON file in /data/units
+        this.image = settings.image; 
 
         this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
@@ -115,12 +124,14 @@ game.Unit = me.Entity.extend({
         }
 
         // Mark:
-        // trying to set standing animations working
+        // add standing animations for all four facing directions
         console.log(this.renderable);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
         this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
+        // init facing southeast
+        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
 
   
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
@@ -129,9 +140,6 @@ game.Unit = me.Entity.extend({
     /** Registers this entity to pointer events when the entity is created */
     onActivateEvent: function () {
         me.input.registerPointerEvent("pointerdown", this, this.pointerDown.bind(this));
-        //spawn facing southeast
-        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-
     },
 
     /**
@@ -139,9 +147,6 @@ game.Unit = me.Entity.extend({
      * to selection.
      */
     pointerDown: function () {
-         
-        //Just adding this for progress report demonstration video
-        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
 
         if (me.input.isKeyPressed("shift")) {
             this.player.addSelectedUnit(this);
@@ -160,6 +165,44 @@ game.Unit = me.Entity.extend({
             // get the next xy coordinates
             var newX = this.nextMove.x;
             var newY = this.nextMove.y;
+
+            
+            //Mark:
+            //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y) 
+            /*
+
+            (-x,  y) | (x,  y)
+            __________________
+            
+            (-x, -y) | (x, -y)
+
+            */
+            //
+
+            if (newX && newY){
+                if (newX > this.pos.x && newY > this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                    console.log("set current animation to " + this.name + "STANDING_SE");
+
+                } else if (newX < this.pos.x && newY > this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                    console.log("set current animation to " + this.name + "STANDING_SW");
+
+                } else if (newX > this.pos.x && newY < this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                    console.log("set current animation to " + this.name + "STANDING_NE");
+
+                } else if (newX < this.pos.x && newY < this.pos.y){
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                    console.log("set current animation to " + this.name + "STANDING_NW");
+
+                }else{ //default
+                    this.renderable.setCurrentAnimation(this.name+"STANDING_SE");
+                    console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
+
+                }
+            }
+        
 
             // accelerate in the correct X direction
             if (newX && newX > this.pos.x) {
