@@ -223,6 +223,7 @@ game.PlayScreen = me.ScreenObject.extend({
         // associate bases & spawn points with players
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
+        game.data.player1.spawnPoint.renderable.anchorPoint.set(0.5, 0.5);
 
         // Manually setting the collision type for the world boundary
         // TODO: set the type for the factories as well
@@ -237,12 +238,17 @@ game.PlayScreen = me.ScreenObject.extend({
         // Sylvan: Add flags using the new flag stand entities setup in Tiled
         blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
         redflagstand = me.game.world.getChildByName("redflagstand")[0];
+
+        blueflagstand.renderable.anchorPoint.set(0.5, 0.5);
+        redflagstand.renderable.anchorPoint.set(0.5, 0.5);
+
         hitWidth = 8;       // Giving the flags a hit box so we can detect collisions with players (for picking up and returning flags).
         hitHeight = 30;
-        xOffset = 31;       // Make the image line up with the flag stand entity
-        yOffset = 8;
+        xOffset = -hitWidth * 0.2;      // Make the image line up with the flag stand entity
+        yOffset = -hitHeight;
         blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
         redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_red", framewidth: 44, frameheight: 72, team: game.data.enemy })
+
 
         // Get a reference to the "flags" layer so we can get the z-value, then add the flags to that layer
         flagZ = me.game.world.getChildByName("flags")[0].pos.z;

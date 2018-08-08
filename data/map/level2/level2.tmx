@@ -24,7 +24,7 @@
     <property name="player" value="enemy"/>
    </properties>
   </object>
-  <object id="17" name="bluespawnpoint" x="269.5" y="1298.5">
+  <object id="17" name="bluespawnpoint" x="265.5" y="1286.5">
    <properties>
     <property name="frameheight" type="int" value="64"/>
     <property name="framewidth" type="int" value="128"/>
@@ -49,7 +49,7 @@
   </data>
  </layer>
  <objectgroup name="flagstands">
-  <object id="20" name="redflagstand" x="1869" y="305">
+  <object id="20" name="redflagstand" x="1963.5" y="302.5">
    <properties>
     <property name="frameheight" type="int" value="64"/>
     <property name="framewidth" type="int" value="64"/>
@@ -57,7 +57,7 @@
    </properties>
    <point/>
   </object>
-  <object id="21" name="blueflagstand" x="168" y="1194">
+  <object id="21" name="blueflagstand" x="186.5" y="1171.5">
    <properties>
     <property name="frameheight" type="int" value="64"/>
     <property name="framewidth" type="int" value="64"/>

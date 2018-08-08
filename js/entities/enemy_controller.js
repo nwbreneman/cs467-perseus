@@ -13,6 +13,7 @@ game.AI = me.Renderable.extend({
         this.alwaysUpdate = true;
 
         this.spawnPoint = settings.spawnPoint;
+        this.spawnPoint.renderable.anchorPoint.set(0.5, 0.5);
         this.resources = settings.resources;
         this.resourcePointsOnMap = settings.resourcePoints;
         this.resourcePointsCaptured = 0;
@@ -98,8 +99,8 @@ game.AI = me.Renderable.extend({
             if (this.resources >= settings.cost) {
                 game.sylvanlog("Purchasing unit", name);
                 var unit = me.pool.pull(name, 20, 20, settings);
-                unit.pos.x = this.spawnPoint.pos.x + unit.width * 0.1;
-                unit.pos.y = this.spawnPoint.pos.y - unit.height * 0.5;
+                unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
+                unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
                 this.resources -= settings.cost;
                 this.unitList.push(unit);
                 unit.player = this;
@@ -223,8 +224,13 @@ game.AI = me.Renderable.extend({
 
         // I want at least one flag defender at all times
 
-        if (this.unitList.length < 2) {
-            
+        if (this.unitList.length < 1) {
+            let nameOfUnit = this.getFastestUnitICanAfford();
+            if (nameOfUnit == "") {
+                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+            } else {
+                this.buyUnit(nameOfUnit);
+            }
         } else {
             // I have met the minimum requirement, now I should consider saving for a better unit next
 

@@ -8,10 +8,11 @@ game.EnemyUnit = game.Unit.extend({
         // so that the entity object is created with the right size
         //settings.framewidth = settings.width = 88;
         //settings.frameheight = settings.height = 108;
-        settings.width = 40;
-        settings.height = 70;
+      
         settings.frameheight = 108;
         settings.framewidth = 88;
+        settings.height = settings.frameheight * 0.6;
+        settings.width = settings.framewidth * 0.4;
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
