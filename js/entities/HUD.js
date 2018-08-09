@@ -72,14 +72,10 @@ game.HUD.BaseBox = me.Renderable.extend({
 game.HUD.UnitPurchaser = me.GUI_Object.extend({
     init: function (x, y, settings) {
         
-        // Mark:
-        // if-else to check for shopimage, will update to just always use shopimage when i update all the unit JSON files
-        if (settings.shopimage){
-            image = me.loader.getImage(settings.shopimage);
-        } else {
-            image = me.loader.getImage(settings.image);
-        }
-        
+        //Mark: 
+        //using new shopimage property in unit's JSON files instead of "image" prop which is standing spritesheet
+       image = me.loader.getImage(settings.shopimage);
+
         settings.width = image.width;
         settings.height = image.height;
         y = me.game.viewport.getHeight() + y;
