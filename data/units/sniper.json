@@ -9,5 +9,7 @@
     "image": "sniper_standing",
     "shopimage": "sniper_shop",
     "framewidth": 88,
-    "frameheight": 108
+    "frameheight": 108,
+    "myWidth": 20,
+    "myHeight": 20
 }

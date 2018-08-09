@@ -11,8 +11,8 @@ game.EnemyUnit = game.Unit.extend({
       
         settings.frameheight = 108;
         settings.framewidth = 88;
-        settings.height = settings.frameheight * 0.6;
-        settings.width = settings.framewidth * 0.4;
+        settings.height = settings.frameheight * 0.25;
+        settings.width = settings.framewidth * 0.3;
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
@@ -29,7 +29,7 @@ game.EnemyUnit = game.Unit.extend({
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
 
-        this.renderable.anchorPoint.set(0.5, 0.5);
+        this.renderable.anchorPoint.set(0.5, 0.7);
         
         
         //Mark:

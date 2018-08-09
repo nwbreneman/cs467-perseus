@@ -8,5 +8,7 @@
     "cost": 5,
     "image": "enemybazooka_standing",
     "framewidth": 88,
-    "frameheight": 108
+    "frameheight": 108,
+    "myWidth": 20,
+    "myHeight": 20
 }

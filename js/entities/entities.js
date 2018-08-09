@@ -54,8 +54,10 @@ game.Unit = me.Entity.extend({
         // settings.framewidth = settings.width;
         //settings.frameheight = settings.height;
 
-        settings.width = settings.framewidth * 0.3;
-        settings.height = settings.frameheight * 0.6;
+        //settings.width = settings.framewidth * 0.3;
+        //settings.height = settings.frameheight * 0.25;
+        settings.width = settings.myWidth;
+        settings.height = settings.myHeight;
 
         console.log("width: " + settings.width);
         console.log("height: " + settings.height);
@@ -103,7 +105,7 @@ game.Unit = me.Entity.extend({
         // Mark:
         // add standing animations for all four facing directions
         console.log(this.renderable);
-        this.renderable.anchorPoint.set(0.5, 0.5);
+        this.renderable.anchorPoint.set(0.5, 0.7);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);

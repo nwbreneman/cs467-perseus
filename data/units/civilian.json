@@ -10,5 +10,7 @@
     "shopimage": "civilian_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet"
+    "projectile": "bullet",
+    "myWidth": 20,
+    "myHeight": 20
 }

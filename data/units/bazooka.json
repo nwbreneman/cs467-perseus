@@ -9,5 +9,7 @@
     "image": "bazooka_standing",
     "shopimage": "bazooka_shop",
     "framewidth": 88,
-    "frameheight": 108
+    "frameheight": 108,
+    "myWidth": 20,
+    "myHeight": 20
 }
