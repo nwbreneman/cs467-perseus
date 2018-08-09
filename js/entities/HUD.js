@@ -28,8 +28,8 @@ game.HUD.Container = me.Container.extend({
         unitList = me.loader.getJSON("manifest");
         for (var i = 0; i < unitList.units.length; i++) {
             unit = me.loader.getJSON(unitList.units[i]);
-            console.log(unit);
-            console.log(unit.shopimage);
+            //console.log(unit);
+            //console.log(unit.shopimage);
             this.addChild(new game.HUD.UnitPurchaser(
                 (100 * (i + 1)),
                 -50,
