@@ -28,6 +28,8 @@ game.HUD.Container = me.Container.extend({
         unitList = me.loader.getJSON("manifest");
         for (var i = 0; i < unitList.units.length; i++) {
             unit = me.loader.getJSON(unitList.units[i]);
+            console.log(unit);
+            console.log(unit.shopimage);
             this.addChild(new game.HUD.UnitPurchaser(
                 (100 * (i + 1)),
                 -50,
@@ -69,7 +71,15 @@ game.HUD.BaseBox = me.Renderable.extend({
  */
 game.HUD.UnitPurchaser = me.GUI_Object.extend({
     init: function (x, y, settings) {
-        image = me.loader.getImage(settings.image);
+        
+        // Mark:
+        // if-else to check for shopimage, will update to just always use shopimage when i update all the unit JSON files
+        if (settings.shopimage){
+            image = me.loader.getImage(settings.shopimage);
+        } else {
+            image = me.loader.getImage(settings.image);
+        }
+        
         settings.width = image.width;
         settings.height = image.height;
         y = me.game.viewport.getHeight() + y;
@@ -78,6 +88,11 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
         this.cost = settings.cost;
         this.floating = true;
         this.image = image;
+
+
+        //Mark:
+        // trying to fix HUD unit images
+        console.log(this.image);
     },
 
     update: function () {
