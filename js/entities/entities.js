@@ -566,16 +566,20 @@ game.capturePoint = me.Entity.extend({
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
+                this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
+                this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
 

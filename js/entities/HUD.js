@@ -37,8 +37,8 @@ game.HUD.Container = me.Container.extend({
             ));
         }
 
-        this.addChild(new game.HUD.ResourceCounter(x, y));
-
+        this.addChild(new game.HUD.ResourceCounter(0, 0));
+        this.addChild(new game.HUD.FactoryControlCounter(0, 0));
     },
 });
 
@@ -170,4 +170,42 @@ game.HUD.ResourceCounter = me.Renderable.extend({
         );
         this.font.draw(renderer, resourceDisplay, 0, 0);
     }
-})
+});
+
+game.HUD.FactoryControlCounter = me.Renderable.extend({
+    init: function (x, y) {
+        this._super(me.Renderable, 'init', [x, y, 0, 0]);
+        this.controlledFactories = game.data.player1.controlledFactories;
+        this.totalFactories = me.game.world.getChildByName("factory_1").length;
+        this.totalFactories += me.game.world.getChildByName("factory_2").length;
+        this.font = new me.BitmapFont(
+            me.loader.getBinary('superstar'),
+            me.loader.getImage('superstar')
+        );
+        // this.font.textAlign = "right";
+        // this.font.textBaseline = "bottom";
+    },
+
+    update: function () {
+        if (this.controlledFactories != game.data.player1.controlledFactories) {
+            this.controlledFactories = game.data.player1.controlledFactories;
+            return true;
+        }
+        return false;
+    },
+
+    draw: function (renderer) {
+        var msg = (
+            "[" + this.controlledFactories +
+            "/" + this.totalFactories +
+            " CONTROL POINTS]"
+        );
+        var size = this.font.measureText(msg);
+        this.font.draw(
+            renderer,
+            msg,
+            me.game.viewport.width - size.width,
+            me.game.viewport.height - (size.height * 2)
+        );
+    }
+});

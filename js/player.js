@@ -23,6 +23,9 @@ var player = function (name, ptype) {
     // interval in milliseconds to gain resources
     this.resourceGainInterval = 1000;
 
+    // simple factory control counter
+    this.controlledFactories = 0;
+
     // Buys a unit given a unit name (equivalent to JSON file name)
     this.buyUnit = function (unitName) {
         settings = me.loader.getJSON(unitName);
