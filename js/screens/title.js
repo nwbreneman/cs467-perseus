@@ -4,7 +4,7 @@ game.TitleScreen = me.ScreenObject.extend({
      */
     onResetEvent: function() {
         var backgroundImage = new me.Sprite(0, 0, {
-                image: me.loader.getImage('title_screen'),
+                image: me.loader.getImage('wargame_titlescreen'),
             });
 
         backgroundImage.anchorPoint.set(0,0);
