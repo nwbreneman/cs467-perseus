@@ -106,4 +106,8 @@ var player = function (name, ptype) {
     this.increaseResource = function () {
         this.unitResources += this.resourceRate;
     }
+
+    this.deselectBase = function () {
+        this.base.selected = false;
+    }
 }

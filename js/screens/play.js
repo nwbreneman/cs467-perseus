@@ -116,6 +116,7 @@ game.PlayScreen = me.ScreenObject.extend({
                     if (event.button === 0) {  // left click
                         this.polyPoints = [];
                         this.player.clearSelectedUnits();
+                        this.player.deselectBase();
                         this.polyPoints.push(new me.Vector2d(event.gameScreenX, event.gameScreenY));
                         this.startSelection = true;
                     } else if (event.button === 2) { // right click
