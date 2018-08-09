@@ -43,9 +43,7 @@ var player = function (name, ptype) {
                 console.log(settings.name + " unit cost is " + settings.cost);
                 console.log(name + " " + ptype + " now has " + this.unitResources + " resources remaining");
             } else {
-                console.log("not enough money to buy unit");
-                // TODO: display message on screen that there aren't
-                // enough resources?
+                game.data.alertMessage.add("INSUFFICIENT FUNDS TO PURCHASE " + unitName);
             }
         }
     }
