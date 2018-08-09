@@ -344,6 +344,7 @@ game.Unit = me.Entity.extend({
     },
 
     die: function () {
+        me.game.world.removeChild(this.selectedBox);
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         if (this.isHoldingFlag) {
             this.carriedFlag.drop();
