@@ -37,6 +37,8 @@ game.HUD.Container = me.Container.extend({
             ));
         }
 
+        this.addChild(new game.HUD.ResourceCounter(x, y));
+
     },
 });
 
@@ -142,3 +144,30 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
         }
     },
 });
+
+game.HUD.ResourceCounter = me.Renderable.extend({
+    init: function (x, y) {
+        this._super(me.Renderable, 'init', [x, y, 0, 0]);
+        this.resources = game.data.player1.unitResources;
+        this.font = new me.BitmapFont(
+            me.loader.getBinary('superstar'),
+            me.loader.getImage('superstar')
+        );
+    },
+
+    update: function () {
+        if (this.resources != game.data.player1.unitResources) {
+            this.resources = game.data.player1.unitResources;
+            return true;
+        }
+        return false;
+    },
+
+    draw: function (renderer) {
+        var resourceDisplay = (
+            "RESOURCES: " + this.resources +
+            "\n\nGAINING " + game.data.player1.resourceRate + "/s"
+        );
+        this.font.draw(renderer, resourceDisplay, 0, 0);
+    }
+})

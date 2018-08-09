@@ -22,7 +22,11 @@ game.Base = me.Entity.extend({
      * Clicking a base displays the HUD to buy units.
      */
     pointerDown: function () {
-        this.select();
+        if (!this.selected) {
+            this.select();
+        } else {
+            this.deselect();
+        }
         return false;
     },
 
@@ -47,16 +51,16 @@ game.Unit = me.Entity.extend({
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
-       // settings.framewidth = settings.width;
+        // settings.framewidth = settings.width;
         //settings.frameheight = settings.height;
 
         settings.width = settings.framewidth * 0.3;
         settings.height = settings.frameheight * 0.6;
 
-        console.log("width: "+settings.width);
-        console.log("height: "+settings.height);
-        console.log("framewidth: "+settings.framewidth);
-        console.log("frameheight: "+settings.frameheight);
+        console.log("width: " + settings.width);
+        console.log("height: " + settings.height);
+        console.log("framewidth: " + settings.framewidth);
+        console.log("frameheight: " + settings.frameheight);
 
         // redefine the default shape (used to define path) with a shape matching the renderable
         //settings.shapes = [];
@@ -150,37 +154,37 @@ game.Unit = me.Entity.extend({
 
 
 
-             //Mark:
-            //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y) 
+            //Mark:
+            //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y)
             /*
 
             (-x,  y) | (x,  y)
             __________________
-            
+
             (-x, -y) | (x, -y)
 
             */
             //
 
-            if (newX && newY){
-                if (newX > this.pos.x && newY > this.pos.y){
+            if (newX && newY) {
+                if (newX > this.pos.x && newY > this.pos.y) {
                     this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
                     console.log("set current animation to " + this.name + "STANDING_SE");
 
-                } else if (newX < this.pos.x && newY > this.pos.y){
+                } else if (newX < this.pos.x && newY > this.pos.y) {
                     this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
                     console.log("set current animation to " + this.name + "STANDING_SW");
 
-                } else if (newX > this.pos.x && newY < this.pos.y){
+                } else if (newX > this.pos.x && newY < this.pos.y) {
                     this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
                     console.log("set current animation to " + this.name + "STANDING_NE");
 
-                } else if (newX < this.pos.x && newY < this.pos.y){
+                } else if (newX < this.pos.x && newY < this.pos.y) {
                     this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
                     console.log("set current animation to " + this.name + "STANDING_NW");
 
-                }else{ //default
-                    this.renderable.setCurrentAnimation(this.name+"STANDING_SE");
+                } else { //default
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
                     console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
 
                 }
@@ -363,10 +367,10 @@ game.Unit = me.Entity.extend({
             }
         }
         return false;
-    }, 
+    },
 
     // Stub function, will be overridden in enemy_unit
-    capturedResource: function(resourcePoint) {
+    capturedResource: function (resourcePoint) {
 
     },
 
@@ -454,7 +458,7 @@ game.flag = me.Entity.extend({
                 //console.log("Flag is at home");
                 if (other.isHoldingFlag) {
                     game.sylvanlog("VICTORY!");
-                    
+
                 } else {
                     // If this flag is at home, and the unit is NOT carrying a flag, then do nothing
                     return false;
@@ -599,7 +603,7 @@ game.capturePoint = me.Entity.extend({
         return false;
     },
 
-    getFactory: function(type, id) {
+    getFactory: function (type, id) {
         var factory = null;
 
         var factoryName = "factory_" + type;
