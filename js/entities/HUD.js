@@ -71,10 +71,10 @@ game.HUD.BaseBox = me.Renderable.extend({
  */
 game.HUD.UnitPurchaser = me.GUI_Object.extend({
     init: function (x, y, settings) {
-        
-        //Mark: 
+
+        //Mark:
         //using new shopimage property in unit's JSON files instead of "image" prop which is standing spritesheet
-       image = me.loader.getImage(settings.shopimage);
+        image = me.loader.getImage(settings.shopimage);
 
         settings.width = image.width;
         settings.height = image.height;
@@ -82,13 +82,25 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
         this._super(me.GUI_Object, 'init', [x, y, settings]);
         this.name = settings.name;
         this.cost = settings.cost;
+        this.attack = settings.attack;
+        this.defense = settings.defense;
+        this.range = settings.range;
         this.floating = true;
         this.image = image;
+        this.hover = false;
 
+        this.font = new me.BitmapFont(
+            me.loader.getBinary('superstar'),
+            me.loader.getImage('superstar')
+        );
+    },
 
-        //Mark:
-        // trying to fix HUD unit images
-       // console.log(this.image);
+    onOver: function () {
+        this.hover = true;
+    },
+
+    onOut: function () {
+        this.hover = false;
     },
 
     update: function () {
@@ -101,6 +113,21 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
     draw: function (renderer) {
         if (this.ancestor.playerBase.selected) {
             renderer.drawImage(this.image, this.pos.x, this.pos.y);
+            if (this.hover) {
+                var info = (
+                    "Name: " + this.name +
+                    "\n\nCost: " + this.cost +
+                    "\n\nAttack: " + this.attack +
+                    "\n\nDefense: " + this.defense +
+                    "\n\nRange: " + this.range
+                );
+                this.font.draw(
+                    renderer,
+                    info,
+                    this.pos.x,
+                    this.pos.y - this.height
+                );
+            }
         }
     },
 
