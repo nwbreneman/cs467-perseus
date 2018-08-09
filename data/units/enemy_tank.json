@@ -6,5 +6,7 @@
     "speed": 2,
     "type": "paper",
     "cost": 10,
-    "image": "tanktest"
+    "image": "enemytank_standing",
+    "framewidth": 88,
+    "frameheight": 108
 }

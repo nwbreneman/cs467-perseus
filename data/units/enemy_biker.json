@@ -6,5 +6,7 @@
     "speed": 3,
     "type": "paper",
     "cost": 5,
-    "image": "bikertest"
+    "image": "enemybiker_standing",
+    "framewidth": 88,
+    "frameheight": 108
 }

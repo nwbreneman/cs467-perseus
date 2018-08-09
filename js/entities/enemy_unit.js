@@ -38,7 +38,7 @@ game.EnemyUnit = game.Unit.extend({
         // then the enemy jetpack spawns facing SW, but there is no hover effect with the animation(?)
         // despite the console log showing the animations added and the southewest animation set in the logs
 
-        /*
+        
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
@@ -46,9 +46,9 @@ game.EnemyUnit = game.Unit.extend({
         // init facing southeast
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
         
-        console.log("enemy renderable: ");
-        console.log(this.renderable);
-		*/
+        game.sylvanlog("enemy renderable: ");
+        game.sylvanlog(this.renderable);
+		
 
         // To be assigned by the enemy controller
         this.controller = settings.controller;
@@ -231,6 +231,38 @@ game.EnemyUnit = game.Unit.extend({
                     var newX = this.nextMove.x;
                     var newY = this.nextMove.y;
 
+                    if (newX && newY) {
+                        if (newX > this.pos.x && newY > this.pos.y) {
+                            if (this.renderable.current.name != this.name + "STANDING_SE") {
+                                this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                                console.log("set current animation to " + this.name + "STANDING_SE");
+                            }
+                        } else if (newX < this.pos.x && newY > this.pos.y) {
+                            if (this.renderable.current.name != this.name + "STANDING_SW") {
+                                this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                                console.log("set current animation to " + this.name + "STANDING_SW");
+                            }
+
+                        } else if (newX > this.pos.x && newY < this.pos.y) {
+                            if (this.renderable.current.name != this.name + "STANDING_NE") {
+                                this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                                console.log("set current animation to " + this.name + "STANDING_NE");
+                            }
+
+                        } else if (newX < this.pos.x && newY < this.pos.y) {
+                            if (this.renderable.current.name != this.name + "STANDING_NW") {
+                                this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                                console.log("set current animation to " + this.name + "STANDING_NW");
+                            }
+
+                        } else { //default
+                            if (this.renderable.current.name != this.name + "STANDING_SE") {
+                                this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                                console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
+                            }
+                        }
+                    }
+
                     // accelerate in the correct X direction
                     if (newX && newX > this.pos.x) {
                         this.body.vel.x += this.body.accel.x * dt;
@@ -296,7 +328,8 @@ game.EnemyUnit = game.Unit.extend({
         me.collision.check(this);
 
         // return true to update if we are moving
-        return (this.body.vel.x !== 0 || this.body.vel.y !== 0);
+        this._super(me.Entity, "update", [dt]); // For the animation to continue to work
+        return true;
     },
 
 

@@ -6,5 +6,7 @@
     "speed": 2,
     "type": "paper",
     "cost": 1,
-    "image": "jetpacktest"
+    "image": "enemyjetpack_standing",
+    "framewidth": 88,
+    "frameheight": 108
 }

@@ -168,25 +168,33 @@ game.Unit = me.Entity.extend({
 
             if (newX && newY) {
                 if (newX > this.pos.x && newY > this.pos.y) {
-                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                    console.log("set current animation to " + this.name + "STANDING_SE");
-
+                    if (this.renderable.current.name != this.name + "STANDING_SE") {
+                        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                        console.log("set current animation to " + this.name + "STANDING_SE");
+                    }
                 } else if (newX < this.pos.x && newY > this.pos.y) {
-                    this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
-                    console.log("set current animation to " + this.name + "STANDING_SW");
+                    if (this.renderable.current.name != this.name + "STANDING_SW") {
+                        this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                        console.log("set current animation to " + this.name + "STANDING_SW");
+                    }
 
                 } else if (newX > this.pos.x && newY < this.pos.y) {
-                    this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
-                    console.log("set current animation to " + this.name + "STANDING_NE");
+                    if (this.renderable.current.name != this.name + "STANDING_NE") {
+                        this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                        console.log("set current animation to " + this.name + "STANDING_NE");
+                    }
 
                 } else if (newX < this.pos.x && newY < this.pos.y) {
-                    this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-                    console.log("set current animation to " + this.name + "STANDING_NW");
+                    if (this.renderable.current.name != this.name + "STANDING_NW") {
+                        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                        console.log("set current animation to " + this.name + "STANDING_NW");
+                    }
 
                 } else { //default
-                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                    console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
-
+                    if (this.renderable.current.name != this.name + "STANDING_SE") {
+                        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                        console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
+                    }
                 }
             }
 

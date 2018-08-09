@@ -13,7 +13,7 @@ var game = {
         player1: new player("Player 1", "Human"),
         enemy: new player("Enemy", "AI"),
         difficulty: "Easy",
-        sylvanLogs: false,  // false to suppress sylvan's console logs
+        sylvanLogs: true,  // false to suppress sylvan's console logs
     },
 
     
