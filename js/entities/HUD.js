@@ -88,7 +88,7 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
 
         //Mark:
         // trying to fix HUD unit images
-        console.log(this.image);
+       // console.log(this.image);
     },
 
     update: function () {
