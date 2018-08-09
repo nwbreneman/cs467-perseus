@@ -30,6 +30,25 @@ game.EnemyUnit = game.Unit.extend({
         this.alwaysUpdate = true;
 
         this.renderable.anchorPoint.set(0.5, 0.5);
+        
+        
+        //Mark:
+        // trying to add enemy unit standing animations like blue units
+        // if you uncomment the lines below, and change enemy_jetpack.json image property to "enemyjetpack_standing"
+        // then the enemy jetpack spawns facing SW, but there is no hover effect with the animation(?)
+        // despite the console log showing the animations added and the southewest animation set in the logs
+
+        /*
+        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
+        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
+        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
+        // init facing southeast
+        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+        
+        console.log("enemy renderable: ");
+        console.log(this.renderable);
+		*/
 
         // To be assigned by the enemy controller
         this.controller = settings.controller;
