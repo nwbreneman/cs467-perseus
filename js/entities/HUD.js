@@ -85,6 +85,7 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
         this.attack = settings.attack;
         this.defense = settings.defense;
         this.range = settings.range;
+        this.speed = settings.speed;
         this.floating = true;
         this.image = image;
         this.hover = false;
@@ -119,13 +120,14 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
                     "\n\nCost: " + this.cost +
                     "\n\nAttack: " + this.attack +
                     "\n\nDefense: " + this.defense +
-                    "\n\nRange: " + this.range
+                    "\n\nRange: " + this.range +
+                    "\n\nSpeed: " + this.speed
                 );
                 this.font.draw(
                     renderer,
                     info,
                     this.pos.x,
-                    this.pos.y - this.height
+                    this.pos.y - (this.height * 1.5)
                 );
             }
         }
