@@ -39,6 +39,7 @@ game.HUD.Container = me.Container.extend({
 
         this.addChild(new game.HUD.ResourceCounter(0, 0));
         this.addChild(new game.HUD.FactoryControlCounter(0, 0));
+        game.data.alertMessage = this.addChild(new game.HUD.alertMessage());
     },
 });
 
@@ -182,8 +183,7 @@ game.HUD.FactoryControlCounter = me.Renderable.extend({
             me.loader.getBinary('superstar'),
             me.loader.getImage('superstar')
         );
-        // this.font.textAlign = "right";
-        // this.font.textBaseline = "bottom";
+        this.font.textAlign = "right";
     },
 
     update: function () {
@@ -204,8 +204,53 @@ game.HUD.FactoryControlCounter = me.Renderable.extend({
         this.font.draw(
             renderer,
             msg,
-            me.game.viewport.width - size.width,
+            me.game.viewport.width,
             me.game.viewport.height - (size.height * 2)
         );
+    }
+});
+
+game.HUD.alertMessage = me.Renderable.extend({
+    init: function () {
+        this._super(me.Renderable, 'init', [0, 0, 0, 0]);
+        this.messages = [];
+        this.font = new me.BitmapFont(
+            me.loader.getBinary('superstar'),
+            me.loader.getImage('superstar')
+        );
+        this.font.textAlign = "center";
+        this.font.textBaseline = "middle";
+        this.timerPromise = null;
+    },
+
+    add: function (message) {
+        this.messages.push(message);
+    },
+
+    update: function () {
+        if (this.messages.length > 0) {
+            return true;
+        }
+        return false;
+    },
+
+    draw: function (renderer) {
+        if (this.messages.length > 0) {
+            var msg = this.messages[0];
+            var size = this.font.measureText(msg);
+            this.font.draw(
+                renderer,
+                msg,
+                (me.game.viewport.width / 2),
+                size.height * 2
+            );
+
+            if (!this.timerPromise) {
+                this.timerPromise = me.timer.setTimeout(function () {
+                    this.messages.shift();
+                    this.timerPromise = null;
+                }.bind(this), 3000);
+            }
+        }
     }
 });
