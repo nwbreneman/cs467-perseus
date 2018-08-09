@@ -338,6 +338,10 @@ game.Unit = me.Entity.extend({
 
     takeDamage: function (damage) {
         this.defense -= damage;
+        
+        //sprite flickers 0.5 second when unit takes damage
+        this.renderable.flicker(500);
+        
         if (this.defense <= 0) {
             this.die();
         }
