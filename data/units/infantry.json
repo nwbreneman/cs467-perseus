@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 5,
     "image": "infantry_standing",
+    "shopimage": "infantry_shop",
     "framewidth": 88,
     "frameheight": 108
 }

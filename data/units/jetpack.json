@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 1,
     "image": "jetpack_standing",
+    "shopimage": "jetpack_shop",
     "framewidth": 88,
     "frameheight": 108
 }
