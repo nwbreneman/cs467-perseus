@@ -557,8 +557,11 @@ game.capturePoint = me.Entity.extend({
     update: function (dt) {
         this.lastCaptureCheck += dt;
         if (this.lastCaptureCheck >= 1000 && this.capturingUnit) {
-            var bodyType = this.capturingUnit.body.collisionType;
-
+            
+            if (this.capturingUnit.body){ //Mark: need this extra if-statement to prevent game crashing when a unit on top of a point is killed
+            var bodyType = this.capturingUnit.body.collisionType; //janky fix but seems to work?
+            }
+            
             // capture point if not already captured for unit's player
             if (bodyType === game.collisionTypes.PLAYER_UNIT) {
                 if (this.captureStatus !== this.timeToCapture) {
