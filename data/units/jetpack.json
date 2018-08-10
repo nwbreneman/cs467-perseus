@@ -1,8 +1,8 @@
 {
     "name": "jetpack",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
+    "attack": 40,
+    "range": 3,
+    "defense": 80,
     "speed": 2,
     "type": "paper",
     "cost": 100,
