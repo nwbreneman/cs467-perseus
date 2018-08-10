@@ -1,14 +1,15 @@
 {
     "name": "enemy_biker",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
-    "speed": 3,
+    "attack": 20,
+    "range": 3,
+    "defense": 50,
+    "speed": 2,
     "type": "paper",
-    "cost": 5,
+    "cost": 10,
     "image": "enemybiker_standing",
     "framewidth": 88,
     "frameheight": 108,
+    "projectile": "bullet",
     "myWidth": 20,
     "myHeight": 20
 }

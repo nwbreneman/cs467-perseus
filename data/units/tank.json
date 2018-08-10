@@ -1,15 +1,16 @@
 {
     "name": "tank",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
+    "attack": 40,
+    "range": 5,
+    "defense": 200,
     "speed": 2,
     "type": "paper",
-    "cost": 10,
+    "cost": 100,
     "image": "tank_standing",
     "shopimage": "tank_shop",
     "framewidth": 88,
     "frameheight": 108,
+    "projectile": "bullet",
     "myWidth": 20,
     "myHeight": 20
 }

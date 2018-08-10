@@ -1,15 +1,16 @@
 {
     "name": "plane",
-    "attack": 0,
-    "range": 0,
-    "defense": 0,
+    "attack": 20,
+    "range": 5,
+    "defense": 100,
     "speed": 2,
     "type": "paper",
-    "cost": 5,
+    "cost": 25,
     "image": "plane_standing",
     "shopimage": "plane_shop",
     "framewidth": 88,
     "frameheight": 108,
+    "projectile": "bullet",
     "myWidth": 20,
     "myHeight": 20
 }
