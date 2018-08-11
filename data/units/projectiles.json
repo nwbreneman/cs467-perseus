@@ -1,45 +1,51 @@
 {
     "list": [
-        "bullet",
         "civilian_projectile",
         "enemycivilian_projectile",
         "infantry_projectile",
         "enemyinfantry_projectile",
         "bazooka_projectile",
-        "enemybazooka_projectile"
+        "enemybazooka_projectile",
+        "biker_projectile",
+        "enemybiker_projectile",
+        "plane_projectile",
+        "enemyplane_projectile",
+        "engineer_projectile",
+        "enemyengineer_projectile",
+        "jetpack_projectile",
+        "enemyjetpack_projectile",
+        "tank_projectile",
+        "enemytank_projectile",
+        "sniper_projectile",
+        "enemysniper_projectile",
+        "bomber_projectile",
+        "enemybomber_projectile"
     ],
     "settings": [
-        {
-            "name": "bullet",
-            "image": "bullet",
-            "height": 12,
-            "width": 20,
-            "speed": 15
-        },
         {
             "name": "civilian_projectile",
             "image": "civilian_projectile",
             "height": 20,
             "width": 20,
-            "speed": 12
+            "speed": 8
         },
         {   "name": "enemycivilian_projectile",
             "image": "enemycivilian_projectile",
             "height": 20,
             "width": 20,
-            "speed": 12
+            "speed": 8
         },
         {
             "name": "infantry_projectile",
-            "image": "bullet",
+            "image": "infantry_projectile",
             "height": 20,
-            "width": 12,
+            "width": 20,
             "speed": 20
         },
         {   "name": "enemyinfantry_projectile",
-            "image": "bullet",
+            "image": "enemyinfantry_projectile",
             "height": 20,
-            "width": 12,
+            "width": 20,
             "speed": 20
         },
         {
@@ -54,6 +60,104 @@
             "height": 20,
             "width": 20,
             "speed": 15
+        },
+        {
+        	"name": "biker_projectile",
+        	"image": "biker_projectile",
+        	"height": 20,
+        	"width": 20,
+        	"speed": 10
+        },
+        {
+        	"name": "enemybiker_projectile", 
+        	"image": "enemybiker_projectile",
+        	"height": 20,
+        	"width": 20,
+        	"speed": 10
+        },
+        {
+        	"name": "plane_projectile", 
+        	"image": "plane_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 20
+        },
+        {
+        	"name": "enemyplane_projectile", 
+        	"image": "enemyplane_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 20
+        },
+        {
+        	"name": "engineer_projectile", 
+        	"image": "engineer_projectile",
+        	"height": 20,
+        	"width": 20,
+        	"speed": 8
+        },
+        {
+        	"name": "enemyengineer_projectile",
+        	"image": "enemyengineer_projectile",
+        	"height": 20,
+        	"width": 20,
+        	"speed": 8
+        },
+        {
+        	"name": "jetpack_projectile",
+        	"image": "jetpack_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 20
+        },
+        {
+        	"name": "enemyjetpack_projectile",
+        	"image": "enemyjetpack_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 20
+        },
+        {
+        	"name": "tank_projectile",
+        	"image": "tank_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 18
+        },
+        {
+        	"name": "enemytank_projectile", 
+        	"image": "enemytank_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 18
+        },
+        {
+        	"name": "sniper_projectile",
+        	"image": "sniper_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 25
+        },
+        {
+        	"name": "enemysniper_projectile",
+        	"image": "enemysniper_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 25
+        },
+        {
+        	"name": "bomber_projectile",
+        	"image": "bomber_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 18
+        },
+        {
+        	"name": "enemybomber_projectile",
+        	"image": "enemybomber_projectile",
+        	"height": 40,
+        	"width": 40,
+        	"speed": 18
         }
     ]
 }
