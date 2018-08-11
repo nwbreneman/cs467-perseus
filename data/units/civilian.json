@@ -1,16 +1,16 @@
 {
     "name": "civilian",
-    "attack": 5,
-    "range": 1,
-    "defense": 10,
+    "attack": 1,
+    "range": 400,
+    "defense": 5,
     "speed": 1,
     "type": "rock",
-    "cost": 5,
+    "cost": 15,
     "image": "civilian_standing",
     "shopimage": "civilian_shop",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "civilian_projectile",
-    "myWidth": 20,
-    "myHeight": 20
+    "myWidth": 40,
+    "myHeight": 40
 }

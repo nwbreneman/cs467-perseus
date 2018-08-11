@@ -1,15 +1,15 @@
 {
     "name": "enemy_civilian",
-    "attack": 5,
-    "range": 1,
-    "defense": 10,
+    "attack": 1,
+    "range": 400,
+    "defense": 5,
     "speed": 1,
     "type": "rock",
-    "cost": 1,
+    "cost": 15,
     "image": "enemycivilian_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemycivilian_projectile",
-    "myWidth": 20,
-    "myHeight": 20
+    "myWidth": 40,
+    "myHeight": 40
 }

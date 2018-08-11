@@ -1,16 +1,16 @@
 {
     "name": "infantry",
-    "attack": 7,
-    "range": 3,
-    "defense": 22,
+    "attack": 10,
+    "range": 600,
+    "defense": 10,
     "speed": 1,
     "type": "paper",
-    "cost": 7,
+    "cost": 25,
     "image": "infantry_standing",
     "shopimage": "infantry_shop",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "bullet",
-    "myWidth": 20,
-    "myHeight": 20
+    "myWidth": 40,
+    "myHeight": 40
 }

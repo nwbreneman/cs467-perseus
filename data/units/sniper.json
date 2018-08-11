@@ -1,16 +1,16 @@
 {
     "name": "sniper",
-    "attack": 40,
-    "range": 7,
-    "defense": 80,
+    "attack": 100,
+    "range": 1100,
+    "defense": 145,
     "speed": 1,
-    "type": "paper",
-    "cost": 100,
+    "type": "scissors",
+    "cost": 750,
     "image": "sniper_standing",
     "shopimage": "sniper_shop",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "bullet",
-    "myWidth": 20,
-    "myHeight": 20
+    "myWidth": 40,
+    "myHeight": 40
 }

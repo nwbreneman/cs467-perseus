@@ -10,20 +10,20 @@
             "image": "bullet",
             "height": 12,
             "width": 20,
-            "speed": 20
+            "speed": 15
         },
         {
             "name": "civilian_projectile",
             "image": "civilian_projectile",
             "height": 17,
             "width": 17,
-            "speed": 10
+            "speed": 5
         },
-        { "name": "enemycivilian_projectile",
+        {   "name": "enemycivilian_projectile",
             "image": "enemycivilian_projectile",
             "height": 17,
             "width": 17,
-            "speed": 10
+            "speed": 5
         }
     ]
 }

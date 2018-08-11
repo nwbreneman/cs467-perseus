@@ -1,15 +1,15 @@
 {
     "name": "enemy_jetpack",
-    "attack": 40,
-    "range": 3,
-    "defense": 80,
+    "attack": 50,
+    "range": 400,
+    "defense": 95,
     "speed": 2,
-    "type": "paper",
-    "cost": 100,
+    "type": "rock",
+    "cost": 600,
     "image": "enemyjetpack_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "bullet",
-    "myWidth": 20,
-    "myHeight": 20
+    "myWidth": 40,
+    "myHeight": 40
 }
