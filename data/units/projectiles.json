@@ -2,7 +2,11 @@
     "list": [
         "bullet",
         "civilian_projectile",
-        "enemycivilian_projectile"
+        "enemycivilian_projectile",
+        "infantry_projectile",
+        "enemyinfantry_projectile,"
+        "bazooka_projectile",
+        "enemybazooka_projectile"
     ],
     "settings": [
         {
@@ -15,15 +19,41 @@
         {
             "name": "civilian_projectile",
             "image": "civilian_projectile",
-            "height": 17,
-            "width": 17,
-            "speed": 5
+            "height": 20,
+            "width": 20,
+            "speed": 12
         },
         {   "name": "enemycivilian_projectile",
             "image": "enemycivilian_projectile",
-            "height": 17,
-            "width": 17,
-            "speed": 5
+            "height": 20,
+            "width": 20,
+            "speed": 12
+        },
+        {
+            "name": "infantry_projectile",
+            "image": "bullet",
+            "height": 20,
+            "width": 12,
+            "speed": 20
+        },
+        {   "name": "enemyinfantry_projectile",
+            "image": "bullet",
+            "height": 20,
+            "width": 12,
+            "speed": 20
+        },
+        {
+            "name": "bazooka_projectile",
+            "image": "bazooka_projectile",
+            "height": 20,
+            "width": 20,
+            "speed": 15
+        },
+        {   "name": "enemybazooka_projectile",
+            "image": "enemybazooka_projectile",
+            "height": 20,
+            "width": 20,
+            "speed": 15
         }
     ]
 }
