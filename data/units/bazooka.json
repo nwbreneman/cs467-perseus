@@ -10,7 +10,7 @@
     "shopimage": "bazooka_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "bazooka_projectile",
     "myWidth": 40,
     "myHeight": 40
 }
