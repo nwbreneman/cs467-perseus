@@ -1,13 +1,16 @@
 {
     "name": "jetpack",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
+    "attack": 40,
+    "range": 3,
+    "defense": 80,
     "speed": 2,
     "type": "paper",
-    "cost": 1,
+    "cost": 100,
     "image": "jetpack_standing",
     "shopimage": "jetpack_shop",
     "framewidth": 88,
-    "frameheight": 108
+    "frameheight": 108,
+    "projectile": "bullet",
+    "myWidth": 20,
+    "myHeight": 20
 }

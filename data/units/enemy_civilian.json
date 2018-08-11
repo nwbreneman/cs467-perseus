@@ -8,5 +8,8 @@
     "cost": 1,
     "image": "enemycivilian_standing",
     "framewidth": 88,
-    "frameheight": 108
+    "frameheight": 108,
+    "projectile": "enemycivilian_projectile",
+    "myWidth": 20,
+    "myHeight": 20
 }

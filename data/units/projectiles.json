@@ -1,6 +1,8 @@
 {
     "list": [
-        "bullet"
+        "bullet",
+        "civilian_projectile",
+        "enemycivilian_projectile"
     ],
     "settings": [
         {
@@ -9,6 +11,19 @@
             "height": 12,
             "width": 20,
             "speed": 20
+        },
+        {
+            "name": "civilian_projectile",
+            "image": "civilian_projectile",
+            "height": 17,
+            "width": 17,
+            "speed": 10
+        },
+        { "name": "enemycivilian_projectile",
+            "image": "enemycivilian_projectile",
+            "height": 17,
+            "width": 17,
+            "speed": 10
         }
     ]
 }

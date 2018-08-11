@@ -54,8 +54,10 @@ game.Unit = me.Entity.extend({
         // settings.framewidth = settings.width;
         //settings.frameheight = settings.height;
 
-        settings.width = settings.framewidth * 0.3;
-        settings.height = settings.frameheight * 0.6;
+        //settings.width = settings.framewidth * 0.3;
+        //settings.height = settings.frameheight * 0.25;
+        settings.width = settings.myWidth;
+        settings.height = settings.myHeight;
 
         console.log("width: " + settings.width);
         console.log("height: " + settings.height);
@@ -102,7 +104,7 @@ game.Unit = me.Entity.extend({
         // Mark:
         // add standing animations for all four facing directions
         console.log(this.renderable);
-        this.renderable.anchorPoint.set(0.5, 0.5);
+        this.renderable.anchorPoint.set(0.5, 0.7);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
@@ -344,12 +346,17 @@ game.Unit = me.Entity.extend({
 
     takeDamage: function (damage) {
         this.defense -= damage;
+        
+        //sprite flickers 0.5 second when unit takes damage
+        this.renderable.flicker(500);
+        
         if (this.defense <= 0) {
             this.die();
         }
     },
 
     die: function () {
+        me.game.world.removeChild(this.selectedBox);
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         if (this.isHoldingFlag) {
             this.carriedFlag.drop();
@@ -538,8 +545,8 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = null;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
-        this.timeToCapture = 10; // time in seconds
-        this.rate = settings.rate || 1; // resources gained per second
+        this.timeToCapture = 5; // time in seconds
+        this.rate = settings.rate || 2; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
@@ -555,8 +562,11 @@ game.capturePoint = me.Entity.extend({
     update: function (dt) {
         this.lastCaptureCheck += dt;
         if (this.lastCaptureCheck >= 1000 && this.capturingUnit) {
-            var bodyType = this.capturingUnit.body.collisionType;
-
+            
+            if (this.capturingUnit.body){ //Mark: need this extra if-statement to prevent game crashing when a unit on top of a point is killed
+            var bodyType = this.capturingUnit.body.collisionType; //janky fix but seems to work?
+            }
+            
             // capture point if not already captured for unit's player
             if (bodyType === game.collisionTypes.PLAYER_UNIT) {
                 if (this.captureStatus !== this.timeToCapture) {
