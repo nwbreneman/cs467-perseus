@@ -1,16 +1,16 @@
 {
     "name": "plane",
-    "attack": 20,
+    "attack": 50,
     "range": 700,
-    "defense": 150,
-    "speed": 2,
+    "defense": 200,
+    "speed": 2.2,
     "type": "rock",
-    "cost": 500,
+    "cost": 575,
     "image": "plane_standing",
     "shopimage": "plane_shop",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "plane_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

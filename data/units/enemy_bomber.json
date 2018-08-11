@@ -1,15 +1,15 @@
 {
     "name": "enemy_bomber",
     "attack": 200,
-    "range": 750,
-    "defense": 250,
-    "speed": 3,
+    "range": 900,
+    "defense": 300,
+    "speed": 3.25,
     "type": "rock",
-    "cost": 800,
+    "cost": 2999,
     "image": "enemybomber_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybomber_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

@@ -1,16 +1,16 @@
 {
     "name": "bazooka",
-    "attack": 75,
+    "attack": 25,
     "range": 600,
-    "defense": 30,
-    "speed": 1,
+    "defense": 150,
+    "speed": 1.2,
     "type": "paper",
-    "cost": 100,
+    "cost": 200,
     "image": "bazooka_standing",
     "shopimage": "bazooka_shop",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "bazooka_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

@@ -2,14 +2,14 @@
     "name": "enemy_jetpack",
     "attack": 50,
     "range": 400,
-    "defense": 95,
+    "defense": 300,
     "speed": 2,
     "type": "rock",
-    "cost": 600,
+    "cost": 1600,
     "image": "enemyjetpack_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemyjetpack_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

@@ -1,15 +1,15 @@
 {
     "name": "enemy_tank",
     "attack": 80,
-    "range": 800,
-    "defense": 300,
-    "speed": 2,
+    "range": 900,
+    "defense": 1000,
+    "speed": 1.75,
     "type": "scissors",
-    "cost": 500,
+    "cost": 1600,
     "image": "enemytank_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemytank_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

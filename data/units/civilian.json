@@ -1,9 +1,9 @@
 {
     "name": "civilian",
     "attack": 1,
-    "range": 400,
-    "defense": 5,
-    "speed": 1,
+    "range": 225,
+    "defense": 7,
+    "speed": 1.2,
     "type": "rock",
     "cost": 15,
     "image": "civilian_standing",
@@ -12,5 +12,5 @@
     "frameheight": 108,
     "projectile": "civilian_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

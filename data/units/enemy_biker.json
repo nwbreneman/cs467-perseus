@@ -1,15 +1,15 @@
 {
     "name": "enemy_biker",
-    "attack": 10,
+    "attack": 20,
     "range": 500,
-    "defense": 75,
-    "speed": 3,
+    "defense": 175,
+    "speed": 2.5,
     "type": "scissors",
-    "cost": 450,
+    "cost": 200,
     "image": "enemybiker_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybiker_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

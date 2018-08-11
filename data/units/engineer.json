@@ -1,8 +1,8 @@
 {
     "name": "engineer",
-    "attack": 0,
-    "range": 300,
-    "defense": 215,
+    "attack": 1,
+    "range": 225,
+    "defense": 200,
     "speed": 2,
     "type": "paper",
     "cost": 250,
@@ -12,5 +12,5 @@
     "frameheight": 108,
     "projectile": "engineer_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }

@@ -1,15 +1,15 @@
 {
     "name": "enemy_plane",
-    "attack": 20,
+    "attack": 50,
     "range": 700,
-    "defense": 150,
-    "speed": 2,
+    "defense": 200,
+    "speed": 2.2,
     "type": "paper",
-    "cost": 500,
+    "cost": 575,
     "image": "enemyplane_standing",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemyplane_projectile",
     "myWidth": 40,
-    "myHeight": 40
+    "myHeight": 60
 }
