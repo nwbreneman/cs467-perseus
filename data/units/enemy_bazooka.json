@@ -9,7 +9,7 @@
     "image": "enemybazooka_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "enemybazooka_projectile",
     "myWidth": 40,
     "myHeight": 40
 }
