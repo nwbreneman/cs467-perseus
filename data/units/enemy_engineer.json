@@ -9,7 +9,7 @@
     "image": "enemyengineer_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "enemyengineer_projectile",
     "myWidth": 40,
     "myHeight": 40
 }

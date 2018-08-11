@@ -10,7 +10,7 @@
     "shopimage": "plane_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "plane_projectile",
     "myWidth": 40,
     "myHeight": 40
 }

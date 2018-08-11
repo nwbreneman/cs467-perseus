@@ -9,7 +9,7 @@
     "image": "enemyinfantry_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "enemyinfantry_projectile",
     "myWidth": 40,
     "myHeight": 40
 }

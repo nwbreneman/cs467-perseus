@@ -10,7 +10,7 @@
     "shopimage": "biker_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "biker_projectile",
     "myWidth": 40,
     "myHeight": 40
 }

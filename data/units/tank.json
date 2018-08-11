@@ -10,7 +10,7 @@
     "shopimage": "tank_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "tank_projectile",
     "myWidth": 40,
     "myHeight": 40
 }

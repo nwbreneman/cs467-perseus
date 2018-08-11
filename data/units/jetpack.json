@@ -10,7 +10,7 @@
     "shopimage": "jetpack_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "projectile": "bullet",
+    "projectile": "jetpack_projectile",
     "myWidth": 40,
     "myHeight": 40
 }
