@@ -346,10 +346,10 @@ game.Unit = me.Entity.extend({
 
     takeDamage: function (damage) {
         this.defense -= damage;
-        
+
         //sprite flickers 0.5 second when unit takes damage
         this.renderable.flicker(500);
-        
+
         if (this.defense <= 0) {
             this.die();
         }
@@ -562,11 +562,11 @@ game.capturePoint = me.Entity.extend({
     update: function (dt) {
         this.lastCaptureCheck += dt;
         if (this.lastCaptureCheck >= 1000 && this.capturingUnit) {
-            
-            if (this.capturingUnit.body){ //Mark: need this extra if-statement to prevent game crashing when a unit on top of a point is killed
-            var bodyType = this.capturingUnit.body.collisionType; //janky fix but seems to work?
+
+            if (this.capturingUnit.body) { //Mark: need this extra if-statement to prevent game crashing when a unit on top of a point is killed
+                var bodyType = this.capturingUnit.body.collisionType; //janky fix but seems to work?
             }
-            
+
             // capture point if not already captured for unit's player
             if (bodyType === game.collisionTypes.PLAYER_UNIT) {
                 if (this.captureStatus !== this.timeToCapture) {

@@ -52,6 +52,9 @@ game.PlayScreen = me.ScreenObject.extend({
                 if (panned) {
                     me.game.viewport.move(dir.x, dir.y);
                 }
+                if (me.input.isKeyPressed("x")) {
+                    game.data.player1.cancelMovement();
+                }
 
                 if (me.input.isKeyPressed("kill")) {
                     selectedUnits = game.data.player1.getSelectedUnits();
@@ -188,6 +191,7 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.bindKey(me.input.KEY.W, "up");
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.S, "down");
+        me.input.bindKey(me.input.KEY.X, "x");
 
         // Bind shift key for multi-selecting units with click
         me.input.bindKey(me.input.KEY.SHIFT, "shift");

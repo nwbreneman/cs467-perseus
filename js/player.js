@@ -10,7 +10,7 @@ var player = function (name, ptype) {
     } else {
         this.ptype = ptype;
     }
-    this.unitResources = 30; 
+    this.unitResources = 30;
     this.resourceRate = 0;
     // Mark: I'm adding trace statements throughout to monitor unit purchasing
     // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
@@ -106,5 +106,11 @@ var player = function (name, ptype) {
 
     this.increaseResource = function () {
         this.unitResources += this.resourceRate;
+    }
+
+    this.cancelMovement = function () {
+        for (var i = 0; i < this.selectedUnits.length; i++) {
+            this.selectedUnits[i].cancelMovement();
+        }
     }
 }
