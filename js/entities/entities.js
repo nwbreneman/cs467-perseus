@@ -68,7 +68,6 @@ game.Unit = me.Entity.extend({
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
-        // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = game.collisionTypes.PLAYER_UNIT;
         this.moveTo = null;
         this.alwaysUpdate = true;
@@ -116,7 +115,15 @@ game.Unit = me.Entity.extend({
 
     /** Registers this entity to pointer events when the entity is created */
     onActivateEvent: function () {
-        me.input.registerPointerEvent("pointerdown", this, this.pointerDown.bind(this));
+        me.input.registerPointerEvent(
+            "pointerdown", this, this.pointerDown.bind(this));
+
+        this.detectionBox = new me.Rect(
+            this.pos.x - (this.width * 2),
+            this.pos.y - (this.height),
+            this.width + this.range,
+            this.height + this.range
+        );
     },
 
     /**
@@ -151,8 +158,6 @@ game.Unit = me.Entity.extend({
             // get the next xy coordinates
             var newX = this.nextMove.x;
             var newY = this.nextMove.y;
-
-
 
             //Mark:
             //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y)
@@ -241,6 +246,9 @@ game.Unit = me.Entity.extend({
                 this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
             }
 
+            // update detection box position
+            this.detectionBox.pos.x = this.pos.x - (this.width * 2);
+            this.detectionBox.pos.y = this.pos.y - (this.height);
         }
 
         // if unit is selected, belongs to a human player and has no box
@@ -352,21 +360,18 @@ game.Unit = me.Entity.extend({
     },
 
     inRangeOfEnemy: function () {
-        // using unit's range, each update, check if within firing range of an enemy
-        // if so, fire in an enemy's direction
+        // using unit's range, each update, check if within firing range of
+        // an enemy
 
-        // make a shape centered around center of unit -- width/height is unit's width and height + the unit's range
-        var detectionRect = new me.Rect(
-            this.pos.x,
-            this.pos.y,
-            this.width + this.range,
-            this.height + this.range
-        );
         var allUnits = me.game.world.getChildByType(game.Unit);
+        allUnits = allUnits.concat(
+            me.game.world.getChildByType(game.EnemyUnit));
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                if (detectionRect.containsPoint(unit.pos.x, unit.pos.y)) {
+                // console.log("not my team!");
+                if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
+                    console.log("contains!");
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y
@@ -697,4 +702,4 @@ game.projectile = me.Entity.extend({
             return true;
         }
     }
-})
+});
