@@ -107,11 +107,6 @@ game.PlayScreen = me.ScreenObject.extend({
                     return;
                 }
 
-                // ctrl-left click orders attack
-                if (me.input.isKeyPressed("ctrl") && event.button === 0) {
-                    this.player.orderAttack(event.gameWorldX, event.gameWorldY);
-                }
-
                 if (event.type === "pointerdown") {
                     if (event.button === 0) {  // left click
                         this.polyPoints = [];
