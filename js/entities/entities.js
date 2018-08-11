@@ -546,7 +546,7 @@ game.capturePoint = me.Entity.extend({
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
         this.timeToCapture = 6; // time in seconds
-        this.rate = settings.rate || 4; // resources gained per second
+        this.rate = settings.rate || 5; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
