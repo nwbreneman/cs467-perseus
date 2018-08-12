@@ -167,7 +167,11 @@ game.EnemyUnit = game.Unit.extend({
                 break;
             case 'dead':
                 game.sylvanlog("He's dead, Jim!");
-                
+                this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+                if (this.isHoldingFlag) {
+                    this.carriedFlag.drop();
+                    this.isHoldingFlag = false;
+                }
                 this.controller.report(this, 'dead');
                 me.game.world.removeChild(this);
                 break;
