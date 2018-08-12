@@ -362,6 +362,13 @@ game.Unit = me.Entity.extend({
             this.carriedFlag.drop();
             this.isHoldingFlag = false;
         }
+
+        //-5 resource rate if engineer dies.
+        if (this.name == "engineer"){
+            game.data.player1.changeResourceRate(-5);
+            game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
+        }
+
         game.data.player1.removeUnit(this);
         me.game.world.removeChild(this);
     },
@@ -545,8 +552,8 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = null;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
-        this.timeToCapture = 6; // time in seconds
-        this.rate = settings.rate || 5; // resources gained per second
+        this.timeToCapture = 4; // time in seconds
+        this.rate = settings.rate || 4.25; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
@@ -589,19 +596,27 @@ game.capturePoint = me.Entity.extend({
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
@@ -609,6 +624,8 @@ game.capturePoint = me.Entity.extend({
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
+                game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
+
                 this.owner = null;
             }
 
