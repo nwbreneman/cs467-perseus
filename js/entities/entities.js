@@ -724,8 +724,6 @@ game.projectile = me.Entity.extend({
             return true;
         }
 
-        // Mark
-        // Rock-paper-scissors unit attack balancing. If rock type vs scissors type, damage is doubled for example. 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
             
