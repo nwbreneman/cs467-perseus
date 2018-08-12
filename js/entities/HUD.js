@@ -89,6 +89,7 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
         this.defense = settings.defense;
         this.range = settings.range;
         this.speed = settings.speed;
+        this.type = settings.type;
         this.floating = true;
         this.image = image;
         this.hover = false;
@@ -120,6 +121,7 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
             if (this.hover) {
                 var info = (
                     "Name: " + this.name +
+                    "\n\nType: " + this.type +
                     "\n\nCost: " + this.cost +
                     "\n\nAttack: " + this.attack +
                     "\n\nDefense: " + this.defense +
