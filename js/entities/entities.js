@@ -304,9 +304,9 @@ game.Unit = me.Entity.extend({
 
     move: function (x, y) {
         this.cancelMovement();
-        var start = new Vertex(this.pos.x + this.width, this.pos.y);
+        var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
-        this.moveTo = shortestPath(start, end);
+        this.moveTo = shortestPath(start, end, this);
         // set next move immediately to allow for change in direction
         this.nextMove = this.moveTo.shift();
     },
