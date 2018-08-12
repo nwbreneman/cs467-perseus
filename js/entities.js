@@ -303,9 +303,10 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
+        this.cancelMovement();
         var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
-        this.moveTo = shortestPath(start, end);
+        this.moveTo = shortestPath(start, end, this);
         // set next move immediately to allow for change in direction
         this.nextMove = this.moveTo.shift();
     },
@@ -335,6 +336,7 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
+        settings.type = this.type;
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
@@ -364,7 +366,7 @@ game.Unit = me.Entity.extend({
         }
 
         //-5 resource rate if engineer dies.
-        if (this.name == "engineer"){
+        if (this.name == "engineer") {
             game.data.player1.changeResourceRate(-5);
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
@@ -383,9 +385,7 @@ game.Unit = me.Entity.extend({
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                // console.log("not my team!");
                 if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
-                    console.log("contains!");
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y
@@ -552,8 +552,8 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = null;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
-        this.timeToCapture = 6; // time in seconds
-        this.rate = settings.rate || 5; // resources gained per second
+        this.timeToCapture = 4; // time in seconds
+        this.rate = settings.rate || 4.25; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
@@ -596,19 +596,27 @@ game.capturePoint = me.Entity.extend({
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
@@ -616,6 +624,8 @@ game.capturePoint = me.Entity.extend({
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
+                game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
+
                 this.owner = null;
             }
 
@@ -662,6 +672,8 @@ game.projectile = me.Entity.extend({
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
         this.alwaysUpdate = true;
         this.damage = settings.damage;
+        this.type = settings.type;
+        console.log("projectile type: " + this.type);
         this.ownerUnit = settings.ownerUnit;
         this.speed = settings.speed;
 
@@ -712,9 +724,29 @@ game.projectile = me.Entity.extend({
             return true;
         }
 
+        // Mark
+        // Rock-paper-scissors unit attack balancing. If rock type vs scissors type, damage is doubled for example. 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
-            other.takeDamage(this.damage);
+            
+            other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
+            
+            console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
+            if(this.type == "paper" && other.type == "rock"){
+                console.log("Paper hit rock - double this damage!")
+
+            }
+            else if(this.type == "rock" && other.type == "scissors"){
+                console.log("rock hit scissors - double this damage!")
+
+            }
+            else if(this.type =="scissors" && other.type == "paper"){
+                console.log("rock hit scissors - double this damage!")
+
+            }
+
+
+
             me.game.world.removeChild(this);
             return true;
         }
