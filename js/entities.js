@@ -673,7 +673,7 @@ game.projectile = me.Entity.extend({
         this.alwaysUpdate = true;
         this.damage = settings.damage;
         this.type = settings.type;
-        console.log("projectile type: " + this.type);
+        console.log("projectile fired and its type: " + this.type);
         this.ownerUnit = settings.ownerUnit;
         this.speed = settings.speed;
 
