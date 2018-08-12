@@ -31,6 +31,14 @@ var player = function (name, ptype) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
+
+                //change resource rate to player if buying an engineer
+                if (settings.name == "engineer"){
+                    this.changeResourceRate(5);
+                    game.data.alertMessage.add("ENGINEER BUILT: +5 RESOURCES PER SECOND ");
+                }
+
+
                 var unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
