@@ -729,22 +729,47 @@ game.projectile = me.Entity.extend({
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
             
+            /*
             other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
-            
+            */
+
+            // Mark
+            // Rock-paper-scissors unit attack balancing. 
+            // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved, 
             console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
             if(this.type == "paper" && other.type == "rock"){
-                console.log("Paper hit rock - double this damage!");
-
+                console.log("paper hit rock - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
             }
             else if(this.type == "rock" && other.type == "scissors"){
-                console.log("rock hit scissors - double this damage!");
+                console.log("rock hit scissors - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
 
             }
             else if(this.type =="scissors" && other.type == "paper"){
-                console.log("rock hit scissors - double this damage!");
+                console.log("scissors hit paper - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
 
             }
-
+            else if(this.type =="paper" && other.type == "scissors"){
+                console.log("paper hit scissors - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="rock" && other.type == "paper"){
+                console.log("rock hit paper - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="scissors" && other.type == "rock"){
+                console.log("scissors hit rock - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2); 
+            }
+            /*
+            default: no buff or debuff. flat damage
+            */
+            else { //no damage buff if not a rock-paper-scissors type match'
+                console.log("no damage buff/debuff on hit: " + this.type + " hit " + other.type + " and damage is " + this.damage);
+                other.takeDamage(this.damage);
+            }
 
 
             me.game.world.removeChild(this);
