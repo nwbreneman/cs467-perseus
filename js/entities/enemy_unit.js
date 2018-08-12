@@ -39,10 +39,10 @@ game.EnemyUnit = game.Unit.extend({
         // despite the console log showing the animations added and the southewest animation set in the logs
 
         
-        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
-        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
-        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
-        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
+        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 120);
+        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 120);
+        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 120);
+        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 120);
         // init facing southeast
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
         
