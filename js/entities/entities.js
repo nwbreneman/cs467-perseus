@@ -336,6 +336,7 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
+        settings.type = this.type;
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
@@ -671,6 +672,8 @@ game.projectile = me.Entity.extend({
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
         this.alwaysUpdate = true;
         this.damage = settings.damage;
+        this.type = settings.type;
+        console.log("projectile fired and its type is " + this.type);
         this.ownerUnit = settings.ownerUnit;
         this.speed = settings.speed;
 
@@ -721,9 +724,29 @@ game.projectile = me.Entity.extend({
             return true;
         }
 
+        // Mark
+        // Rock-paper-scissors unit attack balancing. If rock type vs scissors type, damage is doubled for example. 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
-            other.takeDamage(this.damage);
+            
+            other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
+            
+            console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
+            if(this.type == "paper" && other.type == "rock"){
+                console.log("Paper hit rock - double this damage!");
+
+            }
+            else if(this.type == "rock" && other.type == "scissors"){
+                console.log("rock hit scissors - double this damage!");
+
+            }
+            else if(this.type =="scissors" && other.type == "paper"){
+                console.log("rock hit scissors - double this damage!");
+
+            }
+
+
+
             me.game.world.removeChild(this);
             return true;
         }
