@@ -303,6 +303,7 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
+        this.cancelMovement();
         var start = new Vertex(this.pos.x + this.width, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
         this.moveTo = shortestPath(start, end);
@@ -364,7 +365,7 @@ game.Unit = me.Entity.extend({
         }
 
         //-5 resource rate if engineer dies.
-        if (this.name == "engineer"){
+        if (this.name == "engineer") {
             game.data.player1.changeResourceRate(-5);
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
