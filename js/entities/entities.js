@@ -303,7 +303,7 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
-        var start = new Vertex(this.pos.x, this.pos.y);
+        var start = new Vertex(this.pos.x + this.width, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
         this.moveTo = shortestPath(start, end);
         // set next move immediately to allow for change in direction
@@ -376,9 +376,7 @@ game.Unit = me.Entity.extend({
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                // console.log("not my team!");
                 if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
-                    console.log("contains!");
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y
