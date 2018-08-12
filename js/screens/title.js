@@ -18,9 +18,9 @@ game.TitleScreen = me.ScreenObject.extend({
 
         var x = me.game.viewport.width * 0.13;
         var y = me.game.viewport.height;
-        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.6, "button", "New Game"));
-        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.68, "button", "Resume Save"));
-        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.76, "button", game.data.difficulty));
+        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.68, "button", "New Game"));
+        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.76, "button", "Resume Save"));
+        me.game.world.addChild(new game.UI.ButtonUI(x, y * 0.84, "button", game.data.difficulty));
 
         me.game.world.addChild(new (me.Renderable.extend ({
             // constructor

@@ -10,6 +10,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybomber_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 50,
+    "myHeight": 40,
+    "xAnchor": 0.5,
+    "yAnchor": 0.5
 }

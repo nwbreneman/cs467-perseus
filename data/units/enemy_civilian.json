@@ -10,6 +10,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemycivilian_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 30,
+    "myHeight": 54,
+    "xAnchor": 0.5,
+    "yAnchor": 0.6
 }

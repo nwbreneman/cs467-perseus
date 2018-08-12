@@ -11,6 +11,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "infantry_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 34,
+    "myHeight": 50,
+    "xAnchor": 0.5,
+    "yAnchor": 0.6
 }

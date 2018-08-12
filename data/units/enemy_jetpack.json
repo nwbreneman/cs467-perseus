@@ -10,6 +10,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemyjetpack_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 44,
+    "myHeight": 50,
+    "xAnchor": 0.5,
+    "yAnchor": 0.4
 }

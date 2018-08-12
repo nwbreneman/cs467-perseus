@@ -29,15 +29,9 @@ game.EnemyUnit = game.Unit.extend({
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
 
-        this.renderable.anchorPoint.set(0.5, 0.7);
+        //this.renderable.anchorPoint.set(0.5, 0.5);
+        this.renderable.anchorPoint.set(settings.xAnchor, settings.yAnchor);
         
-        
-        //Mark:
-        // trying to add enemy unit standing animations like blue units
-        // if you uncomment the lines below, and change enemy_jetpack.json image property to "enemyjetpack_standing"
-        // then the enemy jetpack spawns facing SW, but there is no hover effect with the animation(?)
-        // despite the console log showing the animations added and the southewest animation set in the logs
-
         
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 120);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 120);
