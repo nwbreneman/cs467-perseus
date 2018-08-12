@@ -1,14 +1,15 @@
 {
     "name": "enemy_engineer",
-    "attack": 0,
-    "range": 1,
-    "defense": 10,
-    "speed": 1,
+    "attack": 1,
+    "range": 225,
+    "defense": 200,
+    "speed": 2,
     "type": "paper",
-    "cost": 15,
+    "cost": 250,
     "image": "enemyengineer_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "myWidth": 20,
-    "myHeight": 20
+    "projectile": "enemyengineer_projectile",
+    "myWidth": 40,
+    "myHeight": 60
 }

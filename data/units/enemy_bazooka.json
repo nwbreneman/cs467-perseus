@@ -1,14 +1,15 @@
 {
     "name": "enemy_bazooka",
-    "attack": 7,
-    "range": 3,
-    "defense": 22,
-    "speed": 1,
+    "attack": 25,
+    "range": 600,
+    "defense": 150,
+    "speed": 1.2,
     "type": "paper",
-    "cost": 5,
+    "cost": 200,
     "image": "enemybazooka_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "myWidth": 20,
-    "myHeight": 20
+    "projectile": "enemybazooka_projectile",
+    "myWidth": 40,
+    "myHeight": 60
 }

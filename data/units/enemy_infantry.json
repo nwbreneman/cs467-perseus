@@ -1,14 +1,15 @@
 {
     "name": "enemy_infantry",
-    "attack": 7,
-    "range": 3,
-    "defense": 22,
-    "speed": 1,
+    "attack": 10,
+    "range": 300,
+    "defense": 60,
+    "speed": 1.5,
     "type": "paper",
-    "cost": 5,
+    "cost": 30,
     "image": "enemyinfantry_standing",
     "framewidth": 88,
     "frameheight": 108,
-    "myWidth": 20,
-    "myHeight": 20
+    "projectile": "enemyinfantry_projectile",
+    "myWidth": 40,
+    "myHeight": 60
 }

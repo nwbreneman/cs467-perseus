@@ -5,8 +5,8 @@ game.PlayScreen = me.ScreenObject.extend({
     onResetEvent: function () {
 
         // set player initial resource rates
-        game.data.player1.changeResourceRate(1);
-        game.data.enemy.changeResourceRate(1);
+        game.data.player1.changeResourceRate(0.5);
+        game.data.enemy.changeResourceRate(0.5);
 
         // Define how many pixels to pan for all panning functions
         const AMOUNT_TO_PAN = 10;
@@ -51,6 +51,9 @@ game.PlayScreen = me.ScreenObject.extend({
                 }
                 if (panned) {
                     me.game.viewport.move(dir.x, dir.y);
+                }
+                if (me.input.isKeyPressed("x")) {
+                    game.data.player1.cancelMovement();
                 }
 
                 if (me.input.isKeyPressed("kill")) {
@@ -105,11 +108,6 @@ game.PlayScreen = me.ScreenObject.extend({
                 // do nothing if shift is held to select multiple units
                 if (me.input.isKeyPressed("shift")) {
                     return;
-                }
-
-                // ctrl-left click orders attack
-                if (me.input.isKeyPressed("ctrl") && event.button === 0) {
-                    this.player.orderAttack(event.gameWorldX, event.gameWorldY);
                 }
 
                 if (event.type === "pointerdown") {
@@ -193,6 +191,7 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.bindKey(me.input.KEY.W, "up");
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.S, "down");
+        me.input.bindKey(me.input.KEY.X, "x");
 
         // Bind shift key for multi-selecting units with click
         me.input.bindKey(me.input.KEY.SHIFT, "shift");
@@ -269,7 +268,7 @@ game.PlayScreen = me.ScreenObject.extend({
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
-            resources: 1,
+            resources: 50,
             resourcePoints: 6,   // Should be calculated from the map, hard-code for now
             flag: redFlag,
             playerFlag: blueFlag

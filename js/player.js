@@ -10,7 +10,7 @@ var player = function (name, ptype) {
     } else {
         this.ptype = ptype;
     }
-    this.unitResources = 9999;
+    this.unitResources = 50;
     this.resourceRate = 0;
     // Mark: I'm adding trace statements throughout to monitor unit purchasing
     // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
@@ -31,6 +31,14 @@ var player = function (name, ptype) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
+
+                //change resource rate to player if buying an engineer
+                if (settings.name == "engineer"){
+                    this.changeResourceRate(5);
+                    game.data.alertMessage.add("ENGINEER BUILT: +5 RESOURCES PER SECOND ");
+                }
+
+
                 var unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
@@ -106,5 +114,11 @@ var player = function (name, ptype) {
 
     this.increaseResource = function () {
         this.unitResources += this.resourceRate;
+    }
+
+    this.cancelMovement = function () {
+        for (var i = 0; i < this.selectedUnits.length; i++) {
+            this.selectedUnits[i].cancelMovement();
+        }
     }
 }

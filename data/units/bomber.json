@@ -1,15 +1,16 @@
 {
     "name": "bomber",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
-    "speed": 3,
-    "type": "paper",
-    "cost": 20,
+    "attack": 200,
+    "range": 900,
+    "defense": 300,
+    "speed": 3.25,
+    "type": "rock",
+    "cost": 2999,
     "image": "bomber_standing",
     "shopimage": "bomber_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "myWidth": 20,
-    "myHeight": 20
+    "projectile": "bomber_projectile",
+    "myWidth": 40,
+    "myHeight": 60
 }

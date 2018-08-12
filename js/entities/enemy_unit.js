@@ -11,8 +11,8 @@ game.EnemyUnit = game.Unit.extend({
       
         settings.frameheight = 108;
         settings.framewidth = 88;
-        settings.height = settings.frameheight * 0.25;
-        settings.width = settings.framewidth * 0.3;
+        settings.height = settings.myHeight; 
+        settings.width = settings.myWidth; //use myVariables in JSON for defining hitboxes
 
         this._super(me.Entity, 'init', [x, y, settings]);
 

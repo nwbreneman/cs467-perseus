@@ -70,7 +70,6 @@ game.Unit = me.Entity.extend({
 
         this._super(me.Entity, 'init', [x, y, settings]);
 
-        // may need to dynamically set the collision type in the future -- e.g. // to ENEMY_OBJECT if the owning player is the AI?
         this.body.collisionType = game.collisionTypes.PLAYER_UNIT;
         this.moveTo = null;
         this.alwaysUpdate = true;
@@ -81,7 +80,7 @@ game.Unit = me.Entity.extend({
         this.name = settings.name;
         this.cost = settings.cost;
         this.attack = settings.attack;
-        this.range = settings.range * 100;
+        this.range = settings.range;
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
@@ -118,7 +117,15 @@ game.Unit = me.Entity.extend({
 
     /** Registers this entity to pointer events when the entity is created */
     onActivateEvent: function () {
-        me.input.registerPointerEvent("pointerdown", this, this.pointerDown.bind(this));
+        me.input.registerPointerEvent(
+            "pointerdown", this, this.pointerDown.bind(this));
+
+        this.detectionBox = new me.Rect(
+            this.pos.x - (this.width * 2),
+            this.pos.y - (this.height),
+            this.width + this.range,
+            this.height + this.range
+        );
     },
 
     /**
@@ -153,8 +160,6 @@ game.Unit = me.Entity.extend({
             // get the next xy coordinates
             var newX = this.nextMove.x;
             var newY = this.nextMove.y;
-
-
 
             //Mark:
             //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y)
@@ -243,6 +248,9 @@ game.Unit = me.Entity.extend({
                 this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
             }
 
+            // update detection box position
+            this.detectionBox.pos.x = this.pos.x - (this.width * 2);
+            this.detectionBox.pos.y = this.pos.y - (this.height);
         }
 
         // if unit is selected, belongs to a human player and has no box
@@ -295,9 +303,10 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
+        this.cancelMovement();
         var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
-        this.moveTo = shortestPath(start, end);
+        this.moveTo = shortestPath(start, end, this);
         // set next move immediately to allow for change in direction
         this.nextMove = this.moveTo.shift();
     },
@@ -327,6 +336,7 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
+        settings.type = this.type;
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
@@ -338,6 +348,10 @@ game.Unit = me.Entity.extend({
 
     takeDamage: function (damage) {
         this.defense -= damage;
+
+        //sprite flickers 0.5 second when unit takes damage
+        this.renderable.flicker(500);
+
         if (this.defense <= 0) {
             this.die();
         }
@@ -350,26 +364,28 @@ game.Unit = me.Entity.extend({
             this.carriedFlag.drop();
             this.isHoldingFlag = false;
         }
+
+        //-5 resource rate if engineer dies.
+        if (this.name == "engineer") {
+            game.data.player1.changeResourceRate(-5);
+            game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
+        }
+
         game.data.player1.removeUnit(this);
         me.game.world.removeChild(this);
     },
 
     inRangeOfEnemy: function () {
-        // using unit's range, each update, check if within firing range of an enemy
-        // if so, fire in an enemy's direction
+        // using unit's range, each update, check if within firing range of
+        // an enemy
 
-        // make a shape centered around center of unit -- width/height is unit's width and height + the unit's range
-        var detectionRect = new me.Rect(
-            this.pos.x,
-            this.pos.y,
-            this.width + this.range,
-            this.height + this.range
-        );
         var allUnits = me.game.world.getChildByType(game.Unit);
+        allUnits = allUnits.concat(
+            me.game.world.getChildByType(game.EnemyUnit));
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                if (detectionRect.containsPoint(unit.pos.x, unit.pos.y)) {
+                if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y
@@ -536,8 +552,8 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = null;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
-        this.timeToCapture = 10; // time in seconds
-        this.rate = settings.rate || 1; // resources gained per second
+        this.timeToCapture = 4; // time in seconds
+        this.rate = settings.rate || 4.25; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
@@ -553,7 +569,10 @@ game.capturePoint = me.Entity.extend({
     update: function (dt) {
         this.lastCaptureCheck += dt;
         if (this.lastCaptureCheck >= 1000 && this.capturingUnit) {
-            var bodyType = this.capturingUnit.body.collisionType;
+
+            if (this.capturingUnit.body) { //Mark: need this extra if-statement to prevent game crashing when a unit on top of a point is killed
+                var bodyType = this.capturingUnit.body.collisionType; //janky fix but seems to work?
+            }
 
             // capture point if not already captured for unit's player
             if (bodyType === game.collisionTypes.PLAYER_UNIT) {
@@ -577,19 +596,27 @@ game.capturePoint = me.Entity.extend({
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
+                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
+
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
+                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
+
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
@@ -597,6 +624,8 @@ game.capturePoint = me.Entity.extend({
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
+                game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
+
                 this.owner = null;
             }
 
@@ -643,6 +672,8 @@ game.projectile = me.Entity.extend({
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
         this.alwaysUpdate = true;
         this.damage = settings.damage;
+        this.type = settings.type;
+        console.log("projectile fired and its type is " + this.type);
         this.ownerUnit = settings.ownerUnit;
         this.speed = settings.speed;
 
@@ -695,9 +726,52 @@ game.projectile = me.Entity.extend({
 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
-            other.takeDamage(this.damage);
+            
+            /*
+            other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
+            */
+
+            // Mark
+            // Rock-paper-scissors unit attack balancing. 
+            // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved, 
+            console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
+            if(this.type == "paper" && other.type == "rock"){
+                console.log("paper hit rock - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+            }
+            else if(this.type == "rock" && other.type == "scissors"){
+                console.log("rock hit scissors - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+
+            }
+            else if(this.type =="scissors" && other.type == "paper"){
+                console.log("scissors hit paper - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+
+            }
+            else if(this.type =="paper" && other.type == "scissors"){
+                console.log("paper hit scissors - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="rock" && other.type == "paper"){
+                console.log("rock hit paper - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="scissors" && other.type == "rock"){
+                console.log("scissors hit rock - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2); 
+            }
+            /*
+            default: no buff or debuff. flat damage
+            */
+            else { //no damage buff if not a rock-paper-scissors type match'
+                console.log("no damage buff/debuff on hit: " + this.type + " hit " + other.type + " and damage is " + this.damage);
+                other.takeDamage(this.damage);
+            }
+
+
             me.game.world.removeChild(this);
             return true;
         }
     }
-})
+});

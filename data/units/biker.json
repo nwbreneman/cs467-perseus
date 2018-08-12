@@ -1,15 +1,16 @@
 {
     "name": "biker",
-    "attack": 1,
-    "range": 1,
-    "defense": 1,
-    "speed": 3,
-    "type": "paper",
-    "cost": 5,
+    "attack": 20,
+    "range": 500,
+    "defense": 175,
+    "speed": 2.5,
+    "type": "scissors",
+    "cost": 200,
     "image": "biker_standing",
     "shopimage": "biker_shop",
     "framewidth": 88,
     "frameheight": 108,
-    "myWidth": 20,
-    "myHeight": 20
+    "projectile": "biker_projectile",
+    "myWidth": 40,
+    "myHeight": 60
 }
