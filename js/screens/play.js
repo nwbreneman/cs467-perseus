@@ -5,8 +5,8 @@ game.PlayScreen = me.ScreenObject.extend({
     onResetEvent: function () {
 
         // set player initial resource rates
-        game.data.player1.changeResourceRate(1);
-        game.data.enemy.changeResourceRate(1);
+        game.data.player1.changeResourceRate(0.5);
+        game.data.enemy.changeResourceRate(0.5);
 
         // Define how many pixels to pan for all panning functions
         const AMOUNT_TO_PAN = 10;
@@ -268,7 +268,7 @@ game.PlayScreen = me.ScreenObject.extend({
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
-            resources: 1,
+            resources: 50,
             resourcePoints: 6,   // Should be calculated from the map, hard-code for now
             flag: redFlag,
             playerFlag: blueFlag

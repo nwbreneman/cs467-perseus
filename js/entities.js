@@ -303,7 +303,7 @@ game.Unit = me.Entity.extend({
     },
 
     move: function (x, y) {
-        var start = new Vertex(this.pos.x + this.width, this.pos.y);
+        var start = new Vertex(this.pos.x, this.pos.y);
         var end = new Vertex(x - (this.width / 2), y - (this.height));
         this.moveTo = shortestPath(start, end);
         // set next move immediately to allow for change in direction
@@ -383,7 +383,9 @@ game.Unit = me.Entity.extend({
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
+                // console.log("not my team!");
                 if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
+                    console.log("contains!");
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y
@@ -550,8 +552,8 @@ game.capturePoint = me.Entity.extend({
         this.capturingUnit = null;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
-        this.timeToCapture = 4; // time in seconds
-        this.rate = settings.rate || 4.25; // resources gained per second
+        this.timeToCapture = 6; // time in seconds
+        this.rate = settings.rate || 5; // resources gained per second
         this.factoryType = settings.factory_type;
         this.factoryId = settings.factory_id;
 
@@ -594,27 +596,19 @@ game.capturePoint = me.Entity.extend({
             if (playerCapture && !playerOwner) {
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
-                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
-
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
                 this.owner.changeResourceRate(this.rate);
-                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
-
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             } else if (enemyCapture && !enemyOwner) {
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
-                    game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
-
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
                 this.owner.changeResourceRate(this.rate);
-                game.data.alertMessage.add(this.owner.name + " GAINS +" + this.rate + " RESOURCES PER SECOND");
-
                 this.owner.controlledFactories += 1;
                 this.capturingUnit.capturedResource(this);  // notify the unit that it has captured the resource (used by AI)
             }
@@ -622,8 +616,6 @@ game.capturePoint = me.Entity.extend({
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
-                game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
-
                 this.owner = null;
             }
 
