@@ -46,25 +46,28 @@ game.HUD.Container = me.Container.extend({
 /**
  * Base box for hud
  */
-game.HUD.BaseBox = me.Renderable.extend({
+game.HUD.BaseBox = me.Sprite.extend({
 
     init: function () {
         width = 1920;
         height = me.game.viewport.getHeight() / 10;
         x = me.game.viewport.getWidth() / 2;
         y = me.game.viewport.getHeight() - (height / 2);
-        this._super(me.Renderable, 'init', [x, y, width, height]);
+        var settings = {
+            "image": "shophud"
+        };
+        this._super(me.Sprite, 'init', [x, y, settings]);
+        this.alpha = 0;
     },
 
     update: function () {
-        return false;
-    },
-
-    draw: function (renderer) {
         if (this.ancestor.playerBase.selected) {
-            renderer.setColor("white");
-            renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height)
+            this.alpha = 100;
+            return true;
+        } else {
+            this.alpha = 0;
         }
+        return false;
     }
 })
 
@@ -132,7 +135,7 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
                     renderer,
                     info,
                     this.pos.x,
-                    this.pos.y - (this.height * 1.5)
+                    this.pos.y - (this.height * 2)
                 );
             }
         }
