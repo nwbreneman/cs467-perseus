@@ -23,8 +23,17 @@ game.EnemyUnit = game.Unit.extend({
         this.speed = settings.speed;
         this.defense = settings.defense;
         this.type = settings.type;
-
+        this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
+
+        // find correct projectile settings
+        var projectiles = me.loader.getJSON("projectiles").settings;
+        for (var i = 0; i < projectiles.length; i++) {
+            if (projectiles[i].name === this.projectile) {
+                this.projectileSettings = projectiles[i];
+                break;
+            }
+        }
 
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
@@ -39,10 +48,8 @@ game.EnemyUnit = game.Unit.extend({
         this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 120);
         // init facing southeast
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-        
-        game.sylvanlog("enemy renderable: ");
-        game.sylvanlog(this.renderable);
 		
+        this.lastAttack = 0;
 
         // To be assigned by the enemy controller
         this.controller = settings.controller;
@@ -68,6 +75,13 @@ game.EnemyUnit = game.Unit.extend({
     /** When the entity is created */
     onActivateEvent: function () {
         game.sylvanlog("enemy unit is created");
+
+        this.detectionBox = new me.Ellipse(
+            this.pos.x + (this.width * 0.5),
+            this.pos.y + (this.height * 0.5),
+            this.range * 2,
+            this.range * 2
+        );
         
         this.changeState(this.state);
     },
@@ -98,6 +112,11 @@ game.EnemyUnit = game.Unit.extend({
             case 'escort':
                 this.escortTarget = order.target;
                 this.moveDestination.set(order.target.pos.x, order.target.pos.y);
+                this.changeState("moving");
+                break;
+            case 'guard flag':
+                this.moveDestination.set(order.x - 100, order.y + 50);
+                game.sylvanlog("Enemy unit: guard flag, located at", order.x, order.y);
                 this.changeState("moving");
                 break;
             case 'return flag':
@@ -156,6 +175,12 @@ game.EnemyUnit = game.Unit.extend({
                 game.sylvanlog("unit is now idle");
                 
                 break;
+            case 'defending':
+                game.sylvanlog("Unit change state to defending");
+                break;
+            case 'gathering':
+                game.sylvanlog("Unit change state to gathering");
+                break;
             case 'moving':
                 game.sylvanlog("unit is now moving to", this.moveDestination.toString());
                 
@@ -200,19 +225,25 @@ game.EnemyUnit = game.Unit.extend({
 
 
     update: function (dt) {
-        // testing out some state change mechanics
-
-        //console.log("health:", this.health);
-
-        // if (this.damage <= 0 && this.state != 'dying' && this.state != 'dead') {
-        //     this.changeState('dying');
-        // }
+        
+        // check if we need to attack anything
+        // But no attack if holding flag
+        var enemyPos = this.inRangeOfEnemy();
+        if (enemyPos) {
+            this.lastAttack += dt;
+            if (this.lastAttack >= 1000) {
+                if (!this.isHoldingFlag) {
+                    this.unitAttack(enemyPos.x, enemyPos.y);
+                }
+                this.lastAttack = 0;
+            }
+        }
 
         switch (this.state) {
             case 'spawning':
-                if (me.timer.getTime() > this.spawnTimeout) {
-                    this.changeState('idle');
-                }
+                //if (me.timer.getTime() > this.spawnTimeout) {
+                this.changeState('idle');
+                //}
                 break;
             case 'idle':
                 //this.health -= 1; // stop unit from dying for now. Too many console messages
@@ -233,30 +264,25 @@ game.EnemyUnit = game.Unit.extend({
                         if (newX > this.pos.x && newY > this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_SE") {
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                                console.log("set current animation to " + this.name + "STANDING_SE");
                             }
                         } else if (newX < this.pos.x && newY > this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_SW") {
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
-                                console.log("set current animation to " + this.name + "STANDING_SW");
                             }
 
                         } else if (newX > this.pos.x && newY < this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_NE") {
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
-                                console.log("set current animation to " + this.name + "STANDING_NE");
                             }
 
                         } else if (newX < this.pos.x && newY < this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_NW") {
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-                                console.log("set current animation to " + this.name + "STANDING_NW");
                             }
 
                         } else { //default
                             if (this.renderable.current.name != this.name + "STANDING_SE") {
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                                console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
                             }
                         }
                     }
@@ -295,6 +321,13 @@ game.EnemyUnit = game.Unit.extend({
                         } else {
                             this.nextMove = null;
                             this.moveTo = null;
+                            if (this.currentOrders.type == 'guard flag') {
+                                this.changeState('defending');
+                            } else if (this.currentOrders.type == 'capture resource') {
+                                this.changeState('gathering');
+                            } else {
+                                this.changeState('idle');
+                            }
                         }
                     }
 
@@ -308,9 +341,9 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'dying':
-                if (me.timer.getTime() > this.deathTimeout) {
+                //if (me.timer.getTime() > this.deathTimeout) {
                     this.changeState('dead');
-                }
+                //}
                 break;
 
             default:
@@ -318,7 +351,9 @@ game.EnemyUnit = game.Unit.extend({
                 break;
         }
 
-
+        // update detection box position
+        this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
+        this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
 
 
         this.body.update(dt);
@@ -328,6 +363,43 @@ game.EnemyUnit = game.Unit.extend({
         // return true to update if we are moving
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
         return true;
+    },
+
+
+    inRangeOfEnemy: function () {
+        // using unit's range, each update, check if within firing range of
+        // an enemy
+
+        var allUnits = me.game.world.getChildByType(game.Unit);
+        for (var i = 0; i < allUnits.length; i++) {
+            var unit = allUnits[i];
+            if (this.team !== unit.team) {
+                if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
+                    game.sylvanlog("is in range");
+                    return {
+                        "x": unit.pos.x,
+                        "y": unit.pos.y
+                    }
+                }
+            }
+        }
+        return false;
+    },
+
+
+    unitAttack: function (x, y) {
+        settings = this.projectileSettings;
+        settings.targetX = x;
+        settings.targetY = y;
+        settings.damage = this.attack;
+        settings.type = this.type;
+        settings.ownerUnit = this.body.collisionType;
+        me.game.world.addChild(me.pool.pull(
+            this.projectile,
+            this.pos.x + this.width,
+            this.pos.y + (this.height / 2),
+            settings
+        ));
     },
 
 
@@ -347,6 +419,9 @@ game.EnemyUnit = game.Unit.extend({
 
         return false;
     },
+
+
+   
 
 
 });

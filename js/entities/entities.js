@@ -121,11 +121,11 @@ game.Unit = me.Entity.extend({
         me.input.registerPointerEvent(
             "pointerdown", this, this.pointerDown.bind(this));
 
-        this.detectionBox = new me.Rect(
-            this.pos.x - (this.width * 2),
-            this.pos.y - (this.height),
-            this.width + this.range,
-            this.height + this.range
+        this.detectionBox = new me.Ellipse(
+            this.pos.x + (this.width * 0.5),
+            this.pos.y + (this.height * 0.5),
+            this.range * 2,
+            this.range * 2
         );
     },
 
@@ -146,14 +146,18 @@ game.Unit = me.Entity.extend({
     update: function (dt) {
 
         // check if we need to attack anything
+        // But no attack if holding flag
         var enemyPos = this.inRangeOfEnemy();
         if (enemyPos) {
             this.lastAttack += dt;
             if (this.lastAttack >= 1000) {
-                this.unitAttack(enemyPos.x, enemyPos.y);
+                if (!this.isHoldingFlag) {
+                    this.unitAttack(enemyPos.x, enemyPos.y);
+                }
                 this.lastAttack = 0;
             }
         }
+        
 
         // if there are points in our moveTo array, move
         if (this.moveTo) {
@@ -250,8 +254,8 @@ game.Unit = me.Entity.extend({
             }
 
             // update detection box position
-            this.detectionBox.pos.x = this.pos.x - (this.width * 2);
-            this.detectionBox.pos.y = this.pos.y - (this.height);
+            this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
+            this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
         }
 
         // if unit is selected, belongs to a human player and has no box
@@ -359,7 +363,10 @@ game.Unit = me.Entity.extend({
     },
 
     die: function () {
-        me.game.world.removeChild(this.selectedBox);
+        if (this.selectedBox) {
+            me.game.world.removeChild(this.selectedBox);
+            this.selectedBox = null;
+        }
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         if (this.isHoldingFlag) {
             this.carriedFlag.drop();
@@ -516,7 +523,7 @@ game.flag = me.Entity.extend({
     update: function (dt) {
 
         if (this.isHeld) {
-            this.moveTo(this.holder.pos.x + this.holder.width * 0.4, this.holder.pos.y + this.holder.height * 0.3);
+            this.moveTo(this.holder.pos.x + this.holder.width * 0.5, this.holder.pos.y + this.holder.height * -0.1);
         }
 
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
