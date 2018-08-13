@@ -104,7 +104,8 @@ game.Unit = me.Entity.extend({
         // Mark:
         // add standing animations for all four facing directions
         console.log(this.renderable);
-        this.renderable.anchorPoint.set(0.5, 0.7);
+        game.sylvanlog(settings.xAnchor, settings.yAnchor);
+        this.renderable.anchorPoint.set(settings.xAnchor, settings.yAnchor);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
@@ -336,6 +337,7 @@ game.Unit = me.Entity.extend({
         settings.targetX = x;
         settings.targetY = y;
         settings.damage = this.attack;
+        settings.type = this.type;
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
@@ -671,6 +673,8 @@ game.projectile = me.Entity.extend({
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
         this.alwaysUpdate = true;
         this.damage = settings.damage;
+        this.type = settings.type;
+        console.log("projectile fired and its type is " + this.type);
         this.ownerUnit = settings.ownerUnit;
         this.speed = settings.speed;
 
@@ -723,7 +727,50 @@ game.projectile = me.Entity.extend({
 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
-            other.takeDamage(this.damage);
+            
+            /*
+            other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
+            */
+
+            // Mark
+            // Rock-paper-scissors unit attack balancing. 
+            // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved, 
+            console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
+            if(this.type == "paper" && other.type == "rock"){
+                console.log("paper hit rock - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+            }
+            else if(this.type == "rock" && other.type == "scissors"){
+                console.log("rock hit scissors - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+
+            }
+            else if(this.type =="scissors" && other.type == "paper"){
+                console.log("scissors hit paper - double this damage: " + this.damage*2);
+                other.takeDamage(this.damage*2);
+
+            }
+            else if(this.type =="paper" && other.type == "scissors"){
+                console.log("paper hit scissors - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="rock" && other.type == "paper"){
+                console.log("rock hit paper - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2);
+            }
+            else if(this.type =="scissors" && other.type == "rock"){
+                console.log("scissors hit rock - halve this damage: " + this.damage/2);
+                other.takeDamage(this.damage/2); 
+            }
+            /*
+            default: no buff or debuff. flat damage
+            */
+            else { //no damage buff if not a rock-paper-scissors type match'
+                console.log("no damage buff/debuff on hit: " + this.type + " hit " + other.type + " and damage is " + this.damage);
+                other.takeDamage(this.damage);
+            }
+
+
             me.game.world.removeChild(this);
             return true;
         }

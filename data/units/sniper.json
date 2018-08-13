@@ -11,6 +11,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "sniper_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 34,
+    "myHeight": 52,
+    "xAnchor": 0.5,
+    "yAnchor": 0.5
 }

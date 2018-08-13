@@ -12,5 +12,7 @@
     "frameheight": 108,
     "projectile": "biker_projectile",
     "myWidth": 40,
-    "myHeight": 60
+    "myHeight": 66,
+    "xAnchor": 0.5,
+    "yAnchor": 0.5
 }

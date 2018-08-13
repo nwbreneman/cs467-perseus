@@ -11,6 +11,8 @@
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "tank_projectile",
-    "myWidth": 40,
-    "myHeight": 60
+    "myWidth": 44,
+    "myHeight": 64,
+    "xAnchor": 0.5,
+    "yAnchor": 0.6
 }
