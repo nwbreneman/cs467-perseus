@@ -25,6 +25,7 @@ game.EnemyUnit = game.Unit.extend({
         this.type = settings.type;
         this.projectile = settings.projectile;
         this.body.setVelocity(this.speed, this.speed);
+        this.deathImage = settings.deathimage;
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -46,7 +47,8 @@ game.EnemyUnit = game.Unit.extend({
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 120);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 120);
         this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 120);
-        // init facing southeast
+        this.explodingName = this.name + "EXPLODING_NW";
+        // init facing northwest
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
 		
         this.lastAttack = 0;
@@ -135,6 +137,7 @@ game.EnemyUnit = game.Unit.extend({
     // Enemy specific override
     die: function () {
         this.changeState('dying');
+        
     },
 
 
@@ -188,7 +191,28 @@ game.EnemyUnit = game.Unit.extend({
                 break;
             case 'dying':
                 // Start a death animation or particle effect or something
-                this.deathTimeout = me.timer.getTime() + 1000;
+                //this.deathTimeout = me.timer.getTime() + 1000;
+                // Add an exploding animated sprite
+
+                var sprite = new me.Sprite(this.pos.x, this.pos.y, {
+                    image: this.deathImage,
+                    framewidth: 156,
+                    frameheight: 194,
+                    anchorPoint: new me.Vector2d(0.4, 0.5),
+                });
+
+                game.sylvanlog(sprite.anchorPoint.toString());
+                sprite.addAnimation(this.name + "EXPLODING_SE", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50);
+                sprite.addAnimation(this.name + "EXPLODING_SW", [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 50);
+                sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
+                sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
+
+                sprite.setCurrentAnimation(this.explodingName, function() {
+                    me.game.world.removeChild(sprite);
+                    return false;
+                });
+
+                me.game.world.addChild(sprite);
                 break;
             case 'dead':
                 game.sylvanlog("He's dead, Jim!");
@@ -263,25 +287,30 @@ game.EnemyUnit = game.Unit.extend({
                     if (newX && newY) {
                         if (newX > this.pos.x && newY > this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_SE") {
+                                this.explodingName = this.name + "EXPLODING_SE";
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
                             }
                         } else if (newX < this.pos.x && newY > this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_SW") {
+                                this.explodingName = this.name + "EXPLODING_SW";
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
                             }
 
                         } else if (newX > this.pos.x && newY < this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_NE") {
+                                this.explodingName = this.name + "EXPLODING_NE";
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
                             }
 
                         } else if (newX < this.pos.x && newY < this.pos.y) {
                             if (this.renderable.current.name != this.name + "STANDING_NW") {
+                                this.explodingName = this.name + "EXPLODING_NW";
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
                             }
 
                         } else { //default
                             if (this.renderable.current.name != this.name + "STANDING_SE") {
+                                this.explodingName = this.name + "EXPLODING_SE";
                                 this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
                             }
                         }
@@ -341,9 +370,7 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'dying':
-                //if (me.timer.getTime() > this.deathTimeout) {
-                    this.changeState('dead');
-                //}
+                this.changeState('dead');
                 break;
 
             default:
