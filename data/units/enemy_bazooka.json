@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 200,
     "image": "enemybazooka_standing",
+    "deathimage": "enemybazooka_exploding",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybazooka_projectile",

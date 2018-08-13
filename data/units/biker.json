@@ -7,6 +7,7 @@
     "type": "scissors",
     "cost": 200,
     "image": "biker_standing",
+    "deathimage": "biker_exploding",
     "shopimage": "biker_shop",
     "framewidth": 88,
     "frameheight": 108,

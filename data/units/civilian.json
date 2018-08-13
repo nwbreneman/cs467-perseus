@@ -7,6 +7,7 @@
     "type": "rock",
     "cost": 15,
     "image": "civilian_standing",
+    "deathimage": "civilian_exploding",
     "shopimage": "civilian_shop",
     "framewidth": 88,
     "frameheight": 108,

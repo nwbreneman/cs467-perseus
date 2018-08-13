@@ -91,6 +91,7 @@ game.Unit = me.Entity.extend({
         this.carriedFlag = {};
         this.team = game.data.player1;
         this.lastAttack = 0;
+        this.deathImage = settings.deathimage;
 
         // find correct projectile settings
         var projectiles = me.loader.getJSON("projectiles").settings;
@@ -110,8 +111,10 @@ game.Unit = me.Entity.extend({
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 60);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 60);
         this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 60);
+        this.explodingName = this.name + "EXPLODING_SE";
         // init facing southeast
         this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+
 
         this.terrainLayer = me.game.world.getChildByName("Plains")[0];
     },
@@ -182,29 +185,34 @@ game.Unit = me.Entity.extend({
                 if (newX > this.pos.x && newY > this.pos.y) {
                     if (this.renderable.current.name != this.name + "STANDING_SE") {
                         this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                        this.explodingName = this.name + "EXPLODING_SE";
                         console.log("set current animation to " + this.name + "STANDING_SE");
                     }
                 } else if (newX < this.pos.x && newY > this.pos.y) {
                     if (this.renderable.current.name != this.name + "STANDING_SW") {
                         this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                        this.explodingName = this.name + "EXPLODING_SW";
                         console.log("set current animation to " + this.name + "STANDING_SW");
                     }
 
                 } else if (newX > this.pos.x && newY < this.pos.y) {
                     if (this.renderable.current.name != this.name + "STANDING_NE") {
                         this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                        this.explodingName = this.name + "EXPLODING_NE";
                         console.log("set current animation to " + this.name + "STANDING_NE");
                     }
 
                 } else if (newX < this.pos.x && newY < this.pos.y) {
                     if (this.renderable.current.name != this.name + "STANDING_NW") {
                         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                        this.explodingName = this.name + "EXPLODING_NW";
                         console.log("set current animation to " + this.name + "STANDING_NW");
                     }
 
                 } else { //default
                     if (this.renderable.current.name != this.name + "STANDING_SE") {
                         this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                        this.explodingName = this.name + "EXPLODING_SE";
                         console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
                     }
                 }
@@ -363,6 +371,7 @@ game.Unit = me.Entity.extend({
     },
 
     die: function () {
+        
         if (this.selectedBox) {
             me.game.world.removeChild(this.selectedBox);
             this.selectedBox = null;
@@ -380,7 +389,29 @@ game.Unit = me.Entity.extend({
         }
 
         game.data.player1.removeUnit(this);
+
+        // Add an exploding animated sprite
+        var sprite = new me.Sprite(this.pos.x, this.pos.y, {
+            image: this.deathImage,
+            framewidth: 156,
+            frameheight: 194,
+            anchorPoint: new me.Vector2d(0.4, 0.5),
+        });
+
+        game.sylvanlog(sprite.anchorPoint.toString());
+        sprite.addAnimation(this.name + "EXPLODING_SE", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50);
+        sprite.addAnimation(this.name + "EXPLODING_SW", [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 50);
+        sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
+        sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
+
+        sprite.setCurrentAnimation(this.explodingName, function() {
+            me.game.world.removeChild(sprite);
+            return false;
+        });
+
+        me.game.world.addChild(sprite);
         me.game.world.removeChild(this);
+
     },
 
     inRangeOfEnemy: function () {

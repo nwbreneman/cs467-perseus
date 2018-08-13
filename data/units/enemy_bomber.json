@@ -7,6 +7,7 @@
     "type": "rock",
     "cost": 2999,
     "image": "enemybomber_standing",
+    "deathimage": "enemybomber_exploding",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybomber_projectile",

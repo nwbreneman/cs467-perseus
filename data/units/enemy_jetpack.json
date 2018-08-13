@@ -7,6 +7,7 @@
     "type": "rock",
     "cost": 1600,
     "image": "enemyjetpack_standing",
+    "deathimage": "enemyjetpack_exploding",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemyjetpack_projectile",

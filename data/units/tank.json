@@ -7,6 +7,7 @@
     "type": "scissors",
     "cost": 1600,
     "image": "tank_standing",
+    "deathimage": "tank_exploding",
     "shopimage": "tank_shop",
     "framewidth": 88,
     "frameheight": 108,

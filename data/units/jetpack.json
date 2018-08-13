@@ -7,6 +7,7 @@
     "type": "rock",
     "cost": 1600,
     "image": "jetpack_standing",
+    "deathimage": "jetpack_exploding",
     "shopimage": "jetpack_shop",
     "framewidth": 88,
     "frameheight": 108,

@@ -7,6 +7,7 @@
     "type": "scissors",
     "cost": 1999,
     "image": "sniper_standing",
+    "deathimage": "sniper_exploding",
     "shopimage": "sniper_shop",
     "framewidth": 88,
     "frameheight": 108,

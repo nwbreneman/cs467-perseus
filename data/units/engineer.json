@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 250,
     "image": "engineer_standing",
+    "deathimage": "engineer_exploding",
     "shopimage": "engineer_shop",
     "framewidth": 88,
     "frameheight": 108,

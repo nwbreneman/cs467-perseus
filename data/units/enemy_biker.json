@@ -7,6 +7,7 @@
     "type": "scissors",
     "cost": 200,
     "image": "enemybiker_standing",
+    "deathimage": "enemybiker_exploding",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemybiker_projectile",

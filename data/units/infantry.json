@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 30,
     "image": "infantry_standing",
+    "deathimage": "infantry_exploding",
     "shopimage": "infantry_shop",
     "framewidth": 88,
     "frameheight": 108,

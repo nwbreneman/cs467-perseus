@@ -7,6 +7,7 @@
     "type": "paper",
     "cost": 30,
     "image": "enemyinfantry_standing",
+    "deathimage": "enemyinfantry_exploding",
     "framewidth": 88,
     "frameheight": 108,
     "projectile": "enemyinfantry_projectile",
