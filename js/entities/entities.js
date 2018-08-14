@@ -91,6 +91,7 @@ game.Unit = me.Entity.extend({
         this.carriedFlag = {};
         this.team = game.data.player1;
         this.lastAttack = 0;
+        this.attackCooldown = settings.attackCooldown || 2;
         this.deathImage = settings.deathimage;
 
         // find correct projectile settings
@@ -153,7 +154,7 @@ game.Unit = me.Entity.extend({
         var enemyPos = this.inRangeOfEnemy();
         if (enemyPos) {
             this.lastAttack += dt;
-            if (this.lastAttack >= 2000) {
+            if (this.lastAttack >= this.attackCooldown) {
                 if (!this.isHoldingFlag) {
                     this.unitAttack(enemyPos.x, enemyPos.y);
                 }
