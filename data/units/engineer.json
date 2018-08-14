@@ -1,9 +1,10 @@
 {
     "name": "engineer",
     "attack": 1,
+    "attackCooldown": 500,
     "range": 225,
     "defense": 200,
-    "speed": 2,
+    "speed": 0.8,
     "type": "paper",
     "cost": 250,
     "image": "engineer_standing",
