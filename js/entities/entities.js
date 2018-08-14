@@ -641,7 +641,7 @@ game.capturePoint = me.Entity.extend({
                 if (enemyOwner) {
                     this.owner.changeResourceRate(-this.rate);
                     game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
-
+                    me.audio.play("point_lost");
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.player1;
@@ -654,7 +654,7 @@ game.capturePoint = me.Entity.extend({
                 if (playerOwner) {
                     this.owner.changeResourceRate(-this.rate);
                     game.data.alertMessage.add(this.owner.name + " LOSES -" + this.rate + " RESOURCES PER SECOND");
-
+                    me.audio.play("point_lost");
                     this.owner.controlledFactories -= 1;
                 }
                 this.owner = game.data.enemy;
@@ -669,7 +669,7 @@ game.capturePoint = me.Entity.extend({
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
                 game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
-
+                me.audio.play("point_lost");
                 this.owner = null;
             }
 
