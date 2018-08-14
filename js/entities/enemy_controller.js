@@ -14,7 +14,6 @@ game.AI = me.Renderable.extend({
 
         this.spawnPoint = settings.spawnPoint;
         this.base = settings.base;
-        this.resources = settings.resources;
         this.resourcePointsCaptured = 0;
         this.resourcePointsPending = 0;
 
@@ -29,19 +28,18 @@ game.AI = me.Renderable.extend({
         if (settings.difficulty == "Easy") {
             game.sylvanlog("Easy difficulty.");
 
-            this.processInterval = 150;
-            this.resourceRate = 1;
+            this.processInterval = 240;
         } else {
             game.sylvanlog("Hard difficulty.");
 
-            this.processInterval = 30;
-            this.resourceRate = 4;
+            this.processInterval = 120;
+            game.data.enemy.unitResources *= 1.5;
+            game.data.enemy.resourceRateBoost = 4.0;
+            game.data.enemy.changeResourceRate(game.data.enemy.resourceRate);
         }
 
         // Set the timing variables
         this.processAccumulator = 0;
-        this.resourceAccumulator = 0;
-        this.resourceInterval = 60;
 
 
         this.resourceCapturePriorities = [8, 5, 3, 1, 1, 1];    // Priority level for capturing 1 resource point, 2 resource points, 3 resource points, 4 resource points, etc.
@@ -103,10 +101,6 @@ game.AI = me.Renderable.extend({
     },
 
 
-    // Accumulate resources based on how many resource points we are in control of
-    accumulate: function () {
-        this.resources += this.resourceRate * (1 + this.resourcePointsCaptured);
-    },
 
 
     // Receive a message from a unit so we can act on the information
@@ -134,8 +128,6 @@ game.AI = me.Renderable.extend({
         if (pos != -1) {
             this.unitList.splice(pos, 1);
         }
-
-       
     },
 
 
@@ -150,7 +142,7 @@ game.AI = me.Renderable.extend({
 
     // AI does processing in here
     process: function () {
-        game.sylvanlog("AI processing function");
+        game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
 
         // Generate priorities object
         let priorities = {
@@ -295,8 +287,6 @@ game.AI = me.Renderable.extend({
         } else {
             game.sylvanlog("Enemy controller: cannot afford any flag runner at this time. Resources:", game.data.enemy.unitResources);
         }
-        
-
 
     },
 

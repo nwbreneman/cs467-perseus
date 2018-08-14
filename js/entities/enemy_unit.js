@@ -3,11 +3,6 @@
  */
 game.EnemyUnit = game.Unit.extend({
     init: function (x, y, settings) {
-
-        // adjust the size setting information to match the sprite size
-        // so that the entity object is created with the right size
-        //settings.framewidth = settings.width = 88;
-        //settings.frameheight = settings.height = 108;
       
         settings.frameheight = 108;
         settings.framewidth = 88;
@@ -15,7 +10,6 @@ game.EnemyUnit = game.Unit.extend({
         settings.width = settings.myWidth; //use myVariables in JSON for defining hitboxes
 
         this._super(me.Entity, 'init', [x, y, settings]);
-
 
         this.name = settings.name;
         this.attack = settings.attack;
@@ -71,6 +65,9 @@ game.EnemyUnit = game.Unit.extend({
         this.body.collisionType = game.collisionTypes.ENEMY_UNIT;
         this.body.setCollisionMask(
             game.collisionTypes.PLAYER_UNIT | me.collision.types.COLLECTABLE_OBJECT | me.collision.types.ACTION_OBJECT | me.collision.types.PROJECTILE_OBJECT);
+
+        this.moveUpdateTimeout = 60;
+        this.moveUpdateCounter = 0;
     },
 
 
@@ -261,9 +258,7 @@ game.EnemyUnit = game.Unit.extend({
 
         switch (this.state) {
             case 'spawning':
-                //if (me.timer.getTime() > this.spawnTimeout) {
                 this.changeState('idle');
-                //}
                 break;
             case 'idle':
                 //this.health -= 1; // stop unit from dying for now. Too many console messages
@@ -272,9 +267,8 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'moving':
-                if (this.isHoldingFlag) {
-                    // get back to the base ASAP!
-                }
+                
+                
                 if (this.moveTo) {
                     // get the next xy coordinates
                     var newX = this.nextMove.x;
@@ -379,6 +373,16 @@ game.EnemyUnit = game.Unit.extend({
         // update detection box position
         this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
         this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
+
+        this.moveUpdateCounter++;
+        if (this.moveUpdateCounter > this.moveUpdateTimeout) {
+            this.moveUpdateCounter = 0;
+            if (this.currentOrders.type == 'capture flag' && !this.controller.playerFlag.isHome() && !this.isHoldingFlag) {
+                this.moveDestination.x = this.controller.playerFlag.pos.x;
+                this.moveDestination.y = this.controller.playerFlag.pos.y;
+                this.changeState('moving');
+            }
+        }
 
 
         this.body.update(dt);

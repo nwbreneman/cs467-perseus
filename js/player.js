@@ -10,8 +10,9 @@ var player = function (name, ptype) {
     } else {
         this.ptype = ptype;
     }
-    this.unitResources = 5000;
+    this.unitResources = 10000;
     this.resourceRate = 0;
+    this.resourceRateBoost = 1.0;   // AI can gain a boost in resource rate with HARD difficulty
     // Mark: I'm adding trace statements throughout to monitor unit purchasing
     // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
     this.units = [];
@@ -101,7 +102,7 @@ var player = function (name, ptype) {
     }
 
     this.changeResourceRate = function (rate) {
-        this.resourceRate += rate;
+        this.resourceRate += (rate * this.resourceRateBoost);
         if (this.ratePromise) {
             me.timer.clearInterval(this.ratePromise);
         }

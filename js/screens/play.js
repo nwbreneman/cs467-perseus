@@ -268,7 +268,6 @@ game.PlayScreen = me.ScreenObject.extend({
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
-            resources: 500,
             flag: redFlag,
             playerFlag: blueFlag
         }));
