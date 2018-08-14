@@ -32,7 +32,10 @@ var player = function (name, ptype) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
-
+                
+                //sound effect
+                me.audio.play("unit_purchase");
+                
                 //change resource rate to player if buying an engineer
                 if (settings.name == "engineer"){
                     this.changeResourceRate(5);
@@ -52,6 +55,8 @@ var player = function (name, ptype) {
                 console.log(settings.name + " unit cost is " + settings.cost);
                 console.log(name + " " + ptype + " now has " + this.unitResources + " resources remaining");
             } else {
+                //sound effect
+                me.audio.play("insufficient_resources");
                 game.data.alertMessage.add("INSUFFICIENT FUNDS TO PURCHASE " + unitName);
             }
         }
