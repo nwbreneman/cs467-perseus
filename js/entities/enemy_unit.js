@@ -200,6 +200,9 @@ game.EnemyUnit = game.Unit.extend({
                 sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
                 sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
 
+		//death sound fx
+		me.audio.play("unit_death");
+			
                 sprite.setCurrentAnimation(this.explodingName, function() {
                     me.game.world.removeChild(sprite);
                     return false;
