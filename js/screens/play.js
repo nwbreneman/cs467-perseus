@@ -269,7 +269,6 @@ game.PlayScreen = me.ScreenObject.extend({
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
             resources: 50000,
-            resourcePoints: 6,   // Should be calculated from the map, hard-code for now
             flag: redFlag,
             playerFlag: blueFlag
         }));

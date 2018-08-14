@@ -111,6 +111,10 @@ game.EnemyUnit = game.Unit.extend({
                 this.moveDestination.set(order.x, order.y);
                 this.changeState("moving");
                 break;
+            case 'defend':
+                this.moveDestination.set(order.x, order.y);
+                this.changeState("moving");
+                break;
             case 'escort':
                 this.escortTarget = order.target;
                 this.moveDestination.set(order.target.pos.x, order.target.pos.y);
@@ -346,6 +350,8 @@ game.EnemyUnit = game.Unit.extend({
                                 this.changeState('defending');
                             } else if (this.currentOrders.type == 'capture resource') {
                                 this.changeState('gathering');
+                            } else if (this.currentOrders.type == 'defend') {
+                                this.changeState('defending');
                             } else {
                                 this.changeState('idle');
                             }

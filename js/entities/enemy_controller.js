@@ -13,8 +13,8 @@ game.AI = me.Renderable.extend({
         this.alwaysUpdate = true;
 
         this.spawnPoint = settings.spawnPoint;
+        this.base = settings.base;
         this.resources = settings.resources;
-        this.resourcePointsOnMap = settings.resourcePoints;
         this.resourcePointsCaptured = 0;
         this.resourcePointsPending = 0;
 
@@ -143,10 +143,7 @@ game.AI = me.Renderable.extend({
             this.unitList.splice(pos, 1);
         }
 
-        pos = this.flagRunners.indexOf(unit);
-        if (pos != -1) {
-            this.flagRunners.splice(pos, 1);
-        }
+       
     },
 
 
@@ -245,9 +242,43 @@ game.AI = me.Renderable.extend({
 
                 return;
             }
-
-            
         }
+
+
+        /*
+         * Intermediate defenders:
+         * Station a few units near the resource points to help keep those alive
+         */
+        game.sylvanlog("Enemy controller: check defenders");
+        var defenders = this.getDefenders();
+        if (defenders.length < 2) {
+            nameOfUnit = this.getStrongestUnitICanAfford();
+            if (nameOfUnit == "") {
+                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+            } else {
+                this.buyUnit(nameOfUnit);
+                let defender = this.unitList[this.unitList.length - 1];
+
+                let nearestResource = this.getNearestResourcePoint(this.base.pos);
+                game.sylvanlog("nearest resource:", nearestResource.pos.toString());
+                var dest;
+                if (defenders.length == 0) {
+                    dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 + 250);
+                } else {
+                    let otherDefender = defenders[0];
+                    if (otherDefender.pos.y > nearestResource.pos.y) {
+                        dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 - 250);
+                    } else {
+                        dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 + 250);
+                    }
+                    
+                }
+                defender.command({ type: "defend", x: dest.x, y: dest.y });
+            }
+
+            return;
+        }
+
 
 
         /*
@@ -255,52 +286,23 @@ game.AI = me.Renderable.extend({
          * Start sending units to capture the flag
          */
         game.sylvanlog("Enemy controller: check flag runners");
-        if (this.flagRunners.length < 2) {
-            
-            nameOfUnit = this.getFastestUnitICanAfford();
-            if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
-            } else {
+        nameOfUnit = this.getFastestUnitICanAfford();
+        if (nameOfUnit != "") {
+            let unit = me.loader.getJSON(nameOfUnit);
+            if (unit.speed > 2) {
+                // Purchase it
                 this.buyUnit(nameOfUnit);
-                
                 let runner = this.unitList[this.unitList.length - 1];
-                /*
-                this.flagRunners.push(runner);
-                var dest;
-                if (this.flagRunners.length == 1) {
-                    dest = new me.Vector2d(this.spawnPoint.pos.x - 100, this.spawnPoint.pos.y - 80);
-                } else {
-                    dest = new me.Vector2d(this.spawnPoint.pos.x - 100, this.spawnPoint.pos.y - 20);
-                } */
-
                 var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y);
-                
                 runner.command({ type: "capture flag", x: dest.x, y: dest.y });
+                return;
+            } else {
+                // Continue waiting until we can afford a faster unit. Hopefully we are gathering resources during this time
             }
-
-            return;
         }
+        
 
 
-        /*
-         * Flag capture:
-         * If we have 2 flag runners, time to make them do something
-         */
-        if (this.flagRunners.length == 2) {
-            var unit = this.flagRunners[0];
-            if (this.flagRunners[0].state == 'idle') {
-                game.sylvanlog("Enemy controller: commanding unit to capture the flag");
-                        
-                destination = this.playerFlag.pos;
-                this.flagRunners[0].command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
-            } else if (this.flagRunners[1].state == 'idle') {
-                game.sylvanlog("Enemy controller: commanding unit to capture the flag");
-                        
-                destination = this.playerFlag.pos;
-                this.flagRunners[1].command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
-            }
-
-        }
     },
 
 
@@ -601,6 +603,25 @@ game.AI = me.Renderable.extend({
     },
 
 
+    getNearestResourcePoint: function(loc) {
+        let resourceList = me.game.world.getChildByName("capture_point");
+        var index = -1;
+        var dist = 100000;
+        var destPoint = null;
+        for (var i = 0; i < resourceList.length; i++) {
+            let point = resourceList[i];
+            
+            let thisDist = loc.distance(point.pos);
+            if (thisDist < dist) {
+                dist = thisDist;
+                index = i;
+            }
+        }       
+
+        return resourceList[index];
+    },
+
+
     // Get the nearest resource point that hasn't been captured yet
     getNearestUncapturedResource: function (unit) {
         if (unit == null) {
@@ -645,6 +666,17 @@ game.AI = me.Renderable.extend({
 
         return destPoint;
 
+    },
+
+
+    getDefenders: function() {
+        var list = [];
+        for (let unit of this.unitList) {
+            if (unit.currentOrders.type == 'defend') {
+                list.push(unit);
+            }
+        }
+        return list;
     },
 
 
