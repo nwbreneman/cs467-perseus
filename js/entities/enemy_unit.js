@@ -255,7 +255,7 @@ game.EnemyUnit = game.Unit.extend({
         var enemyPos = this.inRangeOfEnemy();
         if (enemyPos) {
             this.lastAttack += dt;
-            if (this.lastAttack >= 1000) {
+            if (this.lastAttack >= 2000) {
                 if (!this.isHoldingFlag) {
                     this.unitAttack(enemyPos.x, enemyPos.y);
                 }
