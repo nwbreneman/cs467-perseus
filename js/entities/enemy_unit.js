@@ -50,7 +50,7 @@ game.EnemyUnit = game.Unit.extend({
         this.explodingName = this.name + "EXPLODING_NW";
         // init facing northwest
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-		
+		this.attackCooldown = settings.attackCooldown || 2;
         this.lastAttack = 0;
 
         // To be assigned by the enemy controller
@@ -255,7 +255,7 @@ game.EnemyUnit = game.Unit.extend({
         var enemyPos = this.inRangeOfEnemy();
         if (enemyPos) {
             this.lastAttack += dt;
-            if (this.lastAttack >= 2000) {
+            if (this.lastAttack >= this.attackCooldown) {
                 if (!this.isHoldingFlag) {
                     this.unitAttack(enemyPos.x, enemyPos.y);
                 }
