@@ -388,9 +388,13 @@ game.Unit = me.Entity.extend({
             game.data.player1.changeResourceRate(-5);
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
-
+        
+        me.audio.play("unit_death");
         game.data.player1.removeUnit(this);
-
+        
+        //death sound effect
+        
+        
         // Add an exploding animated sprite
         var sprite = new me.Sprite(this.pos.x, this.pos.y, {
             image: this.deathImage,
