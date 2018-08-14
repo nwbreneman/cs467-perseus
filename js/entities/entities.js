@@ -589,6 +589,7 @@ game.capturePoint = me.Entity.extend({
         this._super(me.Entity, "init", [x, y, settings]);
         this.owner = null;
         this.capturingUnit = null;
+        this.alwaysUpdate = true;
         this.captureStatus = 0;
         this.lastCaptureCheck = 0;
         this.timeToCapture = 4; // time in seconds
