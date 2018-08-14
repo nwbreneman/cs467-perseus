@@ -1,9 +1,10 @@
 {
     "name": "enemy_civilian",
     "attack": 1,
-    "range": 225,
+    "attackCooldown": 1000,
+    "range": 500,
     "defense": 7,
-    "speed": 1.2,
+    "speed": 1.1,
     "type": "rock",
     "cost": 15,
     "image": "enemycivilian_standing",
