@@ -91,7 +91,7 @@ game.Unit = me.Entity.extend({
         this.carriedFlag = {};
         this.team = game.data.player1;
         this.lastAttack = 0;
-        this.attackCooldown = settings.attackCooldown || 2;
+        this.attackCooldown = settings.attackCooldown || 2000;
         this.deathImage = settings.deathimage;
 
         // find correct projectile settings

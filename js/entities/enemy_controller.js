@@ -71,18 +71,10 @@ game.AI = me.Renderable.extend({
     update: function (dt) {
         // Dispatch timed functions
         this.processAccumulator++;
-        this.resourceAccumulator++;
         if (this.processAccumulator >= this.processInterval) {
             this.processAccumulator = 0;
             this.process();
         }
-        if (this.resourceAccumulator >= this.resourceInterval) {
-            this.resourceAccumulator = 0;
-            this.accumulate();
-        }
-
-
-
     },
 
 
@@ -97,12 +89,12 @@ game.AI = me.Renderable.extend({
             settings.team = game.data.enemy;
             settings.initialState = 'spawning';
 
-            if (this.resources >= settings.cost) {
+            if (game.data.enemy.unitResources >= settings.cost) {
                 game.sylvanlog("Purchasing unit", name);
                 var unit = me.pool.pull(name, 20, 20, settings);
                 unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
-                this.resources -= settings.cost;
+                game.data.enemy.unitResources -= settings.cost;
                 this.unitList.push(unit);
                 unit.player = this;
                 me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
@@ -183,7 +175,7 @@ game.AI = me.Renderable.extend({
            
                 nameOfUnit = this.getLongestUnitICanAfford();
                 if (nameOfUnit == "") {
-                    game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+                    game.sylvanlog("Enemy controller: cannot afford a flag guard at this time. Resources:", game.data.enemy.unitResources);
                 } else {
                     // Do I have an idle unit I can deploy?
                     let flagLoc = new me.Vector2d(this.flag.pos.x, this.flag.pos.y);
@@ -215,7 +207,7 @@ game.AI = me.Renderable.extend({
             // See if I can purchase a new unit
             nameOfUnit = this.getToughestUnitICanAfford();
             if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+                game.sylvanlog("Enemy controller: cannot afford a gatherer at this time. Resources:", game.data.enemy.unitResources);
             } else {
                 // Do I have an idle unit I can deploy?
                 // Find a unit near the middle of the map
@@ -254,7 +246,7 @@ game.AI = me.Renderable.extend({
         if (defenders.length < 2) {
             nameOfUnit = this.getStrongestUnitICanAfford();
             if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
+                game.sylvanlog("Enemy controller: cannot afford a defender at this time. Resources:", game.data.enemy.unitResources);
             } else {
                 this.buyUnit(nameOfUnit);
                 let defender = this.unitList[this.unitList.length - 1];
@@ -298,7 +290,10 @@ game.AI = me.Renderable.extend({
                 return;
             } else {
                 // Continue waiting until we can afford a faster unit. Hopefully we are gathering resources during this time
+                game.sylvanlog("Enemy controller: cannot afford a flag runner of speed 2 at this time. Resources:", game.data.enemy.unitResources);
             }
+        } else {
+            game.sylvanlog("Enemy controller: cannot afford any flag runner at this time. Resources:", game.data.enemy.unitResources);
         }
         
 
@@ -362,7 +357,7 @@ game.AI = me.Renderable.extend({
         var highDef = 0;
         var loCost = 0;
         for (let unit of this.availableUnits) {
-            if (unit.cost > this.resources) {
+            if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
 
@@ -423,7 +418,7 @@ game.AI = me.Renderable.extend({
         var highDef = 0;
         var loCost = 0;
         for (let unit of this.availableUnits) {
-            if (unit.cost > this.resources) {
+            if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
 
@@ -484,7 +479,7 @@ game.AI = me.Renderable.extend({
         var highDef = 0;
         var loCost = 0;
         for (let unit of this.availableUnits) {
-            if (unit.cost > this.resources) {
+            if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
 
@@ -546,7 +541,7 @@ game.AI = me.Renderable.extend({
         var highDef = 0;
         var loCost = 0;
         for (let unit of this.availableUnits) {
-            if (unit.cost > this.resources) {
+            if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
 
