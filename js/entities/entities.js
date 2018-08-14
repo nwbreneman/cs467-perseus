@@ -146,8 +146,8 @@ game.Unit = me.Entity.extend({
         return false;
     },
 
-    update: function (dt) {
 
+    update: function (dt) {
         // check if we need to attack anything
         // But no attack if holding flag
         var enemyPos = this.inRangeOfEnemy();
@@ -398,7 +398,6 @@ game.Unit = me.Entity.extend({
             anchorPoint: new me.Vector2d(0.4, 0.5),
         });
 
-        game.sylvanlog(sprite.anchorPoint.toString());
         sprite.addAnimation(this.name + "EXPLODING_SE", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50);
         sprite.addAnimation(this.name + "EXPLODING_SW", [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 50);
         sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);

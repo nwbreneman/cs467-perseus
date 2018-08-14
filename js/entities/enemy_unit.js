@@ -171,12 +171,9 @@ game.EnemyUnit = game.Unit.extend({
         switch (this.state) {
             case 'spawning':
                 game.sylvanlog("enemy unit spawning at spawn point:", this.pos.toString());
-            
-                this.spawnTimeout = me.timer.getTime() + 1000;
                 break;
             case 'idle':
                 game.sylvanlog("unit is now idle");
-                
                 break;
             case 'defending':
                 game.sylvanlog("Unit change state to defending");
@@ -186,14 +183,10 @@ game.EnemyUnit = game.Unit.extend({
                 break;
             case 'moving':
                 game.sylvanlog("unit is now moving to", this.moveDestination.toString());
-                
                 this.move(this.moveDestination.x, this.moveDestination.y);
                 break;
             case 'dying':
                 // Start a death animation or particle effect or something
-                //this.deathTimeout = me.timer.getTime() + 1000;
-                // Add an exploding animated sprite
-
                 var sprite = new me.Sprite(this.pos.x, this.pos.y, {
                     image: this.deathImage,
                     framewidth: 156,
@@ -201,7 +194,6 @@ game.EnemyUnit = game.Unit.extend({
                     anchorPoint: new me.Vector2d(0.4, 0.5),
                 });
 
-                game.sylvanlog(sprite.anchorPoint.toString());
                 sprite.addAnimation(this.name + "EXPLODING_SE", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50);
                 sprite.addAnimation(this.name + "EXPLODING_SW", [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 50);
                 sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
@@ -394,15 +386,12 @@ game.EnemyUnit = game.Unit.extend({
 
 
     inRangeOfEnemy: function () {
-        // using unit's range, each update, check if within firing range of
-        // an enemy
-
+        // using unit's range, each update, check if within firing range of an enemy
         var allUnits = me.game.world.getChildByType(game.Unit);
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.team !== unit.team) {
                 if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
-                    game.sylvanlog("is in range");
                     return {
                         "x": unit.pos.x,
                         "y": unit.pos.y

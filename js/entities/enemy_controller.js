@@ -174,54 +174,6 @@ game.AI = me.Renderable.extend({
 
         let highestPriority = this.getHighestPriority(priorities);
 
-        
-     //   game.sylvanlog("Enemy controller priorities:", priorities);
-       // game.sylvanlog("Highest priority:", highestPriority, priorities[highestPriority]);
-        
-/*
-        if (highestPriority == "acquireUnit") {
-            // For general unit purchases not tied to a specific goal, I will prioritize speed because fast units can
-            // capture resource points faster, and can capture the flag or return flag faster than others
-            let nameOfUnit = this.getFastestUnitICanAfford();
-            if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
-            } else {
-                this.buyUnit(nameOfUnit);
-                // What should we have the new unit do?
-                let actionPriority = this.getUnitActionPriority(priorities);
-                let unit = this.unitList[this.unitList.length - 1];
-                var destination;
-                switch (actionPriority) {
-                    case "acquireResource":
-                        resourcePoint = this.getNearestUncapturedResource(unit);
-                    
-                        game.sylvanlog("Destination: ", resourcePoint.pos.toString());
-                        // order the unit to move to the resource point and capture it
-                        game.sylvanlog("Enemy controller: commanding newly purchased unit to acquire resource");
-                        
-                        unit.command({ type: "capture resource", point: resourcePoint })
-                        break;
-                    case "guardFlag":
-                        game.sylvanlog("Enemy controller: commanding newly purchased unit to guard the flag");
-                        break;
-                    case "returnFlag":
-                        game.sylvanlog("Enemy controller: commanding newly purchased unit to return the flag");
-                        break;
-                    case "captureFlag":
-                        game.sylvanlog("Enemy controller: commanding newly purchased unit to capture the flag");
-                        
-                        destination = this.playerFlag.pos;
-                        unit.command({ type: "capture flag", x: destination.x, y: destination.y + 20 });
-                        break;
-                    default:
-                        // Take no action for now
-                        break;
-                }
-            }
-
-        } */
-
-        // Trying new tactics
 
         /*
          * Flag defending:
@@ -232,7 +184,7 @@ game.AI = me.Renderable.extend({
         if (this.flag.isHome()) {
             if (flagDefender == null) {
            
-                nameOfUnit = this.getStrongestUnitICanAfford();
+                nameOfUnit = this.getLongestUnitICanAfford();
                 if (nameOfUnit == "") {
                     game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
                 } else {
@@ -250,7 +202,7 @@ game.AI = me.Renderable.extend({
                     }
                 }
 
-                return;
+                return; // Only do one thing per process to keep things fair for the player
             }
         }
         
@@ -300,7 +252,7 @@ game.AI = me.Renderable.extend({
 
         /*
          * Flag capture:
-         * Build up some forces to capture the flag. Ideally, want a flag runner and an escort
+         * Start sending units to capture the flag
          */
         game.sylvanlog("Enemy controller: check flag runners");
         if (this.flagRunners.length < 2) {
@@ -310,16 +262,20 @@ game.AI = me.Renderable.extend({
                 game.sylvanlog("Enemy controller: cannot afford any unit at this time. Resources:", this.resources);
             } else {
                 this.buyUnit(nameOfUnit);
+                
                 let runner = this.unitList[this.unitList.length - 1];
+                /*
                 this.flagRunners.push(runner);
                 var dest;
                 if (this.flagRunners.length == 1) {
                     dest = new me.Vector2d(this.spawnPoint.pos.x - 100, this.spawnPoint.pos.y - 80);
                 } else {
                     dest = new me.Vector2d(this.spawnPoint.pos.x - 100, this.spawnPoint.pos.y - 20);
-                }
+                } */
+
+                var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y);
                 
-                runner.command({ type: "move to", x: dest.x, y: dest.y });
+                runner.command({ type: "capture flag", x: dest.x, y: dest.y });
             }
 
             return;
@@ -576,6 +532,72 @@ game.AI = me.Renderable.extend({
         }
 
         return toughest;
+    },
+
+
+    // Unit with highest range attribute whose cost is less than or equal to my current resource count
+    getLongestUnitICanAfford: function () {
+        var longest = "";
+        var highSpeed = 0;
+        var highAtt = 0;
+        var highRange = 0;
+        var highDef = 0;
+        var loCost = 0;
+        for (let unit of this.availableUnits) {
+            if (unit.cost > this.resources) {
+                continue;
+            }
+
+            if (unit.range > highRange) {
+                longest = unit.name;
+                highSpeed = unit.speed;
+                highRange = unit.range;
+                highAtt = unit.attack;
+                highDef = unit.defense;
+                loCost = unit.cost;
+            } else if (unit.range == highRange) {
+                // need a tie breaker
+                if (unit.attack == highAtt) {
+                    // need another tie breaker
+                    if (unit.defense == highDef) {
+                        // All attributes are the same, go with the cheaper one
+                        if (unit.cost < loCost) {
+                            // The new unit wins
+                            longest = unit.name;
+                            highSpeed = unit.speed;
+                            highRange = unit.range;
+                            highAtt = unit.attack;
+                            highDef = unit.defense;
+                            loCost = unit.cost;
+                        } else {
+                            // Stick with existing fastest unit
+                        }
+                    }
+                    if (unit.defense > highDef) {
+                        // The new unit wins
+                        longest = unit.name;
+                        highSpeed = unit.speed;
+                        highRange = unit.range;
+                        highAtt = unit.attack;
+                        highDef = unit.defense;
+                        loCost = unit.cost;
+                    }
+                }
+
+                if (unit.attack > highAtt) {
+                    // The new unit wins
+                    longest = unit.name;
+                    highSpeed = unit.speed;
+                    highRange = unit.range;
+                    highAtt = unit.attack;
+                    highDef = unit.defense;
+                    loCost = unit.cost;
+                }
+
+            }
+        }
+
+        return longest;
     },
 
 
