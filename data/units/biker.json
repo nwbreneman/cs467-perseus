@@ -1,7 +1,8 @@
 {
     "name": "biker",
-    "attack": 20,
-    "range": 500,
+    "attack": 40,
+    "attackCooldown": 500,
+    "range": 700,
     "defense": 175,
     "speed": 2.5,
     "type": "scissors",
