@@ -123,6 +123,7 @@ game.EnemyUnit = game.Unit.extend({
                 this.changeState("moving");
                 break;
             case 'return flag':
+                this.previousOrders = this.currentOrders;
                 this.moveDestination.set(order.x, order.y);
                 this.changeState("moving");
                 break;
@@ -377,12 +378,13 @@ game.EnemyUnit = game.Unit.extend({
         this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
         this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
 
+        // Check for updated flag position in case the flag is moving, we want the unit to go after it
         this.moveUpdateCounter++;
         if (this.moveUpdateCounter > this.moveUpdateTimeout) {
             this.moveUpdateCounter = 0;
             if (this.currentOrders.type == 'capture flag' && !this.controller.playerFlag.isHome() && !this.isHoldingFlag) {
                 this.moveDestination.x = this.controller.playerFlag.pos.x;
-                this.moveDestination.y = this.controller.playerFlag.pos.y;
+                this.moveDestination.y = this.controller.playerFlag.pos.y + 20;
                 this.changeState('moving');
             }
         }

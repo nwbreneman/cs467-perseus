@@ -377,7 +377,10 @@ game.Unit = me.Entity.extend({
             me.game.world.removeChild(this.selectedBox);
             this.selectedBox = null;
         }
-        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        if (this.body) {
+            this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        }
+        
         if (this.isHoldingFlag) {
             this.carriedFlag.drop();
             this.isHoldingFlag = false;
@@ -389,11 +392,9 @@ game.Unit = me.Entity.extend({
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
         
+        //death sound effect
         me.audio.play("unit_death");
         game.data.player1.removeUnit(this);
-        
-        //death sound effect
-        
         
         // Add an exploding animated sprite
         var sprite = new me.Sprite(this.pos.x, this.pos.y, {

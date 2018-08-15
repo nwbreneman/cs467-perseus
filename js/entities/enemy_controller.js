@@ -111,7 +111,7 @@ game.AI = me.Renderable.extend({
         }
         if (message == "returned flag") {
             game.sylvanlog("AI Controller: Unit reporting it returned the flag");
-
+            unit.command(unit.previousOrders);
         }
         if (message == "got flag") {
             game.sylvanlog("AI Controller: Unit reporting picked up flag");
@@ -154,6 +154,48 @@ game.AI = me.Renderable.extend({
         };
 
         let highestPriority = this.getHighestPriority(priorities);
+
+        /*
+         * Flag return:
+         * If my flag is not at home and is dropped, send someone to go and return it
+         */
+        if (!this.flag.isHome() && !this.flag.isHeld) {
+            
+            // Find the closest unit to the dropped flag and send him to pick it up
+            var dest = new me.Vector2d(this.flag.pos.x, this.flag.pos.y + 20);
+            let unit = this.getNearestUnit(dest);
+            if (unit) {
+                unit.command({ type: "return flag", x: dest.x, y: dest.y });
+                return;
+            }
+            
+        }
+
+
+        /*
+         * Flag capture:
+         * If the enemy flag is dropped somewhere, and no runner is around, send the nearest unit to try and grab it
+         */
+        if (!this.playerFlag.isHome() && !this.playerFlag.isHeld) {
+            // Is anyone going after the flag?
+            var goingForFlag = false;
+            for (var unit of this.unitList) {
+                if (unit.currentOrders.type == 'capture flag') {
+                    goingForFlag = true;
+                }
+            }
+
+            if (!goingForFlag) {
+                // Find the closest unit to the dropped flag and send him to pick it up
+                var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y + 20);
+                let unit = this.getNearestUnit(dest);
+                if (unit) {
+                    unit.command({ type: "capture flag", x: dest.x, y: dest.y });
+                    return;
+                }
+            }
+        }
+
 
 
         /*
@@ -221,10 +263,13 @@ game.AI = me.Renderable.extend({
             // Make sure he's not sitting idle if he already captured his resource point
             if (gatherer.state != 'gathering' && gatherer.state != 'moving') {
                 resourcePoint = this.getNearestUncapturedResource(gatherer);
-                game.sylvanlog("Enemy controller: commanding newly purchased unit to acquire resource");
-                gatherer.command({ type: "capture resource", point: resourcePoint });
+                if (resourcePoint) {
+                    game.sylvanlog("Enemy controller: commanding newly purchased unit to acquire resource");
+                    gatherer.command({ type: "capture resource", point: resourcePoint });
 
-                return;
+                    return;
+                }
+                
             }
         }
 
@@ -277,7 +322,7 @@ game.AI = me.Renderable.extend({
                 // Purchase it
                 this.buyUnit(nameOfUnit);
                 let runner = this.unitList[this.unitList.length - 1];
-                var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y);
+                var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y + 20);
                 runner.command({ type: "capture flag", x: dest.x, y: dest.y });
                 return;
             } else {
@@ -287,6 +332,8 @@ game.AI = me.Renderable.extend({
         } else {
             game.sylvanlog("Enemy controller: cannot afford any flag runner at this time. Resources:", game.data.enemy.unitResources);
         }
+
+        
 
     },
 
@@ -708,7 +755,23 @@ game.AI = me.Renderable.extend({
     },
 
 
+    getNearestUnit: function(loc) {
+        if (this.unitList.length == 0) {
+            return null;
+        }
+        var closest = this.unitList[0];
+        var dist = loc.distance(closest.pos);
+        for (var i = 1; i < this.unitList.length; i++) {
+            let unit = this.unitList[i];
+            var thisDist = loc.distance(unit.pos);
+            if (thisDist < dist) {
+                closest = unit;
+                dist = thisDist;
+            }
+        }
 
+        return closest;
+    },
 
 
 
