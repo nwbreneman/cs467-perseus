@@ -40,54 +40,54 @@
             "image": "infantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 12
+            "speed": 8
         },
         {   "name": "enemyinfantry_projectile",
             "image": "enemyinfantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 12
+            "speed": 8
         },
         {
             "name": "bazooka_projectile",
             "image": "bazooka_projectile",
             "height": 20,
             "width": 20,
-            "speed": 14
+            "speed": 18
         },
         {   "name": "enemybazooka_projectile",
             "image": "enemybazooka_projectile",
             "height": 20,
             "width": 20,
-            "speed": 14
+            "speed": 18
         },
         {
         	"name": "biker_projectile",
         	"image": "biker_projectile",
         	"height": 20,
         	"width": 20,
-        	"speed": 12
+        	"speed": 10
         },
         {
         	"name": "enemybiker_projectile", 
         	"image": "enemybiker_projectile",
         	"height": 20,
         	"width": 20,
-        	"speed": 12
+        	"speed": 10
         },
         {
         	"name": "plane_projectile", 
         	"image": "plane_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 20
+        	"speed": 25
         },
         {
         	"name": "enemyplane_projectile", 
         	"image": "enemyplane_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 20
+        	"speed": 25
         },
         {
         	"name": "engineer_projectile", 
