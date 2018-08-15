@@ -28,11 +28,11 @@ game.AI = me.Renderable.extend({
         if (settings.difficulty == "Easy") {
             game.sylvanlog("Easy difficulty.");
 
-            this.processInterval = 240;
+            this.processInterval = 360;
         } else {
             game.sylvanlog("Hard difficulty.");
 
-            this.processInterval = 120;
+            this.processInterval = 180;
             game.data.enemy.unitResources *= 1.5;
             game.data.enemy.resourceRateBoost = 4.0;
             game.data.enemy.changeResourceRate(game.data.enemy.resourceRate);
@@ -163,10 +163,21 @@ game.AI = me.Renderable.extend({
             
             // Find the closest unit to the dropped flag and send him to pick it up or chase down the goon carrying it away
             var dest = new me.Vector2d(this.flag.pos.x, this.flag.pos.y + 20);
-            let unit = this.getNearestUnit(dest);
+            var unit = this.getNearestUnit(dest);
             if (unit) {
                 unit.command({ type: "return flag", x: dest.x, y: dest.y });
                 return;
+            } else {
+                // Try to buy a unit because this is important
+                unitName = this.getFastestUnitICanAfford();
+                if (unitName == "") {
+                    game.sylvanlog("Enemy controller: cannot afford a defender at this time. Resources:", game.data.enemy.unitResources);
+                } else {
+                    this.buyUnit(unitName);
+                    unit = this.unitList[this.unitList.length - 1];
+                    unit.command({ type: "return flag", x: dest.x, y: dest.y });
+                    return;
+                }
             }
             
         }
