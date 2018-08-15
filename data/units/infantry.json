@@ -2,7 +2,7 @@
     "name": "infantry",
     "attack": 10,
     "attackCooldown": 200,
-    "range": 650,
+    "range": 450,
     "defense": 60,
     "speed": 1.5,
     "type": "paper",
