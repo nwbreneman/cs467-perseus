@@ -40,13 +40,13 @@
             "image": "infantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 8
+            "speed": 12
         },
         {   "name": "enemyinfantry_projectile",
             "image": "enemyinfantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 8
+            "speed": 12
         },
         {
             "name": "bazooka_projectile",
