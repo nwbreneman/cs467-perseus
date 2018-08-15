@@ -1,7 +1,7 @@
 {
     "name": "infantry",
     "attack": 10,
-    "attackCooldown": 400,
+    "attackCooldown": 200,
     "range": 650,
     "defense": 60,
     "speed": 1.5,
