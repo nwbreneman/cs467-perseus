@@ -159,9 +159,9 @@ game.AI = me.Renderable.extend({
          * Flag return:
          * If my flag is not at home and is dropped, send someone to go and return it
          */
-        if (!this.flag.isHome() && !this.flag.isHeld) {
+        if (!this.flag.isHome()) {
             
-            // Find the closest unit to the dropped flag and send him to pick it up
+            // Find the closest unit to the dropped flag and send him to pick it up or chase down the goon carrying it away
             var dest = new me.Vector2d(this.flag.pos.x, this.flag.pos.y + 20);
             let unit = this.getNearestUnit(dest);
             if (unit) {

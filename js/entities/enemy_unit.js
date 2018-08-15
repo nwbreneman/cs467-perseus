@@ -387,6 +387,11 @@ game.EnemyUnit = game.Unit.extend({
                 this.moveDestination.y = this.controller.playerFlag.pos.y + 20;
                 this.changeState('moving');
             }
+            if (this.currentOrders.type == 'return flag' && !this.controller.flag.isHome()) {
+                this.moveDestination.x = this.controller.flag.pos.x;
+                this.moveDestination.y = this.controller.flag.pos.y + 20;
+                this.changeState('moving');
+            }
         }
 
 
