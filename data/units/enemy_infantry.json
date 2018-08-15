@@ -1,7 +1,7 @@
 {
     "name": "enemy_infantry",
     "attack": 9,
-    "attackCooldown": 250,
+    "attackCooldown": 200,
     "range": 450,
     "defense": 120,
     "speed": 1.2,
