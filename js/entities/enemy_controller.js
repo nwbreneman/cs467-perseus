@@ -36,18 +36,12 @@ game.AI = game.Player.extend({
         // Set the timing variables
         this.processAccumulator = 0;
 
-
-        this.resourceCapturePriorities = [8, 5, 3, 1, 1, 1];    // Priority level for capturing 1 resource point, 2 resource points, 3 resource points, 4 resource points, etc.
-        this.unitQtyPriorities = [10, 9, 7, 5, 3, 1, 1, 1];     // Priority level for having 1 unit alive, 2 units alive, 3 units alive, etc.
-        this.defendFlagPriority = 6;          // Priority for keeping own flag at home base guarded
-        this.returnFlagPriority = 9;        // Priority for returning flag if other play captures it
-        this.captureFlagPriority = 8;       // Priority to capture other flag
-
         // Generate a list of all possible units we can buy, so all the attributes of each unit is known by the controller
         this.availableUnits = [];
         var unitNames = me.loader.getJSON("manifest_enemy").units;
         for (var name of unitNames) {
             var unit = me.loader.getJSON(name);
+            unit.attackPerSecond = unit.attack * 1000 / unit.attackCooldown;
             this.availableUnits.push(unit);
         }
 
@@ -203,7 +197,8 @@ game.AI = game.Player.extend({
         if (this.flag.isHome()) {
             if (flagDefender == null) {
 
-                nameOfUnit = this.getLongestUnitICanAfford();
+                //nameOfUnit = this.getLongestUnitICanAfford();
+                nameOfUnit = this.getBestUnitWithWeighting(1, 1.5, 1, 1.5, 0, 0, 0, game.data.enemy.unitResources);
                 if (nameOfUnit == "") {
                     game.sylvanlog("Enemy controller: cannot afford a flag guard at this time. Resources:", game.data.enemy.unitResources);
                 } else {
@@ -244,9 +239,10 @@ game.AI = game.Player.extend({
             if (gatherer == null) {
                 // No unit to deploy
                 // See if I can purchase a new unit
-                nameOfUnit = this.getToughestUnitICanAfford();
+                //nameOfUnit = this.getToughestUnitICanAfford();
+                nameOfUnit = this.getBestUnitWithWeighting(100, 1, 1, 1, 0, 0, 0, 200);
                 if (nameOfUnit == "") {
-                    game.sylvanlog("Enemy controller: cannot afford a gatherer at this time. Resources:", game.data.enemy.unitResources);
+                    game.sylvanlog("Enemy controller: cannot purchase a gatherer that meets the criteria. Resources:", game.data.enemy.unitResources);
                 } else {
                     this.buyUnit(nameOfUnit);
                     gatherer = this.unitList[this.unitList.length - 1];
@@ -276,9 +272,10 @@ game.AI = game.Player.extend({
         game.sylvanlog("Enemy controller: check defenders");
         var defenders = this.getDefenders();
         if (defenders.length < 2) {
-            nameOfUnit = this.getStrongestUnitICanAfford();
+            //nameOfUnit = this.getStrongestUnitICanAfford();
+            nameOfUnit = this.getBestUnitWithWeighting(1, 1, 1, 1, 0, 0, 0, game.data.enemy.unitResources);
             if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford a defender at this time. Resources:", game.data.enemy.unitResources);
+                game.sylvanlog("Enemy controller: cannot purchase a defender that meets the criteria. Resources:", game.data.enemy.unitResources);
             } else {
                 this.buyUnit(nameOfUnit);
                 var defender = this.unitList[this.unitList.length - 1];
@@ -307,29 +304,52 @@ game.AI = game.Player.extend({
 
         /*
          * Flag capture:
-         * Start sending units to capture the flag
+         * Start sending units to capture the flag.
+         * Try limiting the number of runners at a time, to encourage saving for the top tier units, and to avoid spamming the map with bikers
          */
         game.sylvanlog("Enemy controller: check flag runners");
-        nameOfUnit = this.getFastestUnitICanAfford();
-        if (nameOfUnit != "") {
-            var unit = me.loader.getJSON(nameOfUnit);
-            if (unit.speed > 2) {
-                // Purchase it
+        if (this.getFlagRunners().length < 2) {
+            //nameOfUnit = this.getFastestUnitICanAfford();
+            nameOfUnit = this.getBestUnitWithWeighting(2000, 1, 2, 1, 2.0, 0, 0, game.data.enemy.unitResources);
+            if (nameOfUnit != "") {
+                var unit = me.loader.getJSON(nameOfUnit);
                 this.buyUnit(nameOfUnit);
                 var runner = this.unitList[this.unitList.length - 1];
                 var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y + 20);
                 runner.command({ type: "capture flag", x: dest.x, y: dest.y });
                 return;
+
             } else {
                 // Continue waiting until we can afford a faster unit. Hopefully we are gathering resources during this time
-                game.sylvanlog("Enemy controller: cannot afford a flag runner of speed 2 at this time. Resources:", game.data.enemy.unitResources);
+                game.sylvanlog("Enemy controller: cannot purchase a flag runner that meets the criteria. Resources:", game.data.enemy.unitResources);
             }
-        } else {
-            game.sylvanlog("Enemy controller: cannot afford any flag runner at this time. Resources:", game.data.enemy.unitResources);
+        }
+        
+
+
+
+    },
+
+
+    getBestUnitWithWeighting: function(speedWeight, attackWeight, defenseWeight, rangeWeight, minSpeed, minAttack, minDefense, maxCost) {
+        var best = "";
+        var highestSum = 0;
+
+        for (var unit of this.availableUnits) {
+            unit.weightedSpeed = unit.speed * speedWeight;
+            unit.weightedAttack = unit.attackPerSecond * attackWeight;
+            unit.weightDefense = unit.defense * defenseWeight;
+            unit.rangeWeight = unit.range * rangeWeight;
+            unit.weightedSum = unit.weightedSpeed + unit.weightedAttack + unit.weightedAttack;
+
+            if (unit.weightedSum > highestSum && unit.speed >= minSpeed && unit.attack >= minAttack && unit.defense >= minDefense && unit.cost <= maxCost) {
+                // Good to go
+                best = unit.name;
+                highestSum = unit.weightedSum;
+            }
         }
 
-
-
+        return best;
     },
 
 
@@ -614,7 +634,7 @@ game.AI = game.Player.extend({
         var destPoint = null;
         for (var i = 0; i < resourceList.length; i++) {
             var point = resourceList[i];
-            if (point.owner != null) {
+            if (point.owner == game.data.enemy) {
                 continue;
             }
             // Check other units to see if they've been ordered to capture the same resource point
@@ -652,6 +672,17 @@ game.AI = game.Player.extend({
         var list = [];
         for (var unit of this.unitList) {
             if (unit.currentOrders.type == 'defend') {
+                list.push(unit);
+            }
+        }
+        return list;
+    },
+
+
+    getFlagRunners: function() {
+        var list = [];
+        for (var unit of this.unitList) {
+            if (unit.currentOrders.type == 'capture flag') {
                 list.push(unit);
             }
         }
