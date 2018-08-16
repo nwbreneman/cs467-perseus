@@ -58,7 +58,6 @@ game.Unit = me.Entity.extend({
 
         // Mark:
         // add standing animations for all four facing directions
-        console.log(this.renderable);
         game.sylvanlog(settings.xAnchor, settings.yAnchor);
         this.renderable.anchorPoint.set(settings.xAnchor, settings.yAnchor);
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 60);
@@ -396,20 +395,34 @@ game.Unit = me.Entity.extend({
     },
 
     getSaveState: function () {
-        console.log("unit " + this.name + " saving state");
-        return {
+        data = {
             "name": this.name,
             "pos": { "x": this.pos.x, "y": this.pos.y },
             "isHoldingFlag": this.isHoldingFlag,
-            "carriedFlag": this.carriedFlag
         }
+
+        if (this.carriedFlag && this.carriedFlag.teamName) {
+            data["carriedFlag"] = this.carriedFlag.teamName;
+        } else {
+            data["carriedFlag"] = null;
+        }
+
+        return data;
     },
 
     loadSaveState: function (data) {
         this.pos.x = data.pos.x;
         this.pos.y = data.pos.y;
         this.isHoldingFlag = data.isHoldingFlag;
-        this.carriedFlag = data.carriedFlag;
+        var flags = me.game.world.getChildByType(game.flag);
+        for (var i = 0; i < flags.length; i++) {
+            var flag = flags[i];
+            if (flag.teamName === data.carriedFlag) {
+                this.carriedFlag = flag;
+                flag.holder = this;
+                break;
+            }
+        }
     }
 
 });

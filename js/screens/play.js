@@ -90,7 +90,7 @@ game.PlayScreen = me.ScreenObject.extend({
         hitHeight = 30;
         xOffset = -hitWidth * 0.2;      // Make the image line up with the flag stand entity
         yOffset = -hitHeight;
-        blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1 });
+        blueFlag = new game.flag(blueflagstand.pos.x + xOffset, blueflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_blue", framewidth: 44, frameheight: 72, team: game.data.player1, teamName: game.data.player1.name });
         redFlag = new game.flag(redflagstand.pos.x + xOffset, redflagstand.pos.y + yOffset, { width: hitWidth, height: hitHeight, image: "flag_red", framewidth: 44, frameheight: 72, team: game.data.enemy })
 
 
@@ -111,6 +111,8 @@ game.PlayScreen = me.ScreenObject.extend({
             flag: redFlag,
             playerFlag: blueFlag
         }));
+        redFlag.team = game.data.enemy;
+        redFlag.teamName = game.data.enemy.name;
 
         //Mark: testing spawning blue civilian at start of new game by calling buyUnit()
         // game.data.player1.buyUnit("civilian");
@@ -119,6 +121,14 @@ game.PlayScreen = me.ScreenObject.extend({
         if (me.save.player1data && me.save.enemyData) {
             game.data.player1.loadSaveState(me.save.player1data);
             game.data.enemy.loadSaveState(me.save.enemyData);
+            var flags = me.game.world.getChildByType(game.flag);
+            for (var i = 0; i < flags.length; i++) {
+                var flag = flags[i];
+                for (var j = 0; j < me.save.flags.length; j++) {
+                    var sFlag = me.save.flags[j];
+                    flag.loadSaveState(sFlag);
+                }
+            }
         } else {
             console.log("no save data");
             // set player initial resource rates

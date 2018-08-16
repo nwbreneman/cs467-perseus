@@ -10,9 +10,11 @@ game.flag = me.Entity.extend({
         this.renderable.setCurrentAnimation("flutter");
         this.alwaysUpdate = true;
         this.isHeld = false;
+        this.holder = null;
         this.other = {};
         this.homePosition = new me.Vector2d(x, y);
         this.team = settings.team;
+        this.teamName = settings.teamName;
         this.body.collisionType = me.collision.types.COLLECTABLE_OBJECT;
         this.body.setCollisionMask(game.collisionTypes.PLAYER_UNIT | game.collisionTypes.ENEMY_UNIT);
         this.body.setMaxVelocity(0, 0);
@@ -103,5 +105,25 @@ game.flag = me.Entity.extend({
         return true;
     },
 
+    getSaveState: function () {
+        return {
+            "pos": { "x": this.pos.x, "y": this.pos.y },
+            "isHeld": this.isHeld,
+            "other": this.other,
+            "homePosition": { "x": this.homePosition.x, "y": this.homePosition.y },
+            "team": this.team.name
+        }
+    },
+
+    loadSaveState: function (data) {
+        if (data.team === this.team.name) {
+            this.pos.x = data.pos.x;
+            this.pos.y = data.pos.y;
+            this.isHeld = data.isHeld;
+            this.other = data.other;
+            this.homePosition.x = data.homePosition.x;
+            this.homePosition.y = data.homePosition.y;
+        }
+    }
 
 });

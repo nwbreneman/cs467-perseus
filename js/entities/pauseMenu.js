@@ -116,6 +116,15 @@ var saveGame = function () {
     me.save.enemyData = game.data.enemy.getSaveState();
 
     // Save flag states
+    var gFlags = me.game.world.getChildByType(game.flag);
+    var flags = [];
+    var f;
+    for (var i = 0; i < gFlags.length; i++) {
+        f = gFlags[i];
+        flags.push(f.getSaveState());
+    }
+    me.save.add({ "flags": [] })
+    me.save.flags = flags;
 
     // Save which level we were on
 
