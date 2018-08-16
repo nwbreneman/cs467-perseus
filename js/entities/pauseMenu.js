@@ -128,5 +128,15 @@ var saveGame = function () {
 
     // Save which level we were on
 
-    // Save capture point statuses?
+    // Save capture point statuses
+    var points = [];
+    var cPoints = me.game.world.getChildByType(game.capturePoint);
+    console.log(cPoints);
+    for (var i = 0; i < cPoints.length; i++) {
+        point = cPoints[i];
+        console.log(point.getSaveState());
+        points.push(point.getSaveState());
+    }
+    me.save.add({ "capturePoints": {} });
+    me.save.capturePoints = points;
 }

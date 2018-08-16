@@ -121,6 +121,7 @@ game.PlayScreen = me.ScreenObject.extend({
         if (me.save.player1data && me.save.enemyData) {
             game.data.player1.loadSaveState(me.save.player1data);
             game.data.enemy.loadSaveState(me.save.enemyData);
+
             var flags = me.game.world.getChildByType(game.flag);
             for (var i = 0; i < flags.length; i++) {
                 var flag = flags[i];
@@ -129,8 +130,19 @@ game.PlayScreen = me.ScreenObject.extend({
                     flag.loadSaveState(sFlag);
                 }
             }
+
+            var capturePoints = me.game.world.getChildByType(game.capturePoint);
+            for (var i = 0; i < capturePoints.length; i++) {
+                point = capturePoints[i];
+                for (var j = 0; j < me.save.capturePoints.length; j++) {
+                    var sPoint = me.save.capturePoints[j];
+                    if (sPoint.id === point.id) {
+                        point.loadSaveState(sPoint);
+                    }
+                }
+            }
+
         } else {
-            console.log("no save data");
             // set player initial resource rates
             game.data.player1.changeResourceRate(0.5);
             game.data.enemy.changeResourceRate(0.5);

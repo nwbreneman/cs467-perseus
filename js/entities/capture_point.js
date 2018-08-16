@@ -118,4 +118,29 @@ game.capturePoint = me.Entity.extend({
 
         return factory;
     },
+
+    getSaveState: function () {
+        data = {
+            "captureStatus": this.captureStatus,
+            "id": this.id
+        };
+
+        if (this.owner) {
+            data["owner"] = this.owner.name;
+        }
+
+        return data;
+    },
+
+    loadSaveState: function (data) {
+        this.captureStatus = data.captureStatus;
+        var players = me.game.world.getChildByType(game.Player);
+        for (var i = 0; i < players.length; i++) {
+            var player = players[i];
+            if (player.name === data.owner) {
+                this.owner = player;
+                break;
+            }
+        }
+    }
 });

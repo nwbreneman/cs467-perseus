@@ -134,9 +134,6 @@ game.Player = me.Renderable.extend({
     },
 
     getSaveState: function () {
-        console.log("player " + this.name + " saving state");
-        console.log(this.unitList);
-        console.log(this.unitList);
         var units = [];
         for (var i = 0; i < this.unitList.length; i++) {
             units.push(this.unitList[i].getSaveState());
@@ -148,7 +145,8 @@ game.Player = me.Renderable.extend({
             "unitResources": this.unitResources,
             "resourceRate": this.resourceRate,
             "resourceRateBoost": this.resourceRateBoost,
-            "units": units
+            "units": units,
+            "controlledFactories": this.controlledFactories
         }
     },
 
@@ -157,6 +155,7 @@ game.Player = me.Renderable.extend({
         this.ptype = data.ptype;
         this.resourceRate = data.resourceRate;
         this.resourceRateBoost = data.resourceRateBoost;
+        this.controlledFactories = data.controlledFactories;
 
         for (var i = 0; i < data.units.length; i++) {
             this.unitResources = 99999;
