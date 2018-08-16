@@ -8,7 +8,13 @@ game.PlayScreen = me.ScreenObject.extend({
         me.levelDirector.loadLevel("level1");
 
         // create the visibility graph
-        game.data.visGraph = buildGraph();
+        if (!me.save.levelGraph || !me.save.levelGraph["level1"]) {
+            me.save.add({ "levelGraph": {} });
+            game.data.visGraph = buildGraph();
+            me.save.levelGraph["level1"] = game.data.visGraph;
+        } else {
+            game.data.visGraph = me.save.levelGraph["level1"];
+        }
 
         // add game menu
         this.pauseMenu = new game.pauseMenu.Container();
