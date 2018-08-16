@@ -150,7 +150,7 @@ game.EnemyUnit = game.Unit.extend({
                 
                 //-5 resource rate if engineer dies.
                 if (this.name == "enemy_engineer") {
-                    game.data.player1.changeResourceRate(-5);
+                    game.data.enemy.changeResourceRate(-5);
                     game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
                 }
 
@@ -210,7 +210,7 @@ game.EnemyUnit = game.Unit.extend({
                         //this.unitResources -= settings.cost; no cost on death - special effect spawn
                         game.data.enemy.available.push(unit);
                         //if engineer survives, give resource bonus still
-                        game.data.enemy.changeResourceRate(+5);
+                        game.data.enemy.changeResourceRate(5);
                         game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
                         me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
                 }
