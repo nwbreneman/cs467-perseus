@@ -4,10 +4,6 @@ game.PlayScreen = me.ScreenObject.extend({
      */
     onResetEvent: function () {
 
-        // set player initial resource rates
-        game.data.player1.changeResourceRate(0.5);
-        game.data.enemy.changeResourceRate(0.5);
-
         // Define how many pixels to pan for all panning functions
         const AMOUNT_TO_PAN = 10;
 
@@ -16,6 +12,14 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // create the visibility graph
         game.data.visGraph = buildGraph();
+
+        // add game menu
+        this.pauseMenu = new game.pauseMenu.Container();
+        me.game.world.addChild(this.pauseMenu);
+
+        // add players
+        game.data.player1 = me.game.world.addChild(new game.Player("Player 1", "Human"));
+        console.log("added player");
 
         // Add invisible renderable for panning the level
         me.game.world.addChild(new (me.Renderable.extend({
@@ -192,6 +196,7 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.S, "down");
         me.input.bindKey(me.input.KEY.X, "x");
+        me.input.bindKey(me.input.KEY.ESC, "esc");
 
         // Bind shift key for multi-selecting units with click
         me.input.bindKey(me.input.KEY.SHIFT, "shift");
@@ -221,7 +226,9 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // associate bases & spawn points with players
         game.data.player1.base = me.game.world.getChildByName("bluebase")[0];
+        console.log("set player 1 base");
         game.data.player1.spawnPoint = me.game.world.getChildByName("bluespawnpoint")[0];
+        console.log("set player 1 spawn point");
         game.data.player1.spawnPoint.renderable.anchorPoint.set(0.5, 0.5);
         me.game.world.getChildByName("redspawnpoint")[0].renderable.anchorPoint.set(0.5, 0.5);
 
@@ -264,7 +271,7 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // Add the enemy AI controller with initial settings. Should be added after the flags because this object
         // references the flags in its constructor
-        me.game.world.addChild(new game.AI({
+        game.data.enemy = me.game.world.addChild(new game.AI("Enemy", "AI", {
             difficulty: game.data.difficulty,
             base: me.game.world.getChildByName("redbase")[0],
             spawnPoint: me.game.world.getChildByName("redspawnpoint")[0],
@@ -273,7 +280,18 @@ game.PlayScreen = me.ScreenObject.extend({
         }));
 
         //Mark: testing spawning blue civilian at start of new game by calling buyUnit()
-        game.data.player1.buyUnit("civilian");
+        // game.data.player1.buyUnit("civilian");
+
+        // load save if resumed
+        if (me.save.player1data) {
+            game.data.player1.loadSaveState(me.save.player1data);
+            game.data.enemy.loadSaveState(me.save.enemyData);
+        } else {
+            console.log("no save data");
+            // set player initial resource rates
+            game.data.player1.changeResourceRate(0.5);
+            game.data.enemy.changeResourceRate(0.5);
+        }
 
     },
 

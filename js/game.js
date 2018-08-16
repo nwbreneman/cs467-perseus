@@ -5,18 +5,11 @@ var game = {
     // an object where to store game information
     // Nathan: accessed anywhere via `game.data`
     data: {
-        // Nathan: this is where I'm thinking we add the human and AI players;
-        // 'player' is a custom object I created in js/player.js
-        // so the AI has the same easy functions for buying units,
-        // selecting units, etc. Not technically an entity since
-        // we're not rendering it.
-        player1: new player("Player 1", "Human"),
-        enemy: new player("Enemy", "AI"),
         difficulty: "Easy",
-        sylvanLogs: true,  // false to suppress sylvan's console logs
+        sylvanLogs: false,  // false to suppress sylvan's console logs
     },
 
-    
+
     // Run on page load.
     onload: function () {
         // Initialize the video.
@@ -119,7 +112,7 @@ var game = {
             } else if (args.length == 5) {
                 console.log("Sylvan:", args[0], args[1], args[2], args[3], args[4]);
             } //etc... I don't think I have any logs with this many arguments
-            
+
         }
     },
 };

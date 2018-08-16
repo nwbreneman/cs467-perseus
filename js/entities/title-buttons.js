@@ -11,11 +11,11 @@ game.UI.ButtonUI = me.GUI_Object.extend({
     /**
      * constructor
      */
-    init: function(x, y, name, label) {
-        this._super(me.GUI_Object, "init", [ x, y, {
+    init: function (x, y, name, label) {
+        this._super(me.GUI_Object, "init", [x, y, {
             image: game.texture,
             region: name + "_up"
-        } ]);
+        }]);
 
         // offset of the two used images in the texture
         this.unclicked_region = game.texture.getRegion(name + "_up");
@@ -34,10 +34,10 @@ game.UI.ButtonUI = me.GUI_Object.extend({
     /**
      * function called when the object is clicked on
      */
-    onClick : function (/* event */) {
+    onClick: function (/* event */) {
         this.setRegion(this.clicked_region);
         // account for the different sprite size
-        this.pos.y += this.height - this.clicked_region.height ;
+        this.pos.y += this.height - this.clicked_region.height;
         this.height = this.clicked_region.height;
 
         // don't propagate the event
@@ -47,7 +47,7 @@ game.UI.ButtonUI = me.GUI_Object.extend({
     /**
      * function called when the pointer button is released
      */
-    onRelease : function (/* event */) {
+    onRelease: function (/* event */) {
 
         this.setRegion(game.texture.getRegion("button_up"));
         // account for the different sprite size
@@ -69,8 +69,8 @@ game.UI.ButtonUI = me.GUI_Object.extend({
         return false;
     },
 
-    draw: function(renderer) {
-        this._super(me.GUI_Object, "draw", [ renderer ]);
+    draw: function (renderer) {
+        this._super(me.GUI_Object, "draw", [renderer]);
         this.font.draw(renderer,
             this.label,
             this.pos.x + this.width / 2,

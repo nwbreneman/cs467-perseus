@@ -5,15 +5,16 @@
 game.Base = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, 'init', [x, y, settings]);
-        this.player = game.data[settings.player];
         this.selected = false;
+        this.playerType = settings.playerType;
+        this.player = settings.player;
     },
 
     /**
      * If base owner is human, let human click on it
      */
     onActivateEvent: function () {
-        if (this.player.ptype === "Human") {
+        if (this.playerType === "Human") {
             me.input.registerPointerEvent("pointerdown", this, this.pointerDown.bind(this));
         }
     },
@@ -161,7 +162,7 @@ game.Unit = me.Entity.extend({
                 this.lastAttack = 0;
             }
         }
-        
+
 
         // if there are points in our moveTo array, move
         if (this.moveTo) {
@@ -372,7 +373,7 @@ game.Unit = me.Entity.extend({
     },
 
     die: function () {
-        
+
         if (this.selectedBox) {
             me.game.world.removeChild(this.selectedBox);
             this.selectedBox = null;
@@ -380,7 +381,7 @@ game.Unit = me.Entity.extend({
         if (this.body) {
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         }
-        
+
         if (this.isHoldingFlag) {
             this.carriedFlag.drop();
             this.isHoldingFlag = false;
@@ -391,11 +392,11 @@ game.Unit = me.Entity.extend({
             game.data.player1.changeResourceRate(-5);
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
-        
+
         //death sound effect
         me.audio.play("unit_death");
         game.data.player1.removeUnit(this);
-        
+
         // Add an exploding animated sprite
         var sprite = new me.Sprite(this.pos.x, this.pos.y, {
             image: this.deathImage,
@@ -409,7 +410,7 @@ game.Unit = me.Entity.extend({
         sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
         sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
 
-        sprite.setCurrentAnimation(this.explodingName, function() {
+        sprite.setCurrentAnimation(this.explodingName, function () {
             me.game.world.removeChild(sprite);
             return false;
         });
@@ -444,6 +445,23 @@ game.Unit = me.Entity.extend({
     capturedResource: function (resourcePoint) {
 
     },
+
+    getSaveState: function () {
+        console.log("unit " + this.name + " saving state");
+        return {
+            "name": this.name,
+            "pos": { "x": this.pos.x, "y": this.pos.y },
+            "isHoldingFlag": this.isHoldingFlag,
+            "carriedFlag": this.carriedFlag
+        }
+    },
+
+    loadSaveState: function (data) {
+        this.pos.x = data.pos.x;
+        this.pos.y = data.pos.y;
+        this.isHoldingFlag = data.isHoldingFlag;
+        this.carriedFlag = data.carriedFlag;
+    }
 
 });
 
@@ -771,40 +789,40 @@ game.projectile = me.Entity.extend({
 
         if (otherType === game.collisionTypes.ENEMY_UNIT
             || otherType === game.collisionTypes.PLAYER_UNIT) {
-            
+
             /*
             other.takeDamage(this.damage); //this needs to go in the below checks, leaving for now just testing this.
             */
 
             // Mark
-            // Rock-paper-scissors unit attack balancing. 
-            // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved, 
+            // Rock-paper-scissors unit attack balancing.
+            // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved,
             console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
-            if(this.type == "paper" && other.type == "rock"){
-                console.log("paper hit rock - double this damage: " + this.damage*2);
-                other.takeDamage(this.damage*2);
+            if (this.type == "paper" && other.type == "rock") {
+                console.log("paper hit rock - double this damage: " + this.damage * 2);
+                other.takeDamage(this.damage * 2);
             }
-            else if(this.type == "rock" && other.type == "scissors"){
-                console.log("rock hit scissors - double this damage: " + this.damage*2);
-                other.takeDamage(this.damage*2);
+            else if (this.type == "rock" && other.type == "scissors") {
+                console.log("rock hit scissors - double this damage: " + this.damage * 2);
+                other.takeDamage(this.damage * 2);
 
             }
-            else if(this.type =="scissors" && other.type == "paper"){
-                console.log("scissors hit paper - double this damage: " + this.damage*2);
-                other.takeDamage(this.damage*2);
+            else if (this.type == "scissors" && other.type == "paper") {
+                console.log("scissors hit paper - double this damage: " + this.damage * 2);
+                other.takeDamage(this.damage * 2);
 
             }
-            else if(this.type =="paper" && other.type == "scissors"){
-                console.log("paper hit scissors - halve this damage: " + this.damage/2);
-                other.takeDamage(this.damage/2);
+            else if (this.type == "paper" && other.type == "scissors") {
+                console.log("paper hit scissors - halve this damage: " + this.damage / 2);
+                other.takeDamage(this.damage / 2);
             }
-            else if(this.type =="rock" && other.type == "paper"){
-                console.log("rock hit paper - halve this damage: " + this.damage/2);
-                other.takeDamage(this.damage/2);
+            else if (this.type == "rock" && other.type == "paper") {
+                console.log("rock hit paper - halve this damage: " + this.damage / 2);
+                other.takeDamage(this.damage / 2);
             }
-            else if(this.type =="scissors" && other.type == "rock"){
-                console.log("scissors hit rock - halve this damage: " + this.damage/2);
-                other.takeDamage(this.damage/2); 
+            else if (this.type == "scissors" && other.type == "rock") {
+                console.log("scissors hit rock - halve this damage: " + this.damage / 2);
+                other.takeDamage(this.damage / 2);
             }
             /*
             default: no buff or debuff. flat damage

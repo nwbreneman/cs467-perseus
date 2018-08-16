@@ -3,13 +3,13 @@
  */
 game.EnemyUnit = game.Unit.extend({
     init: function (x, y, settings) {
-      
+
         settings.frameheight = 108;
         settings.framewidth = 88;
-        settings.height = settings.myHeight; 
+        settings.height = settings.myHeight;
         settings.width = settings.myWidth; //use myVariables in JSON for defining hitboxes
 
-        this._super(me.Entity, 'init', [x, y, settings]);
+        this._super(game.Unit, 'init', [x, y, settings]);
 
         this.name = settings.name;
         this.attack = settings.attack;
@@ -35,8 +35,8 @@ game.EnemyUnit = game.Unit.extend({
 
         //this.renderable.anchorPoint.set(0.5, 0.5);
         this.renderable.anchorPoint.set(settings.xAnchor, settings.yAnchor);
-        
-        
+
+
         this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 120);
         this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 120);
         this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 120);
@@ -44,7 +44,7 @@ game.EnemyUnit = game.Unit.extend({
         this.explodingName = this.name + "EXPLODING_NW";
         // init facing northwest
         this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-		this.attackCooldown = settings.attackCooldown || 2000;
+        this.attackCooldown = settings.attackCooldown || 2000;
         this.lastAttack = 0;
 
         // To be assigned by the enemy controller
@@ -81,7 +81,7 @@ game.EnemyUnit = game.Unit.extend({
             this.range * 2,
             this.range * 2
         );
-        
+
         this.changeState(this.state);
     },
 
@@ -139,19 +139,19 @@ game.EnemyUnit = game.Unit.extend({
     // Enemy specific override
     die: function () {
         this.changeState('dying');
-        
+
     },
 
 
-    pickedUpFlag: function() {
+    pickedUpFlag: function () {
         game.sylvanlog("Enemy unit: picked up the flag.");
-        
+
         this.controller.report(this, 'got flag');
     },
 
-    capturedResource: function(resourcePoint) {
+    capturedResource: function (resourcePoint) {
         game.sylvanlog("Enemy Unit: captured a resource point:", resourcePoint);
-        
+
         this.changeState("idle");
 
     },
@@ -201,10 +201,10 @@ game.EnemyUnit = game.Unit.extend({
                 sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
                 sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
 
-		//death sound fx
-		me.audio.play("unit_death");
-			
-                sprite.setCurrentAnimation(this.explodingName, function() {
+                //death sound fx
+                me.audio.play("unit_death");
+
+                sprite.setCurrentAnimation(this.explodingName, function () {
                     me.game.world.removeChild(sprite);
                     return false;
                 });
@@ -223,7 +223,7 @@ game.EnemyUnit = game.Unit.extend({
                 break;
             default:
                 game.sylvanlog("enterState(): state \'" + newState + "\' not handled");
-                
+
                 break;
         }
 
@@ -237,7 +237,7 @@ game.EnemyUnit = game.Unit.extend({
         switch (oldState) {
             default:
                 game.sylvanlog("leaveState(): state \'" + oldState + "\' not handled");
-                
+
                 break;
         }
 
@@ -246,7 +246,7 @@ game.EnemyUnit = game.Unit.extend({
 
 
     update: function (dt) {
-        
+
         // check if we need to attack anything
         // But no attack if holding flag
         var enemyPos = this.inRangeOfEnemy();
@@ -271,8 +271,8 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'moving':
-                
-                
+
+
                 if (this.moveTo) {
                     // get the next xy coordinates
                     var newX = this.nextMove.x;
@@ -440,7 +440,7 @@ game.EnemyUnit = game.Unit.extend({
 
 
 
-    onCollision: function(response, other) {
+    onCollision: function (response, other) {
         if (other.body.collisionType == me.collision.types.COLLECTABLE_OBJECT && other.team != this.team) {
             // Got the flag
             this.pickedUpFlag();
@@ -454,11 +454,7 @@ game.EnemyUnit = game.Unit.extend({
         }
 
         return false;
-    },
-
-
-   
-
+    }
 
 });
 

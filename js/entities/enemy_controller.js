@@ -1,13 +1,12 @@
 /*
  * Enemy AI controller entity
  */
-game.AI = me.Renderable.extend({
+game.AI = game.Player.extend({
 
-    init: function (settings) {
+    init: function (name, ptype, settings) {
         // call the parent constructor
         // (zero size makes this object non-renderable, so the Renderable.draw method won't get called)
-        this._super(me.Renderable, 'init', [0, 0, 0, 0]);
-
+        this._super(game.Player, 'init', [name, ptype, settings]);
 
         // Always update even if this invisible entity is "off the screen"
         this.alwaysUpdate = true;
@@ -160,7 +159,7 @@ game.AI = me.Renderable.extend({
          * If my flag is not at home and is dropped, send someone to go and return it
          */
         if (!this.flag.isHome()) {
-            
+
             // Find the closest unit to the dropped flag and send him to pick it up or chase down the goon carrying it away
             var dest = new me.Vector2d(this.flag.pos.x, this.flag.pos.y + 20);
             var unit = this.getNearestUnit(dest);
@@ -179,7 +178,7 @@ game.AI = me.Renderable.extend({
                     return;
                 }
             }
-            
+
         }
 
 
@@ -217,7 +216,7 @@ game.AI = me.Renderable.extend({
         var flagDefender = this.getUnitWithOrders('guard flag');
         if (this.flag.isHome()) {
             if (flagDefender == null) {
-           
+
                 nameOfUnit = this.getLongestUnitICanAfford();
                 if (nameOfUnit == "") {
                     game.sylvanlog("Enemy controller: cannot afford a flag guard at this time. Resources:", game.data.enemy.unitResources);
@@ -239,7 +238,7 @@ game.AI = me.Renderable.extend({
                 return; // Only do one thing per process to keep things fair for the player
             }
         }
-        
+
 
         /*
          * Resource gathering:
@@ -259,7 +258,7 @@ game.AI = me.Renderable.extend({
                 blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
                 redflagstand = me.game.world.getChildByName("redflagstand")[0];
                 dist = blueflagstand.pos.distance(redflagstand.pos);
-                targetLoc = new me.Vector2d(blueflagstand.pos.x + dist.x/2, blueflagstand.pos.y + dist.y/2);
+                targetLoc = new me.Vector2d(blueflagstand.pos.x + dist.x / 2, blueflagstand.pos.y + dist.y / 2);
                 gatherer = this.getNearestIdleUnit(targetLoc);
                 if (gatherer == null) {
                     // No unit to deploy, let's go ahead and buy it
@@ -267,7 +266,7 @@ game.AI = me.Renderable.extend({
                     gatherer = this.unitList[this.unitList.length - 1];
                 }
             }
-        } 
+        }
 
         if (gatherer != null) {
             game.sylvanlog("Gatherer state:", gatherer.state);
@@ -280,7 +279,7 @@ game.AI = me.Renderable.extend({
 
                     return;
                 }
-                
+
             }
         }
 
@@ -311,7 +310,7 @@ game.AI = me.Renderable.extend({
                     } else {
                         dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 + 250);
                     }
-                    
+
                 }
                 defender.command({ type: "defend", x: dest.x, y: dest.y });
             }
@@ -344,7 +343,7 @@ game.AI = me.Renderable.extend({
             game.sylvanlog("Enemy controller: cannot afford any flag runner at this time. Resources:", game.data.enemy.unitResources);
         }
 
-        
+
 
     },
 
@@ -646,20 +645,20 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getNearestResourcePoint: function(loc) {
+    getNearestResourcePoint: function (loc) {
         let resourceList = me.game.world.getChildByName("capture_point");
         var index = -1;
         var dist = 100000;
         var destPoint = null;
         for (var i = 0; i < resourceList.length; i++) {
             let point = resourceList[i];
-            
+
             let thisDist = loc.distance(point.pos);
             if (thisDist < dist) {
                 dist = thisDist;
                 index = i;
             }
-        }       
+        }
 
         return resourceList[index];
     },
@@ -670,7 +669,7 @@ game.AI = me.Renderable.extend({
         if (unit == null) {
             return;
         }
-        
+
         game.sylvanlog(unit);
         let resourceList = me.game.world.getChildByName("capture_point");
         var index = -1;
@@ -699,12 +698,12 @@ game.AI = me.Renderable.extend({
             }
         }
 
-        
+
         var destPoint = null;
         if (index != -1) {
             destPoint = resourceList[index];
             game.sylvanlog("nearest uncaptured resource:", destPoint.pos.toString());
-            
+
         }
 
         return destPoint;
@@ -712,7 +711,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getDefenders: function() {
+    getDefenders: function () {
         var list = [];
         for (let unit of this.unitList) {
             if (unit.currentOrders.type == 'defend') {
@@ -723,7 +722,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getUnitWithOrders: function(type) {
+    getUnitWithOrders: function (type) {
         var theUnit = null;
         for (let unit of this.unitList) {
             if (unit.currentOrders.type == type) {
@@ -735,7 +734,7 @@ game.AI = me.Renderable.extend({
 
 
 
-    getIdleUnits: function() {
+    getIdleUnits: function () {
         var list = [];
         for (let unit of this.unitList) {
             if (unit.state == 'idle') {
@@ -746,7 +745,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getNearestIdleUnit: function(loc) {
+    getNearestIdleUnit: function (loc) {
         var list = this.getIdleUnits();
         if (list.length == 0) {
             return null;
@@ -766,7 +765,7 @@ game.AI = me.Renderable.extend({
     },
 
 
-    getNearestUnit: function(loc) {
+    getNearestUnit: function (loc) {
         if (this.unitList.length == 0) {
             return null;
         }

@@ -2,42 +2,50 @@
  * A player class to be used by adding to the game pool:
  * one for the human player, one for the AI.
  */
-var player = function (name, ptype) {
+game.Player = me.Renderable.extend({
 
-    this.name = name;
-    if (ptype !== "Human" && ptype !== "AI") {
-        throw ("Error: player type must be 'Human' or 'AI");
-    } else {
-        this.ptype = ptype;
-    }
-    this.unitResources = 360;
-    this.resourceRate = 0;
-    this.resourceRateBoost = 1.0;   // AI can gain a boost in resource rate with HARD difficulty
-    // Mark: I'm adding trace statements throughout to monitor unit purchasing
-    // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
-    this.units = [];
-    this.selectedUnits = [];
-    // reference to player's base for buying units & spawn point
-    this.base = null;
-    this.spawnPoint = null;
+    init: function (name, ptype) {
 
-    // interval in milliseconds to gain resources
-    this.resourceGainInterval = 1000;
+        this._super(me.Renderable, 'init', [0, 0, 0, 0]);
+        this.name = name;
+        console.log("PTYPE IS: ");
+        console.log(ptype);
+        if (ptype !== "Human" && ptype !== "AI") {
+            throw ("Error: player type must be 'Human' or 'AI");
+        } else {
+            this.ptype = ptype;
+        }
+        this.unitResources = 360;
+        this.resourceRate = 0;
+        this.resourceRateBoost = 1.0;   // AI can gain a boost in resource rate with HARD difficulty
+        // Mark: I'm adding trace statements throughout to monitor unit purchasing
+        // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
+        this.units = [];
+        this.selectedUnits = [];
+        // reference to player's base for buying units & spawn point
+        this.base = null;
+        this.spawnPoint = null;
 
-    // simple factory control counter
-    this.controlledFactories = 0;
+        // interval in milliseconds to gain resources
+        this.resourceGainInterval = 1000;
+
+        // simple factory control counter
+        this.controlledFactories = 0;
+    },
 
     // Buys a unit given a unit name (equivalent to JSON file name)
-    this.buyUnit = function (unitName) {
+    buyUnit: function (unitName, loadingSave) {
         settings = me.loader.getJSON(unitName);
         if (settings !== null) {
             if (this.unitResources >= settings.cost) {
-                
+
                 //sound effect
-                me.audio.play("unit_purchase");
-                
+                if (!loadingSave) {
+                    me.audio.play("unit_purchase");
+                }
+
                 //change resource rate to player if buying an engineer
-                if (settings.name == "engineer"){
+                if (settings.name == "engineer" && !loadingSave) {
                     this.changeResourceRate(5);
                     game.data.alertMessage.add("ENGINEER BUILT: +5 RESOURCES PER SECOND ");
                 }
@@ -50,63 +58,61 @@ var player = function (name, ptype) {
                 this.unitResources -= settings.cost;
                 this.units.push(unit);
                 me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
-                // Mark:
-                // Adding some trace statements to watch resources and unit purchasing
-                console.log(settings.name + " unit cost is " + settings.cost);
-                console.log(name + " " + ptype + " now has " + this.unitResources + " resources remaining");
             } else {
                 //sound effect
-                me.audio.play("insufficient_resources");
-                game.data.alertMessage.add("INSUFFICIENT FUNDS TO PURCHASE " + unitName);
+                if (!loadingSave) {
+                    me.audio.play("insufficient_resources");
+                    game.data.alertMessage.add("INSUFFICIENT FUNDS TO PURCHASE " + unitName);
+                }
             }
         }
-    }
+    },
 
-    this.selectUnit = function (unit) {
+    selectUnit: function (unit) {
         this.selectedUnits = [unit];
         unit.select();
-    }
+    },
 
-    this.addSelectedUnit = function (unit) {
+    addSelectedUnit: function (unit) {
         this.selectedUnits.push(unit);
         unit.select();
-    }
+    },
 
-    this.clearSelectedUnits = function () {
+    clearSelectedUnits: function () {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].deselect();
         }
         this.selectedUnits = [];
-    }
+    },
 
-    this.getSelectedUnits = function () {
+    getSelectedUnits: function () {
         return this.selectedUnits;
-    }
+    },
 
-    this.getUnits = function () {
+    getUnits: function () {
         return this.units;
-    }
+    },
 
-    this.moveUnits = function (x, y) {
+    moveUnits: function (x, y) {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].move(x, y);
         }
-    }
+    },
 
-    this.removeUnit = function (unit) {
+    removeUnit: function (unit) {
         var pos = this.units.indexOf(unit);
         if (pos != -1) {
             this.units.splice(pos, 1);
         }
-    }
+    },
 
-    this.orderAttack = function (x, y) {
+    orderAttack: function (x, y) {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].unitAttack(x, y);
         }
-    }
+    },
 
-    this.changeResourceRate = function (rate) {
+    changeResourceRate: function (rate) {
         this.resourceRate += (rate * this.resourceRateBoost);
         if (this.ratePromise) {
             me.timer.clearInterval(this.ratePromise);
@@ -116,15 +122,50 @@ var player = function (name, ptype) {
             this.increaseResource.bind(this),
             this.resourceGainInterval
         );
-    }
+    },
 
-    this.increaseResource = function () {
+    increaseResource: function () {
         this.unitResources += this.resourceRate;
-    }
+    },
 
-    this.cancelMovement = function () {
+    cancelMovement: function () {
         for (var i = 0; i < this.selectedUnits.length; i++) {
             this.selectedUnits[i].cancelMovement();
         }
-    }
-}
+    },
+
+    getSaveState: function () {
+        console.log("player " + this.name + " saving state");
+        console.log(this.units);
+        console.log(this.unitList);
+        var units = [];
+        for (var i = 0; i < this.units.length; i++) {
+            units.push(this.units[i].getSaveState());
+        }
+
+        return {
+            "name": this.name,
+            "ptype": this.ptype,
+            "unitResources": this.unitResources,
+            "resourceRate": this.resourceRate,
+            "resourceRateBoost": this.resourceRateBoost,
+            "units": units
+        }
+    },
+
+    loadSaveState: function (data) {
+        this.name = data.name;
+        this.ptype = data.ptype;
+        this.resourceRate = data.resourceRate;
+        this.resourceRateBoost = data.resourceRateBoost;
+
+        for (var i = 0; i < data.units.length; i++) {
+            this.unitResources = 99999;
+            var unit = data.units[i];
+            this.buyUnit(unit.name, true);
+            this.units[i].loadSaveState(unit);
+        }
+
+        this.unitResources = data.unitResources;
+    },
+});
