@@ -16,9 +16,6 @@ game.EnemyUnit = game.Unit.extend({
         this.team = game.data.enemy;
 
         this.state = settings.initialState;
-        // this.moveTo = null;
-        // this.body.bounce = 0;
-        // this.isHoldingFlag = false;
         this.escortTarget = {};
 
         // Orders take the form of an object, with a type, and some additional settings
@@ -285,7 +282,7 @@ game.EnemyUnit = game.Unit.extend({
         if (other.body.collisionType == me.collision.types.COLLECTABLE_OBJECT && other.team == this.team
             && !other.isHome()) {
             // Return the flag
-            me.sylvanlog("Enemy unit: returned flag");
+            game.sylvanlog("Enemy unit: returned flag");
             this.changeState("idle");
             this.controller.report(this, 'returned flag');
         }
