@@ -132,6 +132,11 @@ game.EnemyUnit = game.Unit.extend({
         switch (this.state) {
             case 'spawning':
                 game.sylvanlog("enemy unit spawning at spawn point:", this.pos.toString());
+                if (this.name == "enemy_engineer") {
+                    this.controller.changeResourceRate(5 * this.controller.resourceRateBoost);
+                    msg = "ENEMY ENGINEER BUILT: +" + 5 * this.controller.resourceRateBoost + " RESOURCES PER SECOND ";
+                    game.data.alertMessage.add(msg);
+                }
                 break;
             case 'idle':
                 game.sylvanlog("unit is now idle");
@@ -162,50 +167,55 @@ game.EnemyUnit = game.Unit.extend({
                 sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
 
 
-                if (this.name == "enemy_biker"){ //if a biker dies
-                //spawn civilian
-                settings = me.loader.getJSON("enemy_civilian");
+                if (this.name == "enemy_biker") { //if a biker dies
+                    //spawn civilian
+                    settings = me.loader.getJSON("enemy_civilian");
+                    settings.initialState = 'spawning';
+                    settings.controller = this.controller;
+                    settings.team = this.team;
 
-                var unit = me.pool.pull("enemy_civilian", 10, 10, settings);
-                        unit.pos.x = this.pos.x //- unit.width * 0.5;
-                        unit.pos.y = this.pos.y //- unit.height * 1.0;
-                        unit.player = game.data.enemy;
-                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
-                        game.data.enemy.availableUnits.push(unit);
-                        game.data.alertMessage.add("ENEMY CIVILIAN DRIVER SURVIVES!");
-
-                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                    var unit = me.pool.pull("enemy_civilian", 10, 10, settings);
+                    unit.pos.x = this.pos.x;
+                    unit.pos.y = this.pos.y;
+                    unit.player = this.player;
+                    this.controller.unitList.push(unit);
+                    unit.command(this.currentOrders);
+                    game.data.alertMessage.add("ENEMY CIVILIAN DRIVER SURVIVES!");
+                    me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
                 }
             
-                if (this.name == "enemy_jetpack" || this.name == "enemy_plane" || this.name == "enemy_bomber"){ // if a jetpack, plane, or bomber dies
-                //spawn infantry
-                settings = me.loader.getJSON("enemy_infantry");
+                if (this.name == "enemy_jetpack" || this.name == "enemy_plane" || this.name == "enemy_bomber") { // if a jetpack, plane, or bomber dies
+                    //spawn infantry
+                    settings = me.loader.getJSON("enemy_infantry");
+                    settings.initialState = 'spawning';
+                    settings.controller = this.controller;
+                    settings.team = this.team;
 
-                var unit = me.pool.pull("enemy_infantry", 10, 10, settings);
-                        unit.pos.x = this.pos.x //- unit.width * 0.5;
-                        unit.pos.y = this.pos.y //- unit.height * 1.0;
-                        unit.player = game.data.enemy;
-                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
-                        game.data.enemy.availableUnits.push(unit);
-                        game.data.alertMessage.add("ENEMY INFANTRY DRIVER SURVIVES!");
-
-                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                    var unit = me.pool.pull("enemy_infantry", 10, 10, settings);
+                    unit.pos.x = this.pos.x;
+                    unit.pos.y = this.pos.y;
+                    unit.player = this.player;
+                    this.controller.unitList.push(unit);
+                    unit.command(this.currentOrders);
+                    game.data.alertMessage.add("ENEMY INFANTRY DRIVER SURVIVES!");
+                    me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
                 }
         
-                if (this.name == "enemy_tank"){ //if a tank dies
-                //spawn engineer
-                settings = me.loader.getJSON("enemy_engineer");
+                if (this.name == "enemy_tank") { //if a tank dies
+                    //spawn engineer
+                    settings = me.loader.getJSON("enemy_engineer");
+                    settings.initialState = 'spawning';
+                    settings.controller = this.controller;
+                    settings.team = this.team;
 
-                var unit = me.pool.pull("enemy_engineer", 10, 10, settings);
-                        unit.pos.x = this.pos.x //- unit.width * 0.5;
-                        unit.pos.y = this.pos.y //- unit.height * 1.0;
-                        unit.player = game.data.enemy;
-                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
-                        game.data.enemy.available.push(unit);
-                        //if engineer survives, give resource bonus still
-                        game.data.enemy.changeResourceRate(5);
-                        game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
-                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                    var unit = me.pool.pull("enemy_engineer", 10, 10, settings);
+                    unit.pos.x = this.pos.x;
+                    unit.pos.y = this.pos.y;
+                    unit.player = this.player;
+                    this.controller.unitList.push(unit);
+                    unit.command(this.currentOrders);
+                    game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES!");
+                    me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
                 }
 
 

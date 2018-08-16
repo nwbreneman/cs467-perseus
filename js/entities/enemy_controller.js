@@ -68,7 +68,7 @@ game.AI = game.Player.extend({
 
 
     // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
-    buyUnit: function (name, loadingSave) {
+    buyUnit: function (name) {
         game.sylvanlog("Trying to buy", name);
 
         var settings = me.loader.getJSON(name);
@@ -80,13 +80,6 @@ game.AI = game.Player.extend({
 
             if (game.data.enemy.unitResources >= settings.cost) {
                 // Ok to purchase
-
-                //change resource rate to player if buying an engineer
-                if (settings.name == "enemy_engineer" && !loadingSave) {
-                    this.changeResourceRate(5 * this.resourceRateBoost);
-                    msg = "ENEMY ENGINEER BUILT: +" + 5 * this.resourceRateBoost + " RESOURCES PER SECOND ";
-                    game.data.alertMessage.add(msg);
-                }
 
                 game.sylvanlog("Purchasing unit", name);
                 var unit = me.pool.pull(name, 20, 20, settings);
@@ -140,6 +133,7 @@ game.AI = game.Player.extend({
     // AI does processing in here
     process: function () {
         game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
+
 
         /*
          * Flag return:
