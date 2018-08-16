@@ -143,7 +143,11 @@ game.HUD.UnitPurchaser = me.GUI_Object.extend({
 
     onClick: function () {
         if (this.ancestor.playerBase.selected) {
-            player = game.data[this.ancestor.playerBase.player];
+            if (typeof (this.ancestor.playerBase.player) === String) {
+                player = game.data[this.ancestor.playerBase.player];
+            } else {
+                player = this.ancestor.playerBase.player;
+            }
             player.buyUnit(this.name);
             this.ancestor.playerBase.deselect();
             return false;

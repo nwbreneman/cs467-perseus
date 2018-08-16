@@ -118,4 +118,6 @@ var saveGame = function () {
     // Save flag states
 
     // Save which level we were on
+
+    // Save capture point statuses?
 }
