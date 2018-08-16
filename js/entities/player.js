@@ -14,7 +14,7 @@ game.Player = me.Renderable.extend({
         } else {
             this.ptype = ptype;
         }
-        this.unitResources = 100;
+        this.unitResources = 80;
         this.resourceRate = 0;
         this.resourceRateBoost = 1.0;   // AI can gain a boost in resource rate with HARD difficulty
         // Mark: I'm adding trace statements throughout to monitor unit purchasing
