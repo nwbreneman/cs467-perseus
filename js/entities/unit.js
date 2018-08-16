@@ -17,11 +17,6 @@ game.Unit = me.Entity.extend({
         settings.width = settings.myWidth;
         settings.height = settings.myHeight;
 
-        console.log("width: " + settings.width);
-        console.log("height: " + settings.height);
-        console.log("framewidth: " + settings.framewidth);
-        console.log("frameheight: " + settings.frameheight);
-
         // redefine the default shape (used to define path) with a shape matching the renderable
         //settings.shapes = [];
         //settings.shapes[0] = new me.Rect(0, 0, settings.framewidth, settings.frameheight);
@@ -105,6 +100,103 @@ game.Unit = me.Entity.extend({
         return false;
     },
 
+    doMove: function () {
+        /* Moves unit and sets animations */
+        // get the next xy coordinates
+        var newX = this.nextMove.x;
+        var newY = this.nextMove.y;
+
+        //Mark:
+        //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y)
+        /*
+
+        (-x,  y) | (x,  y)
+        __________________
+
+        (-x, -y) | (x, -y)
+
+        */
+        //
+
+        if (newX && newY) {
+            if (newX > this.pos.x && newY > this.pos.y) {
+                if (this.renderable.current.name != this.name + "STANDING_SE") {
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                    this.explodingName = this.name + "EXPLODING_SE";
+                }
+            } else if (newX < this.pos.x && newY > this.pos.y) {
+                if (this.renderable.current.name != this.name + "STANDING_SW") {
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
+                    this.explodingName = this.name + "EXPLODING_SW";
+                }
+
+            } else if (newX > this.pos.x && newY < this.pos.y) {
+                if (this.renderable.current.name != this.name + "STANDING_NE") {
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
+                    this.explodingName = this.name + "EXPLODING_NE";
+                }
+
+            } else if (newX < this.pos.x && newY < this.pos.y) {
+                if (this.renderable.current.name != this.name + "STANDING_NW") {
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
+                    this.explodingName = this.name + "EXPLODING_NW";
+                }
+
+            } else { //default
+                if (this.renderable.current.name != this.name + "STANDING_SE") {
+                    this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
+                    this.explodingName = this.name + "EXPLODING_SE";
+                }
+            }
+        }
+
+        // accelerate in the correct X direction
+        if (newX && newX > this.pos.x) {
+            this.body.vel.x += this.body.accel.x * me.timer.tick;
+        } else if (newX && newX < this.pos.x) {
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
+        }
+
+        // accelerate in the correct Y direction
+        if (newY && newY > this.pos.y) {
+            this.body.vel.y += this.body.accel.y * me.timer.tick;
+        } else if (newY && newY < this.pos.y) {
+            this.body.vel.y -= this.body.accel.y * me.timer.tick;
+        }
+
+        // stop accelerating on X axis when we reach the (rough) destination
+        if (this.atTargetPos(this.pos.x, newX, this.speed)) {
+            this.nextMove.x = null;
+            this.body.vel.x = 0;
+        }
+
+        // stop accelerating on Y axis when we reach the (rough) destination
+        if (this.atTargetPos(this.pos.y, newY, this.speed)) {
+            this.nextMove.y = null;
+            this.body.vel.y = 0;
+        }
+
+        // if we stopped accelerating on both axes, check if there's another
+        // point in our moveTo path; if not, set both to null to stop moving
+        if (this.nextMove.x === null && this.nextMove.y === null) {
+            if (this.moveTo.length > 0) {
+                this.nextMove = this.moveTo.shift();
+            } else {
+                this.nextMove = null;
+                this.moveTo = null;
+            }
+        }
+
+        // update selectedBox position as we move as well
+        if (this.selectedBox) {
+            this.selectedBox.pos.x = this.pos.x + (this.width / 2);
+            this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
+        }
+
+        // update detection box position
+        this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
+        this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
+    },
 
     update: function (dt) {
         // check if we need to attack anything
@@ -120,109 +212,9 @@ game.Unit = me.Entity.extend({
             }
         }
 
-
         // if there are points in our moveTo array, move
         if (this.moveTo) {
-
-            // get the next xy coordinates
-            var newX = this.nextMove.x;
-            var newY = this.nextMove.y;
-
-            //Mark:
-            //turn standing animation based on whether new (x, y) is greater than or less than old (X, Y)
-            /*
-
-            (-x,  y) | (x,  y)
-            __________________
-
-            (-x, -y) | (x, -y)
-
-            */
-            //
-
-            if (newX && newY) {
-                if (newX > this.pos.x && newY > this.pos.y) {
-                    if (this.renderable.current.name != this.name + "STANDING_SE") {
-                        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                        this.explodingName = this.name + "EXPLODING_SE";
-                        console.log("set current animation to " + this.name + "STANDING_SE");
-                    }
-                } else if (newX < this.pos.x && newY > this.pos.y) {
-                    if (this.renderable.current.name != this.name + "STANDING_SW") {
-                        this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
-                        this.explodingName = this.name + "EXPLODING_SW";
-                        console.log("set current animation to " + this.name + "STANDING_SW");
-                    }
-
-                } else if (newX > this.pos.x && newY < this.pos.y) {
-                    if (this.renderable.current.name != this.name + "STANDING_NE") {
-                        this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
-                        this.explodingName = this.name + "EXPLODING_NE";
-                        console.log("set current animation to " + this.name + "STANDING_NE");
-                    }
-
-                } else if (newX < this.pos.x && newY < this.pos.y) {
-                    if (this.renderable.current.name != this.name + "STANDING_NW") {
-                        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-                        this.explodingName = this.name + "EXPLODING_NW";
-                        console.log("set current animation to " + this.name + "STANDING_NW");
-                    }
-
-                } else { //default
-                    if (this.renderable.current.name != this.name + "STANDING_SE") {
-                        this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                        this.explodingName = this.name + "EXPLODING_SE";
-                        console.log("defaulted to set current animation to " + this.name + "STANDING_SE");
-                    }
-                }
-            }
-
-            // accelerate in the correct X direction
-            if (newX && newX > this.pos.x) {
-                this.body.vel.x += this.body.accel.x * me.timer.tick;
-            } else if (newX && newX < this.pos.x) {
-                this.body.vel.x -= this.body.accel.x * me.timer.tick;
-            }
-
-            // accelerate in the correct Y direction
-            if (newY && newY > this.pos.y) {
-                this.body.vel.y += this.body.accel.y * me.timer.tick;
-            } else if (newY && newY < this.pos.y) {
-                this.body.vel.y -= this.body.accel.y * me.timer.tick;
-            }
-
-            // stop accelerating on X axis when we reach the (rough) destination
-            if (this.atTargetPos(this.pos.x, newX, this.speed)) {
-                this.nextMove.x = null;
-                this.body.vel.x = 0;
-            }
-
-            // stop accelerating on Y axis when we reach the (rough) destination
-            if (this.atTargetPos(this.pos.y, newY, this.speed)) {
-                this.nextMove.y = null;
-                this.body.vel.y = 0;
-            }
-
-            // if we stopped accelerating on both axes, check if there's another
-            // point in our moveTo path; if not, set both to null to stop moving
-            if (this.nextMove.x === null && this.nextMove.y === null) {
-                if (this.moveTo.length > 0) {
-                    this.nextMove = this.moveTo.shift();
-                } else {
-                    this.nextMove = null;
-                    this.moveTo = null;
-                }
-            }
-
-            // update selectedBox position as we move as well
-            if (this.selectedBox) {
-                this.selectedBox.pos.x = this.pos.x + (this.width / 2);
-                this.selectedBox.pos.y = this.pos.y + (this.height / 1.25);
-            }
-
-            // update detection box position
-            this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
-            this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
+            this.doMove();
         }
 
         // if unit is selected, belongs to a human player and has no box

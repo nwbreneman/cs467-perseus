@@ -11,50 +11,14 @@ game.EnemyUnit = game.Unit.extend({
 
         this._super(game.Unit, 'init', [x, y, settings]);
 
-        this.name = settings.name;
-        this.attack = settings.attack;
-        this.range = settings.range;
-        this.speed = settings.speed;
-        this.defense = settings.defense;
-        this.type = settings.type;
-        this.projectile = settings.projectile;
-        this.body.setVelocity(this.speed, this.speed);
-        this.deathImage = settings.deathimage;
-
-        // find correct projectile settings
-        var projectiles = me.loader.getJSON("projectiles").settings;
-        for (var i = 0; i < projectiles.length; i++) {
-            if (projectiles[i].name === this.projectile) {
-                this.projectileSettings = projectiles[i];
-                break;
-            }
-        }
-
-        // Always update even if this invisible entity is "off the screen"
-        this.alwaysUpdate = true;
-
-        //this.renderable.anchorPoint.set(0.5, 0.5);
-        this.renderable.anchorPoint.set(settings.xAnchor, settings.yAnchor);
-
-
-        this.renderable.addAnimation(this.name + "STANDING_SE", [0, 1, 2, 3], 120);
-        this.renderable.addAnimation(this.name + "STANDING_SW", [4, 5, 6, 7], 120);
-        this.renderable.addAnimation(this.name + "STANDING_NW", [8, 9, 10, 11], 120);
-        this.renderable.addAnimation(this.name + "STANDING_NE", [12, 13, 14, 15], 120);
-        this.explodingName = this.name + "EXPLODING_NW";
-        // init facing northwest
-        this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-        this.attackCooldown = settings.attackCooldown || 2000;
-        this.lastAttack = 0;
-
         // To be assigned by the enemy controller
         this.controller = settings.controller;
         this.team = game.data.enemy;
 
         this.state = settings.initialState;
-        this.moveTo = null;
-        this.body.bounce = 0;
-        this.isHoldingFlag = false;
+        // this.moveTo = null;
+        // this.body.bounce = 0;
+        // this.isHoldingFlag = false;
         this.escortTarget = {};
 
         // Orders take the form of an object, with a type, and some additional settings
@@ -135,13 +99,11 @@ game.EnemyUnit = game.Unit.extend({
 
     },
 
-
     // Enemy specific override
     die: function () {
         this.changeState('dying');
 
     },
-
 
     pickedUpFlag: function () {
         game.sylvanlog("Enemy unit: picked up the flag.");
@@ -271,92 +233,8 @@ game.EnemyUnit = game.Unit.extend({
 
                 break;
             case 'moving':
-
-
                 if (this.moveTo) {
-                    // get the next xy coordinates
-                    var newX = this.nextMove.x;
-                    var newY = this.nextMove.y;
-
-                    if (newX && newY) {
-                        if (newX > this.pos.x && newY > this.pos.y) {
-                            if (this.renderable.current.name != this.name + "STANDING_SE") {
-                                this.explodingName = this.name + "EXPLODING_SE";
-                                this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                            }
-                        } else if (newX < this.pos.x && newY > this.pos.y) {
-                            if (this.renderable.current.name != this.name + "STANDING_SW") {
-                                this.explodingName = this.name + "EXPLODING_SW";
-                                this.renderable.setCurrentAnimation(this.name + "STANDING_SW");
-                            }
-
-                        } else if (newX > this.pos.x && newY < this.pos.y) {
-                            if (this.renderable.current.name != this.name + "STANDING_NE") {
-                                this.explodingName = this.name + "EXPLODING_NE";
-                                this.renderable.setCurrentAnimation(this.name + "STANDING_NE");
-                            }
-
-                        } else if (newX < this.pos.x && newY < this.pos.y) {
-                            if (this.renderable.current.name != this.name + "STANDING_NW") {
-                                this.explodingName = this.name + "EXPLODING_NW";
-                                this.renderable.setCurrentAnimation(this.name + "STANDING_NW");
-                            }
-
-                        } else { //default
-                            if (this.renderable.current.name != this.name + "STANDING_SE") {
-                                this.explodingName = this.name + "EXPLODING_SE";
-                                this.renderable.setCurrentAnimation(this.name + "STANDING_SE");
-                            }
-                        }
-                    }
-
-                    // accelerate in the correct X direction
-                    if (newX && newX > this.pos.x) {
-                        this.body.vel.x += this.body.accel.x * dt;
-                    } else if (newX && newX < this.pos.x) {
-                        this.body.vel.x -= this.body.accel.x * dt;
-                    }
-
-                    // accelerate in the correct Y direction
-                    if (newY && newY > this.pos.y) {
-                        this.body.vel.y += this.body.accel.y * dt;
-                    } else if (newY && newY < this.pos.y) {
-                        this.body.vel.y -= this.body.accel.y * dt;
-                    }
-
-                    // stop accelerating on X axis when we reach the (rough) destination
-                    if (this.atTargetPos(this.pos.x, newX, this.speed)) {
-                        this.nextMove.x = null;
-                        this.body.vel.x = 0;
-                    }
-
-                    // stop accelerating on Y axis when we reach the (rough) destination
-                    if (this.atTargetPos(this.pos.y, newY, this.speed)) {
-                        this.nextMove.y = null;
-                        this.body.vel.y = 0;
-                    }
-
-                    // if we stopped accelerating on both axes, check if there's another
-                    // point in our moveTo path; if not, set both to null to stop moving
-                    if (this.nextMove.x === null && this.nextMove.y === null) {
-                        if (this.moveTo.length > 0) {
-                            this.nextMove = this.moveTo.shift();
-                        } else {
-                            this.nextMove = null;
-                            this.moveTo = null;
-                            if (this.currentOrders.type == 'guard flag') {
-                                this.changeState('defending');
-                            } else if (this.currentOrders.type == 'capture resource') {
-                                this.changeState('gathering');
-                            } else if (this.currentOrders.type == 'defend') {
-                                this.changeState('defending');
-                            } else {
-                                this.changeState('idle');
-                            }
-                        }
-                    }
-
-
+                    this.doMove();
                 }
                 break;
             case 'gathering':
@@ -374,10 +252,6 @@ game.EnemyUnit = game.Unit.extend({
                 break;
         }
 
-        // update detection box position
-        this.detectionBox.pos.x = this.pos.x + (this.width * 0.5);
-        this.detectionBox.pos.y = this.pos.y + (this.height * 0.5);
-
         // Check for updated flag position in case the flag is moving, we want the unit to go after it
         this.moveUpdateCounter++;
         if (this.moveUpdateCounter > this.moveUpdateTimeout) {
@@ -394,7 +268,6 @@ game.EnemyUnit = game.Unit.extend({
             }
         }
 
-
         this.body.update(dt);
 
         me.collision.check(this);
@@ -403,42 +276,6 @@ game.EnemyUnit = game.Unit.extend({
         this._super(me.Entity, "update", [dt]); // For the animation to continue to work
         return true;
     },
-
-
-    inRangeOfEnemy: function () {
-        // using unit's range, each update, check if within firing range of an enemy
-        var allUnits = me.game.world.getChildByType(game.Unit);
-        for (var i = 0; i < allUnits.length; i++) {
-            var unit = allUnits[i];
-            if (this.team !== unit.team) {
-                if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
-                    return {
-                        "x": unit.pos.x,
-                        "y": unit.pos.y
-                    }
-                }
-            }
-        }
-        return false;
-    },
-
-
-    unitAttack: function (x, y) {
-        settings = this.projectileSettings;
-        settings.targetX = x;
-        settings.targetY = y;
-        settings.damage = this.attack;
-        settings.type = this.type;
-        settings.ownerUnit = this.body.collisionType;
-        me.game.world.addChild(me.pool.pull(
-            this.projectile,
-            this.pos.x + this.width,
-            this.pos.y + (this.height / 2),
-            settings
-        ));
-    },
-
-
 
     onCollision: function (response, other) {
         if (other.body.collisionType == me.collision.types.COLLECTABLE_OBJECT && other.team != this.team) {
