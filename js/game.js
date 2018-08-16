@@ -6,7 +6,7 @@ var game = {
     // Nathan: accessed anywhere via `game.data`
     data: {
         difficulty: "Easy",
-        sylvanLogs: false,  // false to suppress sylvan's console logs
+        sylvanLogs: true,  // false to suppress sylvan's console logs
     },
 
 

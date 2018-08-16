@@ -8,8 +8,7 @@ game.Player = me.Renderable.extend({
 
         this._super(me.Renderable, 'init', [0, 0, 0, 0]);
         this.name = name;
-        console.log("PTYPE IS: ");
-        console.log(ptype);
+        this.alwaysUpdate = true;
         if (ptype !== "Human" && ptype !== "AI") {
             throw ("Error: player type must be 'Human' or 'AI");
         } else {
@@ -20,7 +19,7 @@ game.Player = me.Renderable.extend({
         this.resourceRateBoost = 1.0;   // AI can gain a boost in resource rate with HARD difficulty
         // Mark: I'm adding trace statements throughout to monitor unit purchasing
         // console.log("player: " + name + " " + ptype + " starts with " + this.unitResources + " resources. ");
-        this.units = [];
+        this.unitList = [];
         this.selectedUnits = [];
         // reference to player's base for buying units & spawn point
         this.base = null;
@@ -56,7 +55,7 @@ game.Player = me.Renderable.extend({
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
                 unit.player = this;
                 this.unitResources -= settings.cost;
-                this.units.push(unit);
+                this.unitList.push(unit);
                 me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
             } else {
                 //sound effect
@@ -90,7 +89,7 @@ game.Player = me.Renderable.extend({
     },
 
     getUnits: function () {
-        return this.units;
+        return this.unitList;
     },
 
     moveUnits: function (x, y) {
@@ -100,9 +99,9 @@ game.Player = me.Renderable.extend({
     },
 
     removeUnit: function (unit) {
-        var pos = this.units.indexOf(unit);
+        var pos = this.unitList.indexOf(unit);
         if (pos != -1) {
-            this.units.splice(pos, 1);
+            this.unitList.splice(pos, 1);
         }
     },
 
@@ -136,11 +135,11 @@ game.Player = me.Renderable.extend({
 
     getSaveState: function () {
         console.log("player " + this.name + " saving state");
-        console.log(this.units);
+        console.log(this.unitList);
         console.log(this.unitList);
         var units = [];
-        for (var i = 0; i < this.units.length; i++) {
-            units.push(this.units[i].getSaveState());
+        for (var i = 0; i < this.unitList.length; i++) {
+            units.push(this.unitList[i].getSaveState());
         }
 
         return {
@@ -163,7 +162,7 @@ game.Player = me.Renderable.extend({
             this.unitResources = 99999;
             var unit = data.units[i];
             this.buyUnit(unit.name, true);
-            this.units[i].loadSaveState(unit);
+            this.unitList[i].loadSaveState(unit);
         }
 
         this.unitResources = data.unitResources;

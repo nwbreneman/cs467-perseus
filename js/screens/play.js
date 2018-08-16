@@ -116,7 +116,7 @@ game.PlayScreen = me.ScreenObject.extend({
         // game.data.player1.buyUnit("civilian");
 
         // load save if resumed
-        if (me.save.player1data) {
+        if (me.save.player1data && me.save.enemyData) {
             game.data.player1.loadSaveState(me.save.player1data);
             game.data.enemy.loadSaveState(me.save.enemyData);
         } else {

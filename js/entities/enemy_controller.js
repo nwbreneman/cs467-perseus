@@ -8,9 +8,6 @@ game.AI = game.Player.extend({
         // (zero size makes this object non-renderable, so the Renderable.draw method won't get called)
         this._super(game.Player, 'init', [name, ptype, settings]);
 
-        // Always update even if this invisible entity is "off the screen"
-        this.alwaysUpdate = true;
-
         this.spawnPoint = settings.spawnPoint;
         this.base = settings.base;
         this.resourcePointsCaptured = 0;
@@ -18,7 +15,6 @@ game.AI = game.Player.extend({
 
         this.flag = settings.flag;
         this.playerFlag = settings.playerFlag;
-        this.unitList = [];
 
         // Perform a computation after elapsed number of frames (~ 60 frames per second).
         // Since we don't really need to do computation every frame for high-level strategy
@@ -49,9 +45,9 @@ game.AI = game.Player.extend({
 
         // Generate a list of all possible units we can buy, so all the attributes of each unit is known by the controller
         this.availableUnits = [];
-        let unitNames = me.loader.getJSON("manifest_enemy").units;
-        for (let name of unitNames) {
-            let unit = me.loader.getJSON(name);
+        var unitNames = me.loader.getJSON("manifest_enemy").units;
+        for (var name of unitNames) {
+            var unit = me.loader.getJSON(name);
             this.availableUnits.push(unit);
         }
 
@@ -79,7 +75,7 @@ game.AI = game.Player.extend({
     buyUnit: function (name) {
         game.sylvanlog("Trying to buy", name);
 
-        let settings = me.loader.getJSON(name);
+        var settings = me.loader.getJSON(name);
 
         if (settings !== null) {
             settings.controller = this;
@@ -144,7 +140,7 @@ game.AI = game.Player.extend({
         game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
 
         // Generate priorities object
-        let priorities = {
+        var priorities = {
             acquireResource: this.resourceCapturePriorities[this.resourcePointsPending],
             acquireUnit: this.unitQtyPriorities[this.unitList.length],
             guardFlag: this.flag.isHome() ? this.defendFlagPriority : 0,
@@ -152,7 +148,7 @@ game.AI = game.Player.extend({
             captureFlag: this.captureFlagPriority
         };
 
-        let highestPriority = this.getHighestPriority(priorities);
+        var highestPriority = this.getHighestPriority(priorities);
 
         /*
          * Flag return:
@@ -198,7 +194,7 @@ game.AI = game.Player.extend({
             if (!goingForFlag) {
                 // Find the closest unit to the dropped flag and send him to pick it up
                 var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y + 20);
-                let unit = this.getNearestUnit(dest);
+                var unit = this.getNearestUnit(dest);
                 if (unit) {
                     unit.command({ type: "capture flag", x: dest.x, y: dest.y });
                     return;
@@ -222,12 +218,12 @@ game.AI = game.Player.extend({
                     game.sylvanlog("Enemy controller: cannot afford a flag guard at this time. Resources:", game.data.enemy.unitResources);
                 } else {
                     // Do I have an idle unit I can deploy?
-                    let flagLoc = new me.Vector2d(this.flag.pos.x, this.flag.pos.y);
+                    var flagLoc = new me.Vector2d(this.flag.pos.x, this.flag.pos.y);
                     var unit = this.getNearestIdleUnit(flagLoc);
                     if (unit != null) {
                         unit.command({ type: "guard flag", x: flagLoc.x, y: flagLoc.y });
                     } else {
-                        // No unit to deploy, let's go ahead and buy it
+                        // No unit to deploy, var's go ahead and buy it
                         this.buyUnit(nameOfUnit);
                         unit = this.unitList[this.unitList.length - 1];
                         game.sylvanlog("Enemy controller: commanding newly purchased unit to guard the flag at", flagLoc.toString());
@@ -261,7 +257,7 @@ game.AI = game.Player.extend({
                 targetLoc = new me.Vector2d(blueflagstand.pos.x + dist.x / 2, blueflagstand.pos.y + dist.y / 2);
                 gatherer = this.getNearestIdleUnit(targetLoc);
                 if (gatherer == null) {
-                    // No unit to deploy, let's go ahead and buy it
+                    // No unit to deploy, var's go ahead and buy it
                     this.buyUnit(nameOfUnit);
                     gatherer = this.unitList[this.unitList.length - 1];
                 }
@@ -296,15 +292,15 @@ game.AI = game.Player.extend({
                 game.sylvanlog("Enemy controller: cannot afford a defender at this time. Resources:", game.data.enemy.unitResources);
             } else {
                 this.buyUnit(nameOfUnit);
-                let defender = this.unitList[this.unitList.length - 1];
+                var defender = this.unitList[this.unitList.length - 1];
 
-                let nearestResource = this.getNearestResourcePoint(this.base.pos);
+                var nearestResource = this.getNearestResourcePoint(this.base.pos);
                 game.sylvanlog("nearest resource:", nearestResource.pos.toString());
                 var dest;
                 if (defenders.length == 0) {
                     dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 + 250);
                 } else {
-                    let otherDefender = defenders[0];
+                    var otherDefender = defenders[0];
                     if (otherDefender.pos.y > nearestResource.pos.y) {
                         dest = new me.Vector2d(nearestResource.pos.x + 150, nearestResource.pos.y + nearestResource.height * 0.5 - 250);
                     } else {
@@ -327,11 +323,11 @@ game.AI = game.Player.extend({
         game.sylvanlog("Enemy controller: check flag runners");
         nameOfUnit = this.getFastestUnitICanAfford();
         if (nameOfUnit != "") {
-            let unit = me.loader.getJSON(nameOfUnit);
+            var unit = me.loader.getJSON(nameOfUnit);
             if (unit.speed > 2) {
                 // Purchase it
                 this.buyUnit(nameOfUnit);
-                let runner = this.unitList[this.unitList.length - 1];
+                var runner = this.unitList[this.unitList.length - 1];
                 var dest = new me.Vector2d(this.playerFlag.pos.x, this.playerFlag.pos.y + 20);
                 runner.command({ type: "capture flag", x: dest.x, y: dest.y });
                 return;
@@ -352,7 +348,7 @@ game.AI = game.Player.extend({
     getHighestPriority: function (priorities) {
         var highestP = "";
         var highVal = 0;
-        for (let p in priorities) {
+        for (var p in priorities) {
             if (priorities[p] > highVal) {
                 highVal = priorities[p];
                 highestP = p;
@@ -374,7 +370,7 @@ game.AI = game.Player.extend({
     getUnitActionPriority: function (priorities) {
         var highestP = "";
         var highVal = 0;
-        for (let p in priorities) {
+        for (var p in priorities) {
             if (p == "acquireUnit") {
                 continue;
             }
@@ -403,7 +399,7 @@ game.AI = game.Player.extend({
         var highAtt = 0;
         var highDef = 0;
         var loCost = 0;
-        for (let unit of this.availableUnits) {
+        for (var unit of this.availableUnits) {
             if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
@@ -464,7 +460,7 @@ game.AI = game.Player.extend({
         var highAtt = 0;
         var highDef = 0;
         var loCost = 0;
-        for (let unit of this.availableUnits) {
+        for (var unit of this.availableUnits) {
             if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
@@ -525,7 +521,7 @@ game.AI = game.Player.extend({
         var highAtt = 0;
         var highDef = 0;
         var loCost = 0;
-        for (let unit of this.availableUnits) {
+        for (var unit of this.availableUnits) {
             if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
@@ -587,7 +583,7 @@ game.AI = game.Player.extend({
         var highRange = 0;
         var highDef = 0;
         var loCost = 0;
-        for (let unit of this.availableUnits) {
+        for (var unit of this.availableUnits) {
             if (unit.cost > game.data.enemy.unitResources) {
                 continue;
             }
@@ -646,14 +642,14 @@ game.AI = game.Player.extend({
 
 
     getNearestResourcePoint: function (loc) {
-        let resourceList = me.game.world.getChildByName("capture_point");
+        var resourceList = me.game.world.getChildByName("capture_point");
         var index = -1;
         var dist = 100000;
         var destPoint = null;
         for (var i = 0; i < resourceList.length; i++) {
-            let point = resourceList[i];
+            var point = resourceList[i];
 
-            let thisDist = loc.distance(point.pos);
+            var thisDist = loc.distance(point.pos);
             if (thisDist < dist) {
                 dist = thisDist;
                 index = i;
@@ -671,19 +667,19 @@ game.AI = game.Player.extend({
         }
 
         game.sylvanlog(unit);
-        let resourceList = me.game.world.getChildByName("capture_point");
+        var resourceList = me.game.world.getChildByName("capture_point");
         var index = -1;
         var dist = 100000;
         var destPoint = null;
         for (var i = 0; i < resourceList.length; i++) {
-            let point = resourceList[i];
+            var point = resourceList[i];
             if (point.owner != null) {
                 continue;
             }
             // Check other units to see if they've been ordered to capture the same resource point
             var alreadyOrdered = false;
-            for (let eachUnit of this.unitList) {
-                let orderPoint = eachUnit.currentOrders.point;
+            for (var eachUnit of this.unitList) {
+                var orderPoint = eachUnit.currentOrders.point;
                 if (orderPoint != null && orderPoint == point) {
                     alreadyOrdered = true;
                 }
@@ -691,7 +687,7 @@ game.AI = game.Player.extend({
             if (alreadyOrdered) {
                 continue;
             }
-            let thisDist = unit.pos.distance(point.pos);
+            var thisDist = unit.pos.distance(point.pos);
             if (thisDist < dist) {
                 dist = thisDist;
                 index = i;
@@ -713,7 +709,7 @@ game.AI = game.Player.extend({
 
     getDefenders: function () {
         var list = [];
-        for (let unit of this.unitList) {
+        for (var unit of this.unitList) {
             if (unit.currentOrders.type == 'defend') {
                 list.push(unit);
             }
@@ -724,7 +720,7 @@ game.AI = game.Player.extend({
 
     getUnitWithOrders: function (type) {
         var theUnit = null;
-        for (let unit of this.unitList) {
+        for (var unit of this.unitList) {
             if (unit.currentOrders.type == type) {
                 theUnit = unit;
             }
@@ -736,7 +732,7 @@ game.AI = game.Player.extend({
 
     getIdleUnits: function () {
         var list = [];
-        for (let unit of this.unitList) {
+        for (var unit of this.unitList) {
             if (unit.state == 'idle') {
                 list.push(unit);
             }
@@ -753,7 +749,7 @@ game.AI = game.Player.extend({
         var closest = list[0];
         var dist = loc.distance(closest.pos);
         for (var i = 1; i < list.length; i++) {
-            let unit = list[i];
+            var unit = list[i];
             var thisDist = loc.distance(unit.pos);
             if (thisDist < dist) {
                 closest = unit;
@@ -772,7 +768,7 @@ game.AI = game.Player.extend({
         var closest = this.unitList[0];
         var dist = loc.distance(closest.pos);
         for (var i = 1; i < this.unitList.length; i++) {
-            let unit = this.unitList[i];
+            var unit = this.unitList[i];
             var thisDist = loc.distance(unit.pos);
             if (thisDist < dist) {
                 closest = unit;
