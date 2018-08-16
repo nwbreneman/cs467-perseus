@@ -288,8 +288,10 @@ game.Unit = me.Entity.extend({
     },
 
     cancelMovement: function () {
-        this.body.vel.x = 0;
-        this.body.vel.y = 0;
+        if (this.body) {
+            this.body.vel.x = 0;
+            this.body.vel.y = 0;
+        }
         this.moveTo = null;
         this.nextMove = null;
     },
@@ -378,10 +380,10 @@ game.Unit = me.Entity.extend({
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                if (this.detectionBox.containsPoint(unit.pos.x, unit.pos.y)) {
+                if (this.detectionBox.containsPoint(unit.pos.x + unit.width/2, unit.pos.y + unit.height/2)) {
                     return {
-                        "x": unit.pos.x,
-                        "y": unit.pos.y
+                        "x": unit.pos.x + unit.width/2,
+                        "y": unit.pos.y + unit.height/2
                     }
                 }
             }
