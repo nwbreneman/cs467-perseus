@@ -78,6 +78,7 @@ game.flag = me.Entity.extend({
                 //console.log("Flag touched by same team");
                 this.isHeld = false;
                 this.sendHome();
+                me.audio.play("return_flag");
             }
 
         } else {
