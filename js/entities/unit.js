@@ -349,7 +349,7 @@ game.Unit = me.Entity.extend({
 		jetpack, plane, bomber -> infantry
 		tank -> engineer
         */
-			if (this.name == "biker"){
+			if (this.name == "biker"){ //if a biker dies
 			//spawn civilian
 			settings = me.loader.getJSON("civilian");
 
@@ -359,10 +359,12 @@ game.Unit = me.Entity.extend({
 		                unit.player = game.data.player1;
 		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
 		                game.data.player1.unitList.push(unit);
+                        game.data.alertMessage.add("CIVILIAN DRIVER SURVIVES!");
+
 						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
 				}
 			
-			if (this.name == "jetpack" || this.name == "plane" || this.name == "bomber"){
+			if (this.name == "jetpack" || this.name == "plane" || this.name == "bomber"){ // if a jetpack, plane, or bomber dies
 			//spawn infantry
 			settings = me.loader.getJSON("infantry");
 
@@ -372,10 +374,12 @@ game.Unit = me.Entity.extend({
 		                unit.player = game.data.player1;
 		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
 		                game.data.player1.unitList.push(unit);
+                        game.data.alertMessage.add("INFANTRY DRIVER SURVIVES!");
+
 						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
 				}
 		
-			if (this.name == "tank"){
+			if (this.name == "tank"){ //if a tank dies
 			//spawn engineer
 			settings = me.loader.getJSON("engineer");
 
@@ -385,6 +389,9 @@ game.Unit = me.Entity.extend({
 		                unit.player = game.data.player1;
 		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
 		                game.data.player1.unitList.push(unit);
+                        //if engineer survives, give resource bonus still
+                        game.data.player1.changeResourceRate(+5);
+                        game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
 						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
 				}
 
