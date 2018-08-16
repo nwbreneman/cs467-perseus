@@ -148,13 +148,6 @@ game.EnemyUnit = game.Unit.extend({
                 break;
             case 'dying':
                 
-                //-5 resource rate if engineer dies.
-                if (this.name == "enemy_engineer") {
-                    game.data.enemy.changeResourceRate(-5);
-                    game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
-                }
-
-
                 // Start a death animation or particle effect or something
                 var sprite = new me.Sprite(this.pos.x, this.pos.y, {
                     image: this.deathImage,

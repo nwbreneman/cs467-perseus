@@ -68,16 +68,10 @@ game.AI = game.Player.extend({
 
 
     // Purchase a unit by name, and place him at the spawn point, subtracting the cost from current resources
-    buyUnit: function (name) {
+    buyUnit: function (name, loadingSave) {
         game.sylvanlog("Trying to buy", name);
 
         var settings = me.loader.getJSON(name);
-
-        //change resource rate to player if buying an engineer
-                if (settings.name == "enemy_engineer" && !loadingSave) {
-                    this.changeResourceRate(5);
-                    game.data.alertMessage.add("ENEMY ENGINEER BUILT: +5 RESOURCES PER SECOND ");
-                }
 
         if (settings !== null) {
             settings.controller = this;
@@ -85,6 +79,15 @@ game.AI = game.Player.extend({
             settings.initialState = 'spawning';
 
             if (game.data.enemy.unitResources >= settings.cost) {
+                // Ok to purchase
+
+                //change resource rate to player if buying an engineer
+                if (settings.name == "enemy_engineer" && !loadingSave) {
+                    this.changeResourceRate(5 * this.resourceRateBoost);
+                    msg = "ENEMY ENGINEER BUILT: +" + 5 * this.resourceRateBoost + " RESOURCES PER SECOND ";
+                    game.data.alertMessage.add(msg);
+                }
+
                 game.sylvanlog("Purchasing unit", name);
                 var unit = me.pool.pull(name, 20, 20, settings);
                 unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
@@ -104,6 +107,11 @@ game.AI = game.Player.extend({
     report: function (unit, message) {
         if (message == 'dead') {
             game.sylvanlog("AI Controller: Unit reporting as dead");
+            if (unit.name == "enemy_engineer") {
+                this.changeResourceRate(-5 * this.resourceRateBoost);
+                msg = "ENEMY ENGINEER DIED: -" + 5 * this.resourceRateBoost + " RESOURCES PER SECOND ";
+                game.data.alertMessage.add(msg);
+            }
             this.removeUnitFromList(unit);
         }
         if (message == "returned flag") {
@@ -133,6 +141,8 @@ game.AI = game.Player.extend({
     process: function () {
         game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
 
+        this.buyUnit("enemy_engineer", false);
+        return;
 
         /*
          * Flag return:
