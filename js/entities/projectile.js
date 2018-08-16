@@ -4,6 +4,7 @@
 game.projectile = me.Entity.extend({
     init: function (x, y, settings) {
         this._super(me.Entity, "init", [x, y, settings]);
+        this.renderable.anchorPoint.set(0.5, 0.5);
         this.body.collisionType = me.collision.types.PROJECTILE_OBJECT;
         this.alwaysUpdate = true;
         this.damage = settings.damage;
@@ -28,10 +29,12 @@ game.projectile = me.Entity.extend({
         }
 
         this.direction = new me.Vector2d(settings.targetX, settings.targetY);
-        this.direction = this.direction.sub(this.pos);
+        this.startingPoint = new me.Vector2d(this.pos.x + this.width/2, this.pos.y + this.height/2);
+        this.direction = this.direction.sub(this.startingPoint);
         this.direction = this.direction.normalize();
 
-        this.body.setVelocity(settings.speed, settings.speed);
+        this.body.setVelocity(settings.speed * Math.abs(this.direction.x), settings.speed * Math.abs(this.direction.y));
+        
     },
 
     update: function (dt) {
@@ -45,7 +48,6 @@ game.projectile = me.Entity.extend({
         }
 
         this.body.update(dt);
-        me.collision.check(this);
 
         return true;
     },

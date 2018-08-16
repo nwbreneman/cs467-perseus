@@ -201,8 +201,8 @@ game.Unit = me.Entity.extend({
         // check if we need to attack anything
         // But no attack if holding flag
         var enemyPos = this.inRangeOfEnemy();
+        this.lastAttack += dt;
         if (enemyPos) {
-            this.lastAttack += dt;
             if (this.lastAttack >= this.attackCooldown) {
                 if (!this.isHoldingFlag) {
                     this.unitAttack(enemyPos.x, enemyPos.y);
@@ -305,8 +305,8 @@ game.Unit = me.Entity.extend({
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
-            this.pos.x + this.width,
-            this.pos.y + (this.height / 2),
+            this.pos.x + this.width/2,
+            this.pos.y + this.height/2,
             settings
         ));
     },
