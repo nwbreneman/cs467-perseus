@@ -1,7 +1,7 @@
 {
     "name": "enemy_biker",
     "attack": 40,
-    "attackCooldown": 750,
+    "attackCooldown": 900,
     "range": 600,
     "defense": 380,
     "speed": 2.1,

@@ -2,7 +2,7 @@
     "name": "enemy_bazooka",
     "attack": 50,
     "attackCooldown": 900,
-    "range": 775,
+    "range": 675,
     "defense": 450,
     "speed": 1,
     "type": "paper",
