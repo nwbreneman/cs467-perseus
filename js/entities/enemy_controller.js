@@ -139,20 +139,10 @@ game.AI = game.Player.extend({
     process: function () {
         game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
 
-        // Generate priorities object
-        var priorities = {
-            acquireResource: this.resourceCapturePriorities[this.resourcePointsPending],
-            acquireUnit: this.unitQtyPriorities[this.unitList.length],
-            guardFlag: this.flag.isHome() ? this.defendFlagPriority : 0,
-            returnFlag: this.flag.isHome() ? 0 : this.returnFlagPriority,
-            captureFlag: this.captureFlagPriority
-        };
-
-        var highestPriority = this.getHighestPriority(priorities);
 
         /*
          * Flag return:
-         * If my flag is not at home and is dropped, send someone to go and return it
+         * If my flag is not at home, send someone to go and return it
          */
         if (!this.flag.isHome()) {
 
@@ -243,25 +233,25 @@ game.AI = game.Player.extend({
         game.sylvanlog("Enemy controller: check resource gathering");
         var gatherer = this.getUnitWithOrders('capture resource');
         if (gatherer == null) {
-
-            // See if I can purchase a new unit
-            nameOfUnit = this.getToughestUnitICanAfford();
-            if (nameOfUnit == "") {
-                game.sylvanlog("Enemy controller: cannot afford a gatherer at this time. Resources:", game.data.enemy.unitResources);
-            } else {
-                // Do I have an idle unit I can deploy?
-                // Find a unit near the middle of the map
-                blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
-                redflagstand = me.game.world.getChildByName("redflagstand")[0];
-                dist = blueflagstand.pos.distance(redflagstand.pos);
-                targetLoc = new me.Vector2d(blueflagstand.pos.x + dist.x / 2, blueflagstand.pos.y + dist.y / 2);
-                gatherer = this.getNearestIdleUnit(targetLoc);
-                if (gatherer == null) {
-                    // No unit to deploy, var's go ahead and buy it
+            // There is currently no unit with orders to gather resources
+            // Do I have an idle unit I can deploy?
+            // Find a unit near the middle of the map
+            blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
+            redflagstand = me.game.world.getChildByName("redflagstand")[0];
+            dist = blueflagstand.pos.distance(redflagstand.pos);
+            targetLoc = new me.Vector2d(blueflagstand.pos.x + dist.x / 2, blueflagstand.pos.y + dist.y / 2);
+            gatherer = this.getNearestIdleUnit(targetLoc);
+            if (gatherer == null) {
+                // No unit to deploy
+                // See if I can purchase a new unit
+                nameOfUnit = this.getToughestUnitICanAfford();
+                if (nameOfUnit == "") {
+                    game.sylvanlog("Enemy controller: cannot afford a gatherer at this time. Resources:", game.data.enemy.unitResources);
+                } else {
                     this.buyUnit(nameOfUnit);
                     gatherer = this.unitList[this.unitList.length - 1];
                 }
-            }
+            } 
         }
 
         if (gatherer != null) {
@@ -275,7 +265,6 @@ game.AI = game.Player.extend({
 
                     return;
                 }
-
             }
         }
 
@@ -341,54 +330,6 @@ game.AI = game.Player.extend({
 
 
 
-    },
-
-
-
-    getHighestPriority: function (priorities) {
-        var highestP = "";
-        var highVal = 0;
-        for (var p in priorities) {
-            if (priorities[p] > highVal) {
-                highVal = priorities[p];
-                highestP = p;
-            } else if (priorities[p] == highVal) {
-                // need a tie breaker.
-                if (Math.floor(Math.random() * 2) == 0) {
-                    highVal = priorities[p];
-                    highestP = p;
-                }
-            } else {
-                // Do nothing
-            }
-        }
-
-        return highestP;
-    },
-
-
-    getUnitActionPriority: function (priorities) {
-        var highestP = "";
-        var highVal = 0;
-        for (var p in priorities) {
-            if (p == "acquireUnit") {
-                continue;
-            }
-            if (priorities[p] > highVal) {
-                highVal = priorities[p];
-                highestP = p;
-            } else if (priorities[p] == highVal) {
-                // need a tie breaker.
-                if (Math.floor(Math.random() * 2) == 0) {
-                    highVal = priorities[p];
-                    highestP = p;
-                }
-            } else {
-                // Do nothing
-            }
-        }
-
-        return highestP;
     },
 
 
@@ -663,7 +604,7 @@ game.AI = game.Player.extend({
     // Get the nearest resource point that hasn't been captured yet
     getNearestUncapturedResource: function (unit) {
         if (unit == null) {
-            return;
+            return null;
         }
 
         game.sylvanlog(unit);
