@@ -71,30 +71,30 @@ game.projectile = me.Entity.extend({
             // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved,
             console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
             if (this.type == "paper" && other.type == "rock") {
-                console.log("paper hit rock - double this damage: " + this.damage * 2);
-                other.takeDamage(this.damage * 2);
+                console.log("paper hit rock - double this damage: " + this.damage * 1.5);
+                other.takeDamage(this.damage * 1.5);
             }
             else if (this.type == "rock" && other.type == "scissors") {
-                console.log("rock hit scissors - double this damage: " + this.damage * 2);
-                other.takeDamage(this.damage * 2);
+                console.log("rock hit scissors - buff this damage: " + this.damage * 1.5);
+                other.takeDamage(this.damage * 1.5);
 
             }
             else if (this.type == "scissors" && other.type == "paper") {
-                console.log("scissors hit paper - double this damage: " + this.damage * 2);
-                other.takeDamage(this.damage * 2);
+                console.log("scissors hit paper - buff this damage: " + this.damage * 1.5);
+                other.takeDamage(this.damage * 1.5);
 
             }
             else if (this.type == "paper" && other.type == "scissors") {
-                console.log("paper hit scissors - halve this damage: " + this.damage / 2);
-                other.takeDamage(this.damage / 2);
+                console.log("paper hit scissors - nerf this damage: " + this.damage / 1.5);
+                other.takeDamage(this.damage / 1.5);
             }
             else if (this.type == "rock" && other.type == "paper") {
-                console.log("rock hit paper - halve this damage: " + this.damage / 2);
-                other.takeDamage(this.damage / 2);
+                console.log("rock hit paper - nerf this damage: " + this.damage / 1.5);
+                other.takeDamage(this.damage / 1.5);
             }
             else if (this.type == "scissors" && other.type == "rock") {
-                console.log("scissors hit rock - halve this damage: " + this.damage / 2);
-                other.takeDamage(this.damage / 2);
+                console.log("scissors hit rock - nerf this damage: " + this.damage / 1.5);
+                other.takeDamage(this.damage / 1.5);
             }
             /*
             default: no buff or debuff. flat damage
