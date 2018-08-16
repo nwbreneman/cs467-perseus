@@ -141,9 +141,6 @@ game.AI = game.Player.extend({
     process: function () {
         game.sylvanlog("AI processing function. Resources:", game.data.enemy.unitResources, "Rate:", game.data.enemy.resourceRate);
 
-        this.buyUnit("enemy_engineer", false);
-        return;
-
         /*
          * Flag return:
          * If my flag is not at home, send someone to go and return it
