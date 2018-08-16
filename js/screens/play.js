@@ -73,14 +73,7 @@ game.PlayScreen = me.ScreenObject.extend({
 
 
         // Manually setting the collision type for the world boundary
-        // TODO: set the type for the factories as well
         me.game.world.getChildByName("mapedge")[0].body.collisionType = me.collision.types.WORLD_SHAPE;
-
-
-        // To place something with a given tile coordinate
-        //this.vec = new me.Vector2d(0, 0);
-        //this.refLayer = me.game.world.getChildByName("Plains")[0];
-        //this.refLayer.getRenderer().tileToPixelCoords(4, 19, this.vec);
 
         // Sylvan: Add flags using the new flag stand entities setup in Tiled
         blueflagstand = me.game.world.getChildByName("blueflagstand")[0];
@@ -120,8 +113,6 @@ game.PlayScreen = me.ScreenObject.extend({
         redFlag.team = game.data.enemy;
         redFlag.teamName = game.data.enemy.name;
 
-        //Mark: testing spawning blue civilian at start of new game by calling buyUnit()
-        // game.data.player1.buyUnit("civilian");
 
         // load save if resumed
         if (me.save.player1data && me.save.enemyData) {
