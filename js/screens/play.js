@@ -5,7 +5,7 @@ game.PlayScreen = me.ScreenObject.extend({
     onResetEvent: function () {
 
         // load a level
-        me.levelDirector.loadLevel("level2");
+        me.levelDirector.loadLevel("level1");
 
         // create the visibility graph
         game.data.visGraph = buildGraph();
