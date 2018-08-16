@@ -33,19 +33,11 @@ game.projectile = me.Entity.extend({
         this.direction = this.direction.sub(this.startingPoint);
         this.direction = this.direction.normalize();
 
-        this.body.setVelocity(settings.speed * Math.abs(this.direction.x), settings.speed * Math.abs(this.direction.y));
-        
+        this.body.vel.x = settings.speed * this.direction.x;
+        this.body.vel.y = settings.speed * this.direction.y;
     },
 
     update: function (dt) {
-
-        if (this.body.vel.x === 0) {
-            this.body.vel.x += this.direction.x * dt;
-        }
-
-        if (this.body.vel.y === 0) {
-            this.body.vel.y += this.direction.y * dt;
-        }
 
         this.body.update(dt);
 
