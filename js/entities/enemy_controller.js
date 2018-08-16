@@ -24,12 +24,16 @@ game.AI = game.Player.extend({
             game.sylvanlog("Easy difficulty.");
 
             this.processInterval = 360;
+            this.maxIntermediateDefenders = 1;
+            this.maxRunners = 1;
         } else {
             game.sylvanlog("Hard difficulty.");
 
-            this.processInterval = 180;
+            this.processInterval = 240;
+            this.maxIntermediateDefenders = 2;
+            this.maxRunners = 2;
             game.data.enemy.unitResources *= 1.5;
-            game.data.enemy.resourceRateBoost = 4.0;
+            game.data.enemy.resourceRateBoost = 2.0;
             game.data.enemy.changeResourceRate(game.data.enemy.resourceRate);
         }
 
@@ -148,7 +152,7 @@ game.AI = game.Player.extend({
                 return;
             } else {
                 // Try to buy a unit because this is important
-                unitName = this.getFastestUnitICanAfford();
+                unitName = this.getBestUnitWithWeighting(2000, 1, 2, 1, 0, 0, 0, game.data.enemy.unitResources);
                 if (unitName == "") {
                     game.sylvanlog("Enemy controller: cannot afford a defender at this time. Resources:", game.data.enemy.unitResources);
                 } else {
@@ -196,8 +200,6 @@ game.AI = game.Player.extend({
         var flagDefender = this.getUnitWithOrders('guard flag');
         if (this.flag.isHome()) {
             if (flagDefender == null) {
-
-                //nameOfUnit = this.getLongestUnitICanAfford();
                 nameOfUnit = this.getBestUnitWithWeighting(1, 1.5, 1, 1.5, 0, 0, 0, game.data.enemy.unitResources);
                 if (nameOfUnit == "") {
                     game.sylvanlog("Enemy controller: cannot afford a flag guard at this time. Resources:", game.data.enemy.unitResources);
@@ -239,7 +241,6 @@ game.AI = game.Player.extend({
             if (gatherer == null) {
                 // No unit to deploy
                 // See if I can purchase a new unit
-                //nameOfUnit = this.getToughestUnitICanAfford();
                 nameOfUnit = this.getBestUnitWithWeighting(100, 1, 1, 1, 0, 0, 0, 200);
                 if (nameOfUnit == "") {
                     game.sylvanlog("Enemy controller: cannot purchase a gatherer that meets the criteria. Resources:", game.data.enemy.unitResources);
@@ -271,8 +272,7 @@ game.AI = game.Player.extend({
          */
         game.sylvanlog("Enemy controller: check defenders");
         var defenders = this.getDefenders();
-        if (defenders.length < 2) {
-            //nameOfUnit = this.getStrongestUnitICanAfford();
+        if (defenders.length < this.maxIntermediateDefenders) {
             nameOfUnit = this.getBestUnitWithWeighting(1, 1, 1, 1, 0, 0, 0, game.data.enemy.unitResources);
             if (nameOfUnit == "") {
                 game.sylvanlog("Enemy controller: cannot purchase a defender that meets the criteria. Resources:", game.data.enemy.unitResources);
@@ -308,8 +308,7 @@ game.AI = game.Player.extend({
          * Try limiting the number of runners at a time, to encourage saving for the top tier units, and to avoid spamming the map with bikers
          */
         game.sylvanlog("Enemy controller: check flag runners");
-        if (this.getFlagRunners().length < 2) {
-            //nameOfUnit = this.getFastestUnitICanAfford();
+        if (this.getFlagRunners().length < this.maxRunners) {
             nameOfUnit = this.getBestUnitWithWeighting(2000, 1, 2, 1, 2.0, 0, 0, game.data.enemy.unitResources);
             if (nameOfUnit != "") {
                 var unit = me.loader.getJSON(nameOfUnit);
@@ -342,7 +341,8 @@ game.AI = game.Player.extend({
             unit.rangeWeight = unit.range * rangeWeight;
             unit.weightedSum = unit.weightedSpeed + unit.weightedAttack + unit.weightedAttack;
 
-            if (unit.weightedSum > highestSum && unit.speed >= minSpeed && unit.attack >= minAttack && unit.defense >= minDefense && unit.cost <= maxCost) {
+            if (unit.weightedSum > highestSum && unit.speed >= minSpeed && unit.attack >= minAttack && unit.defense >= minDefense
+                && unit.cost <= maxCost && unit.cost <= game.data.enemy.unitResources) {
                 // Good to go
                 best = unit.name;
                 highestSum = unit.weightedSum;
@@ -352,254 +352,6 @@ game.AI = game.Player.extend({
         return best;
     },
 
-
-    // Unit with highest speed attribute whose cost is less than or equal to my current resource count
-    getFastestUnitICanAfford: function () {
-        var fastest = "";
-        var highSpeed = 0;
-        var highAtt = 0;
-        var highDef = 0;
-        var loCost = 0;
-        for (var unit of this.availableUnits) {
-            if (unit.cost > game.data.enemy.unitResources) {
-                continue;
-            }
-
-            if (unit.speed > highSpeed) {
-                fastest = unit.name;
-                highSpeed = unit.speed;
-                highAtt = unit.attack;
-                highDef = unit.defense;
-                loCost = unit.cost;
-            } else if (unit.speed == highSpeed) {
-                // need a tie breaker
-                if (unit.defense == highDef) {
-                    // need another tie breaker
-                    if (unit.attack == highAtt) {
-                        // All attributes are the same, go with the cheaper one
-                        if (unit.cost < loCost) {
-                            // The new unit wins
-                            fastest = unit.name;
-                            highSpeed = unit.speed;
-                            highAtt = unit.attack;
-                            highDef = unit.defense;
-                            loCost = unit.cost;
-                        } else {
-                            // Stick with existing fastest unit
-                        }
-                    }
-                    if (unit.attack > highAtt) {
-                        // The new unit wins
-                        fastest = unit.name;
-                        highSpeed = unit.speed;
-                        highAtt = unit.attack;
-                        highDef = unit.defense;
-                        loCost = unit.cost;
-                    }
-                }
-
-                if (unit.defense > highDef) {
-                    // The new unit wins
-                    fastest = unit.name;
-                    highSpeed = unit.speed;
-                    highAtt = unit.attack;
-                    highDef = unit.defense;
-                    loCost = unit.cost;
-                }
-
-            }
-        }
-
-        return fastest;
-    },
-
-
-    // Unit with highest attack attribute whose cost is less than or equal to my current resource count
-    getStrongestUnitICanAfford: function () {
-        var strongest = "";
-        var highSpeed = 0;
-        var highAtt = 0;
-        var highDef = 0;
-        var loCost = 0;
-        for (var unit of this.availableUnits) {
-            if (unit.cost > game.data.enemy.unitResources) {
-                continue;
-            }
-
-            if (unit.attack > highAtt) {
-                strongest = unit.name;
-                highSpeed = unit.speed;
-                highAtt = unit.attack;
-                highDef = unit.defense;
-                loCost = unit.cost;
-            } else if (unit.attack == highAtt) {
-                // need a tie breaker
-                if (unit.defense == highDef) {
-                    // need another tie breaker
-                    if (unit.speed == highSpeed) {
-                        // All attributes are the same, go with the cheaper one
-                        if (unit.cost < loCost) {
-                            // The new unit wins
-                            strongest = unit.name;
-                            highSpeed = unit.speed;
-                            highAtt = unit.attack;
-                            highDef = unit.defense;
-                            loCost = unit.cost;
-                        } else {
-                            // Stick with existing unit
-                        }
-                    }
-                    if (unit.speed > highSpeed) {
-                        // The new unit wins
-                        strongest = unit.name;
-                        highSpeed = unit.speed;
-                        highAtt = unit.attack;
-                        highDef = unit.defense;
-                        loCost = unit.cost;
-                    }
-                }
-
-                if (unit.defense > highDef) {
-                    // The new unit wins
-                    strongest = unit.name;
-                    highSpeed = unit.speed;
-                    highAtt = unit.attack;
-                    highDef = unit.defense;
-                    loCost = unit.cost;
-                }
-
-            }
-        }
-
-        return strongest;
-    },
-
-
-    // Unit with highest defense attribute whose cost is less than or equal to my current resource count
-    getToughestUnitICanAfford: function () {
-        var toughest = "";
-        var highSpeed = 0;
-        var highAtt = 0;
-        var highDef = 0;
-        var loCost = 0;
-        for (var unit of this.availableUnits) {
-            if (unit.cost > game.data.enemy.unitResources) {
-                continue;
-            }
-
-            if (unit.defense > highDef) {
-                toughest = unit.name;
-                highSpeed = unit.speed;
-                highAtt = unit.attack;
-                highDef = unit.defense;
-                loCost = unit.cost;
-            } else if (unit.defense == highDef) {
-                // need a tie breaker
-                if (unit.attack == highAtt) {
-                    // need another tie breaker
-                    if (unit.speed == highSpeed) {
-                        // All attributes are the same, go with the cheaper one
-                        if (unit.cost < loCost) {
-                            // The new unit wins
-                            toughest = unit.name;
-                            highSpeed = unit.speed;
-                            highAtt = unit.attack;
-                            highDef = unit.defense;
-                            loCost = unit.cost;
-                        } else {
-                            // Stick with existing fastest unit
-                        }
-                    }
-                    if (unit.speed > highSpeed) {
-                        // The new unit wins
-                        toughest = unit.name;
-                        highSpeed = unit.speed;
-                        highAtt = unit.attack;
-                        highDef = unit.defense;
-                        loCost = unit.cost;
-                    }
-                }
-
-                if (unit.attack > highAtt) {
-                    // The new unit wins
-                    toughest = unit.name;
-                    highSpeed = unit.speed;
-                    highAtt = unit.attack;
-                    highDef = unit.defense;
-                    loCost = unit.cost;
-                }
-
-            }
-        }
-
-        return toughest;
-    },
-
-
-    // Unit with highest range attribute whose cost is less than or equal to my current resource count
-    getLongestUnitICanAfford: function () {
-        var longest = "";
-        var highSpeed = 0;
-        var highAtt = 0;
-        var highRange = 0;
-        var highDef = 0;
-        var loCost = 0;
-        for (var unit of this.availableUnits) {
-            if (unit.cost > game.data.enemy.unitResources) {
-                continue;
-            }
-
-            if (unit.range > highRange) {
-                longest = unit.name;
-                highSpeed = unit.speed;
-                highRange = unit.range;
-                highAtt = unit.attack;
-                highDef = unit.defense;
-                loCost = unit.cost;
-            } else if (unit.range == highRange) {
-                // need a tie breaker
-                if (unit.attack == highAtt) {
-                    // need another tie breaker
-                    if (unit.defense == highDef) {
-                        // All attributes are the same, go with the cheaper one
-                        if (unit.cost < loCost) {
-                            // The new unit wins
-                            longest = unit.name;
-                            highSpeed = unit.speed;
-                            highRange = unit.range;
-                            highAtt = unit.attack;
-                            highDef = unit.defense;
-                            loCost = unit.cost;
-                        } else {
-                            // Stick with existing fastest unit
-                        }
-                    }
-                    if (unit.defense > highDef) {
-                        // The new unit wins
-                        longest = unit.name;
-                        highSpeed = unit.speed;
-                        highRange = unit.range;
-                        highAtt = unit.attack;
-                        highDef = unit.defense;
-                        loCost = unit.cost;
-                    }
-                }
-
-                if (unit.attack > highAtt) {
-                    // The new unit wins
-                    longest = unit.name;
-                    highSpeed = unit.speed;
-                    highRange = unit.range;
-                    highAtt = unit.attack;
-                    highDef = unit.defense;
-                    loCost = unit.cost;
-                }
-
-            }
-        }
-
-        return longest;
-    },
 
 
     getNearestResourcePoint: function (loc) {
