@@ -16,27 +16,6 @@ game.AI = game.Player.extend({
         this.flag = settings.flag;
         this.playerFlag = settings.playerFlag;
 
-        // Perform a computation after elapsed number of frames (~ 60 frames per second).
-        // Since we don't really need to do computation every frame for high-level strategy
-        // This is a parameter that can be tweaked to hopefully alter the difficulty of the AI
-
-        if (settings.difficulty == "Easy") {
-            game.sylvanlog("Easy difficulty.");
-
-            this.processInterval = 360;
-            this.maxIntermediateDefenders = 1;
-            this.maxRunners = 1;
-        } else {
-            game.sylvanlog("Hard difficulty.");
-
-            this.processInterval = 240;
-            this.maxIntermediateDefenders = 2;
-            this.maxRunners = 2;
-            game.data.enemy.unitResources *= 1.5;
-            game.data.enemy.resourceRateBoost = 2.0;
-            game.data.enemy.changeResourceRate(game.data.enemy.resourceRate);
-        }
-
         // Set the timing variables
         this.processAccumulator = 0;
 
@@ -51,9 +30,28 @@ game.AI = game.Player.extend({
 
         // Generate list of resource points on the map
         this.resourcePointList = me.game.world.getChildByName("capture_point");
+    },
 
-        this.flagRunners = [];
+    /** When the entity is created */
+    onActivateEvent: function () {
+        game.sylvanlog("enemy controller is created");
+        if (game.data.difficulty == "Easy") {
+            game.sylvanlog("Easy difficulty.");
 
+            this.processInterval = 360;
+            this.maxIntermediateDefenders = 1;
+            this.maxRunners = 1;
+            this.minAttack = 0;
+        } else {
+            game.sylvanlog("Hard difficulty.");
+
+            this.processInterval = 240;
+            this.maxIntermediateDefenders = 2;
+            this.maxRunners = 2;
+            this.unitResources *= 2;
+            this.resourceRateBoost = 2.0;
+            this.minAttack = 10;
+        }
     },
 
 
@@ -122,14 +120,6 @@ game.AI = game.Player.extend({
             this.unitList.splice(pos, 1);
         }
     },
-
-
-    // Determine where the player's flag currently is (and note if it is at its base)
-    getOtherFlagPosition: function () {
-        this.playerFlagAtHome = this.playerFlag.pos.equals(this.playerFlag.homePosition);
-
-    },
-
 
 
 
@@ -273,7 +263,7 @@ game.AI = game.Player.extend({
         game.sylvanlog("Enemy controller: check defenders");
         var defenders = this.getDefenders();
         if (defenders.length < this.maxIntermediateDefenders) {
-            nameOfUnit = this.getBestUnitWithWeighting(1, 1, 1, 1, 0, 0, 0, game.data.enemy.unitResources);
+            nameOfUnit = this.getBestUnitWithWeighting(1, 1, 1, 1, 0, this.minAttack, 0, game.data.enemy.unitResources);
             if (nameOfUnit == "") {
                 game.sylvanlog("Enemy controller: cannot purchase a defender that meets the criteria. Resources:", game.data.enemy.unitResources);
             } else {
