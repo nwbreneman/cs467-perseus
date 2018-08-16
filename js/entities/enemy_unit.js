@@ -147,6 +147,14 @@ game.EnemyUnit = game.Unit.extend({
                 this.move(this.moveDestination.x, this.moveDestination.y);
                 break;
             case 'dying':
+                
+                //-5 resource rate if engineer dies.
+                if (this.name == "enemy_engineer") {
+                    game.data.player1.changeResourceRate(-5);
+                    game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
+                }
+
+
                 // Start a death animation or particle effect or something
                 var sprite = new me.Sprite(this.pos.x, this.pos.y, {
                     image: this.deathImage,
@@ -159,6 +167,55 @@ game.EnemyUnit = game.Unit.extend({
                 sprite.addAnimation(this.name + "EXPLODING_SW", [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 50);
                 sprite.addAnimation(this.name + "EXPLODING_NW", [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 50);
                 sprite.addAnimation(this.name + "EXPLODING_NE", [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 50);
+
+
+                if (this.name == "enemy_biker"){ //if a biker dies
+                //spawn civilian
+                settings = me.loader.getJSON("enemy_civilian");
+
+                var unit = me.pool.pull("enemy_civilian", 10, 10, settings);
+                        unit.pos.x = this.pos.x //- unit.width * 0.5;
+                        unit.pos.y = this.pos.y //- unit.height * 1.0;
+                        unit.player = game.data.enemy;
+                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
+                        game.data.enemy.availableUnits.push(unit);
+                        game.data.alertMessage.add("ENEMY CIVILIAN DRIVER SURVIVES!");
+
+                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                }
+            
+                if (this.name == "enemy_jetpack" || this.name == "enemy_plane" || this.name == "enemy_bomber"){ // if a jetpack, plane, or bomber dies
+                //spawn infantry
+                settings = me.loader.getJSON("enemy_infantry");
+
+                var unit = me.pool.pull("enemy_infantry", 10, 10, settings);
+                        unit.pos.x = this.pos.x //- unit.width * 0.5;
+                        unit.pos.y = this.pos.y //- unit.height * 1.0;
+                        unit.player = game.data.enemy;
+                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
+                        game.data.enemy.availableUnits.push(unit);
+                        game.data.alertMessage.add("ENEMY INFANTRY DRIVER SURVIVES!");
+
+                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                }
+        
+                if (this.name == "enemy_tank"){ //if a tank dies
+                //spawn engineer
+                settings = me.loader.getJSON("enemy_engineer");
+
+                var unit = me.pool.pull("enemy_engineer", 10, 10, settings);
+                        unit.pos.x = this.pos.x //- unit.width * 0.5;
+                        unit.pos.y = this.pos.y //- unit.height * 1.0;
+                        unit.player = game.data.enemy;
+                        //this.unitResources -= settings.cost; no cost on death - special effect spawn
+                        game.data.enemy.available.push(unit);
+                        //if engineer survives, give resource bonus still
+                        game.data.enemy.changeResourceRate(+5);
+                        game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
+                        me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+                }
+
+
 
                 //death sound fx
                 me.audio.play("unit_death");

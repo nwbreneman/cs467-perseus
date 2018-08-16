@@ -73,6 +73,12 @@ game.AI = game.Player.extend({
 
         var settings = me.loader.getJSON(name);
 
+        //change resource rate to player if buying an engineer
+                if (settings.name == "enemy_engineer" && !loadingSave) {
+                    this.changeResourceRate(5);
+                    game.data.alertMessage.add("ENEMY ENGINEER BUILT: +5 RESOURCES PER SECOND ");
+                }
+
         if (settings !== null) {
             settings.controller = this;
             settings.team = game.data.enemy;
