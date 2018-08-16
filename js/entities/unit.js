@@ -343,6 +343,52 @@ game.Unit = me.Entity.extend({
             game.data.alertMessage.add("ENGINEER DIED: -5 RESOURCES PER SECOND ");
         }
 
+        /*
+		civilian, infantry, or engineer spawn for free where vehicle dies depending which type of vehicle
+		biker -> civilian
+		jetpack, plane, bomber -> infantry
+		tank -> engineer
+        */
+			if (this.name == "biker"){
+			//spawn civilian
+			settings = me.loader.getJSON("civilian");
+
+		       var unit = me.pool.pull("civilian", 10, 10, settings);
+		                unit.pos.x = this.pos.x //- unit.width * 0.5;
+		                unit.pos.y = this.pos.y //- unit.height * 1.0;
+		                unit.player = game.data.player1;
+		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
+		                game.data.player1.unitList.push(unit);
+						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+				}
+			
+			if (this.name == "jetpack" || this.name == "plane" || this.name == "bomber"){
+			//spawn infantry
+			settings = me.loader.getJSON("infantry");
+
+		       	var unit = me.pool.pull("infantry", 10, 10, settings);
+		                unit.pos.x = this.pos.x //- unit.width * 0.5;
+		                unit.pos.y = this.pos.y //- unit.height * 1.0;
+		                unit.player = game.data.player1;
+		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
+		                game.data.player1.unitList.push(unit);
+						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+				}
+		
+			if (this.name == "tank"){
+			//spawn engineer
+			settings = me.loader.getJSON("engineer");
+
+		       	var unit = me.pool.pull("engineer", 10, 10, settings);
+		                unit.pos.x = this.pos.x //- unit.width * 0.5;
+		                unit.pos.y = this.pos.y //- unit.height * 1.0;
+		                unit.player = game.data.player1;
+		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
+		                game.data.player1.unitList.push(unit);
+						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+				}
+
+
         //death sound effect
         me.audio.play("unit_death");
         game.data.player1.removeUnit(this);
