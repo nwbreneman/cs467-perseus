@@ -65,7 +65,7 @@ game.projectile = me.Entity.extend({
             // e.g., If rock type vs scissors type damage is doubled; if scissors vs rock type damage is halved,
             console.log(other.name + " of type " + other.type + " damaged from projectile of type: " + this.type);
             if (this.type == "paper" && other.type == "rock") {
-                console.log("paper hit rock - double this damage: " + this.damage * 1.5);
+                console.log("paper hit rock - buff this damage: " + this.damage * 1.5);
                 other.takeDamage(this.damage * 1.5);
             }
             else if (this.type == "rock" && other.type == "scissors") {
