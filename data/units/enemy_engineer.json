@@ -4,7 +4,7 @@
     "attackCooldown": 500,
     "range": 225,
     "defense": 400,
-    "speed": 0.6,
+    "speed": 0.8,
     "type": "paper",
     "cost": 225,
     "image": "enemyengineer_standing",

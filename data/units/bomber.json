@@ -1,10 +1,10 @@
 {
     "name": "bomber",
-    "attack": 320,
-    "attackCooldown": 1000,
+    "attack": 350,
+    "attackCooldown": 1500,
     "range": 900,
     "defense": 1400,
-    "speed": 2.75,
+    "speed": 3,
     "type": "rock",
     "cost": 2199,
     "image": "bomber_standing",
