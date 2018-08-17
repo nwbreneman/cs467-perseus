@@ -119,8 +119,9 @@ game.capturePoint = me.Entity.extend({
 
         var factoryName = "factory_" + type;
 
-        let factoryList = me.game.world.getChildByName(factoryName);
-        for (let item of factoryList) {
+        var factoryList = me.game.world.getChildByName(factoryName);
+        for (var i = 0; i < factoryList.length; i++) {
+            var item = factoryList[i];
             if (item.id == id) {
                 factory = item;
             }

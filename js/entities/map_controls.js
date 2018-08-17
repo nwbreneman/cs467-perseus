@@ -153,7 +153,8 @@ game.PanningControls = me.Renderable.extend({
         if (me.input.isKeyPressed("kill")) {
             selectedUnits = game.data.player1.getSelectedUnits();
             game.data.player1.clearSelectedUnits();
-            for (let thisUnit of selectedUnits) {
+            for (var i = 0; i < selectedUnits; i++) {
+                var thisUnit = selectedUnits[i];
                 thisUnit.die();
             }
 
