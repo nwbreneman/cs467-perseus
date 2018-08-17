@@ -81,6 +81,7 @@ game.capturePoint = me.Entity.extend({
             // no owner once status reaches 0
             if (this.captureStatus === 0 && this.owner) {
                 this.owner.changeResourceRate(-this.rate);
+                this.owner.controlledFactories -= 1;
                 game.data.alertMessage.add(this.owner.name + " LOSES - " + this.rate + " RESOURCES PER SECOND");
                 me.audio.play("point_lost");
                 this.owner = null;
