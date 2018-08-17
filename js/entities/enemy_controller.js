@@ -22,8 +22,7 @@ game.AI = game.Player.extend({
         // Generate a list of all possible units we can buy, so all the attributes of each unit is known by the controller
         this.availableUnits = [];
         var unitNames = me.loader.getJSON("manifest_enemy").units;
-        for (var i = 0; i < unitNames.length; i++) {
-            var name = unitNames[i];
+        for (var name of unitNames) {
             var unit = me.loader.getJSON(name);
             unit.attackPerSecond = unit.attack * 1000 / unit.attackCooldown;
             this.availableUnits.push(unit);
@@ -171,8 +170,7 @@ game.AI = game.Player.extend({
         if (!this.playerFlag.isHome() && !this.playerFlag.isHeld) {
             // Is anyone going after the flag?
             var goingForFlag = false;
-            for (var i = 0; i < this.unitList.length; i++) {
-                var unit = this.unitList[i];
+            for (var unit of this.unitList) {
                 if (unit.currentOrders.type == 'capture flag') {
                     goingForFlag = true;
                 }
@@ -247,7 +245,7 @@ game.AI = game.Player.extend({
                     this.buyUnit(nameOfUnit);
                     gatherer = this.unitList[this.unitList.length - 1];
                 }
-            }
+            } 
         }
 
         if (gatherer != null) {
@@ -322,19 +320,18 @@ game.AI = game.Player.extend({
                 game.sylvanlog("Enemy controller: cannot purchase a flag runner that meets the criteria. Resources:", game.data.enemy.unitResources);
             }
         }
-
+        
 
 
 
     },
 
 
-    getBestUnitWithWeighting: function (speedWeight, attackWeight, defenseWeight, rangeWeight, minSpeed, minAttack, minDefense, maxCost) {
+    getBestUnitWithWeighting: function(speedWeight, attackWeight, defenseWeight, rangeWeight, minSpeed, minAttack, minDefense, maxCost) {
         var best = "";
         var highestSum = 0;
 
-        for (var i = 0; i < this.availableUnits.length; i++) {
-            var unit = this.availableUnits[i];
+        for (var unit of this.availableUnits) {
             unit.weightedSpeed = unit.speed * speedWeight;
             unit.weightedAttack = unit.attackPerSecond * attackWeight;
             unit.weightDefense = unit.defense * defenseWeight;
@@ -391,8 +388,7 @@ game.AI = game.Player.extend({
             }
             // Check other units to see if they've been ordered to capture the same resource point
             var alreadyOrdered = false;
-            for (var i = 0; i < this.unitList.length; i++) {
-                var eachUnit = this.unitList[i];
+            for (var eachUnit of this.unitList) {
                 var orderPoint = eachUnit.currentOrders.point;
                 if (orderPoint != null && orderPoint == point) {
                     alreadyOrdered = true;
@@ -423,8 +419,7 @@ game.AI = game.Player.extend({
 
     getDefenders: function () {
         var list = [];
-        for (var i = 0; i < this.unitList.length; i++) {
-            var unit = this.unitList[i];
+        for (var unit of this.unitList) {
             if (unit.currentOrders.type == 'defend') {
                 list.push(unit);
             }
@@ -433,10 +428,9 @@ game.AI = game.Player.extend({
     },
 
 
-    getFlagRunners: function () {
+    getFlagRunners: function() {
         var list = [];
-        for (var i = 0; i < this.unitList.length; i++) {
-            var unit = this.unitList[i];
+        for (var unit of this.unitList) {
             if (unit.currentOrders.type == 'capture flag') {
                 list.push(unit);
             }
@@ -447,8 +441,7 @@ game.AI = game.Player.extend({
 
     getUnitWithOrders: function (type) {
         var theUnit = null;
-        for (var i = 0; i < this.unitList.length; i++) {
-            var unit = this.unitList[i];
+        for (var unit of this.unitList) {
             if (unit.currentOrders.type == type) {
                 theUnit = unit;
             }
@@ -460,8 +453,7 @@ game.AI = game.Player.extend({
 
     getIdleUnits: function () {
         var list = [];
-        for (var i = 0; i < this.unitList.length; i++) {
-            var unit = this.unitList[i];
+        for (var unit of this.unitList) {
             if (unit.state == 'idle') {
                 list.push(unit);
             }

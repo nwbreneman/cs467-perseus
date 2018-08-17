@@ -98,23 +98,23 @@ var game = {
     },
 
     // Custom log function so I don't bother you guys with all my logs
-    // sylvanlog: function (...args) {
-    //     if (this.data.sylvanLogs) {
+    sylvanlog: function (...args) {
+        if (this.data.sylvanLogs) {
 
-    //         // This is kind of lame but it preserves the original console.log formatting,
-    //         // unlike if you just console.log(args)
-    //         if (args.length == 1) {
-    //             console.log("Sylvan:", args[0]);
-    //         } else if (args.length == 2) {
-    //             console.log("Sylvan:", args[0], args[1]);
-    //         } else if (args.length == 3) {
-    //             console.log("Sylvan:", args[0], args[1], args[2]);
-    //         } else if (args.length == 4) {
-    //             console.log("Sylvan:", args[0], args[1], args[2], args[3]);
-    //         } else if (args.length == 5) {
-    //             console.log("Sylvan:", args[0], args[1], args[2], args[3], args[4]);
-    //         } //etc... I don't think I have any logs with this many arguments
+            // This is kind of lame but it preserves the original console.log formatting,
+            // unlike if you just console.log(args)
+            if (args.length == 1) {
+                console.log("Sylvan:", args[0]);
+            } else if (args.length == 2) {
+                console.log("Sylvan:", args[0], args[1]);
+            } else if (args.length == 3) {
+                console.log("Sylvan:", args[0], args[1], args[2]);
+            } else if (args.length == 4) {
+                console.log("Sylvan:", args[0], args[1], args[2], args[3]);
+            } else if (args.length == 5) {
+                console.log("Sylvan:", args[0], args[1], args[2], args[3], args[4]);
+            } //etc... I don't think I have any logs with this many arguments
 
-    //     }
-    // },
+        }
+    },
 };
