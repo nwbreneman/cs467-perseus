@@ -11,9 +11,6 @@ game.HUD.Container = me.Container.extend({
         // call the constructor
         this._super(me.Container, 'init');
 
-        // persistent across level change
-        this.isPersistent = true;
-
         // make sure we use screen coordinates
         this.floating = true;
 

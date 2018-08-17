@@ -166,4 +166,12 @@ game.Player = me.Renderable.extend({
 
         this.unitResources = data.unitResources;
     },
+
+    stopResourceGain: function () {
+        if (this.ratePromise) {
+            me.timer.clearInterval(this.ratePromise);
+            return true;
+        }
+        return false;
+    }
 });

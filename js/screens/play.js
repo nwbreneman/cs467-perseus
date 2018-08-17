@@ -156,6 +156,10 @@ game.PlayScreen = me.ScreenObject.extend({
         me.input.releasePointerEvent("pointermove", me.game.viewport);
         me.input.releasePointerEvent("pointerdown", me.game.viewport);
         me.input.releasePointerEvent("pointerup", me.game.viewport);
+
+        // Cancel player resource rates
+        game.data.player1.stopResourceGain();
+        game.data.enemy.stopResourceGain();
     },
 
 });
