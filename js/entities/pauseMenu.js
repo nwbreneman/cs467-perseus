@@ -80,15 +80,11 @@ game.pauseMenu.PauseMenuButton = me.GUI_Object.extend({
             return;
         }
         if (this.label === "SAVE") {
-            console.log("saving!");
             saveGame();
-            console.log("saved!");
             game.data.alertMessage.add("GAME SAVED!");
             me.state.resume();
         } else if (this.label === "SAVE & EXIT") {
-            console.log("saving and exiting!")
             saveGame();
-            console.log("saved!");
             me.state.resume();
             me.state.change(me.state.MENU);
         }

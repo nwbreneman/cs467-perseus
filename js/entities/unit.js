@@ -42,7 +42,7 @@ game.Unit = me.Entity.extend({
         this.body.setVelocity(this.speed, this.speed);
         this.isHoldingFlag = false;
         this.carriedFlag = {};
-        this.team = game.data.player1;
+        this.team = null;
         this.lastAttack = 0;
         this.attackCooldown = settings.attackCooldown || 2000;
         this.deathImage = settings.deathimage;
@@ -305,8 +305,8 @@ game.Unit = me.Entity.extend({
         settings.ownerUnit = this.body.collisionType;
         me.game.world.addChild(me.pool.pull(
             this.projectile,
-            this.pos.x + this.width/2,
-            this.pos.y + this.height/2,
+            this.pos.x + this.width / 2,
+            this.pos.y + this.height / 2,
             settings
         ));
     },
@@ -349,51 +349,51 @@ game.Unit = me.Entity.extend({
 		jetpack, plane, bomber -> infantry
 		tank -> engineer
         */
-			if (this.name == "biker"){ //if a biker dies
-			//spawn civilian
-			settings = me.loader.getJSON("civilian");
+        if (this.name == "biker") { //if a biker dies
+            //spawn civilian
+            settings = me.loader.getJSON("civilian");
 
-		       var unit = me.pool.pull("civilian", 10, 10, settings);
-		                unit.pos.x = this.pos.x //- unit.width * 0.5;
-		                unit.pos.y = this.pos.y //- unit.height * 1.0;
-		                unit.player = game.data.player1;
-		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
-		                game.data.player1.unitList.push(unit);
-                        game.data.alertMessage.add("CIVILIAN DRIVER SURVIVES!");
+            var unit = me.pool.pull("civilian", 10, 10, settings);
+            unit.pos.x = this.pos.x //- unit.width * 0.5;
+            unit.pos.y = this.pos.y //- unit.height * 1.0;
+            unit.player = game.data.player1;
+            //this.unitResources -= settings.cost; no cost on death - special effect spawn
+            game.data.player1.unitList.push(unit);
+            game.data.alertMessage.add("CIVILIAN DRIVER SURVIVES!");
 
-						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
-				}
-			
-			if (this.name == "jetpack" || this.name == "plane" || this.name == "bomber"){ // if a jetpack, plane, or bomber dies
-			//spawn infantry
-			settings = me.loader.getJSON("infantry");
+            me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+        }
 
-		       	var unit = me.pool.pull("infantry", 10, 10, settings);
-		                unit.pos.x = this.pos.x //- unit.width * 0.5;
-		                unit.pos.y = this.pos.y //- unit.height * 1.0;
-		                unit.player = game.data.player1;
-		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
-		                game.data.player1.unitList.push(unit);
-                        game.data.alertMessage.add("INFANTRY DRIVER SURVIVES!");
+        if (this.name == "jetpack" || this.name == "plane" || this.name == "bomber") { // if a jetpack, plane, or bomber dies
+            //spawn infantry
+            settings = me.loader.getJSON("infantry");
 
-						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
-				}
-		
-			if (this.name == "tank"){ //if a tank dies
-			//spawn engineer
-			settings = me.loader.getJSON("engineer");
+            var unit = me.pool.pull("infantry", 10, 10, settings);
+            unit.pos.x = this.pos.x //- unit.width * 0.5;
+            unit.pos.y = this.pos.y //- unit.height * 1.0;
+            unit.player = game.data.player1;
+            //this.unitResources -= settings.cost; no cost on death - special effect spawn
+            game.data.player1.unitList.push(unit);
+            game.data.alertMessage.add("INFANTRY DRIVER SURVIVES!");
 
-		       	var unit = me.pool.pull("engineer", 10, 10, settings);
-		                unit.pos.x = this.pos.x //- unit.width * 0.5;
-		                unit.pos.y = this.pos.y //- unit.height * 1.0;
-		                unit.player = game.data.player1;
-		                //this.unitResources -= settings.cost; no cost on death - special effect spawn
-		                game.data.player1.unitList.push(unit);
-                        //if engineer survives, give resource bonus still
-                        game.data.player1.changeResourceRate(+5);
-                        game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
-						me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
-				}
+            me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+        }
+
+        if (this.name == "tank") { //if a tank dies
+            //spawn engineer
+            settings = me.loader.getJSON("engineer");
+
+            var unit = me.pool.pull("engineer", 10, 10, settings);
+            unit.pos.x = this.pos.x //- unit.width * 0.5;
+            unit.pos.y = this.pos.y //- unit.height * 1.0;
+            unit.player = game.data.player1;
+            //this.unitResources -= settings.cost; no cost on death - special effect spawn
+            game.data.player1.unitList.push(unit);
+            //if engineer survives, give resource bonus still
+            game.data.player1.changeResourceRate(+5);
+            game.data.alertMessage.add("ENGINEER TANK DRIVER SURVIVES! +5 RESOURCES PER SECOND ");
+            me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);
+        }
 
 
         //death sound effect
@@ -433,10 +433,10 @@ game.Unit = me.Entity.extend({
         for (var i = 0; i < allUnits.length; i++) {
             var unit = allUnits[i];
             if (this.player.ptype !== unit.player.ptype) {
-                if (this.detectionBox.containsPoint(unit.pos.x + unit.width/2, unit.pos.y + unit.height/2)) {
+                if (this.detectionBox.containsPoint(unit.pos.x + unit.width / 2, unit.pos.y + unit.height / 2)) {
                     return {
-                        "x": unit.pos.x + unit.width/2,
-                        "y": unit.pos.y + unit.height/2
+                        "x": unit.pos.x + unit.width / 2,
+                        "y": unit.pos.y + unit.height / 2
                     }
                 }
             }

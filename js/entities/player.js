@@ -53,7 +53,7 @@ game.Player = me.Renderable.extend({
                 var unit = me.pool.pull(unitName, 10, 10, settings);
                 unit.pos.x = this.spawnPoint.pos.x - unit.width * 0.5;
                 unit.pos.y = this.spawnPoint.pos.y - unit.height * 1.0;
-                unit.player = this;
+                unit.player = unit.team = this;
                 this.unitResources -= settings.cost;
                 this.unitList.push(unit);
                 me.game.world.addChild(unit, me.game.world.getChildByName("units")[0].pos.z);

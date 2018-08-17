@@ -58,16 +58,28 @@ game.flag = me.Entity.extend({
     //   Do nothing if flag is at home, otherwise send it home
     // When a flag is touched by an enemy:
     //   The enemy gets to pick up the flag, and then collisions between the flag and the unit that picked it up should be disabled
-    onCollision: function (response, other) {
+    onCollision: function (_, other) {
         //console.log("flag collision");
         if (other.team === this.team) {
             // Touched by a member of this flag's team
 
             // If this flag is at home, and the unit is carrying the opposing team's flag, then it's a win
             if (this.isHome()) {
-                //console.log("Flag is at home");
                 if (other.isHoldingFlag) {
-                    game.sylvanlog("VICTORY!");
+                    this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+                    if (other.player.ptype === "Human") {
+                        var levelName = me.levelDirector.getCurrentLevelId();
+                        if (levelName === "level2") {
+                            // game victory screen
+                            me.state.change(me.state.GAME_END);
+                        } else {
+                            // level victory screen
+                            me.state.change(me.state.LEVEL_WON);
+                        }
+                    } else if (other.player.ptype === "AI") {
+                        // game loss screen
+                        me.state.change(me.state.GAMEOVER);
+                    }
 
                 } else {
                     // If this flag is at home, and the unit is NOT carrying a flag, then do nothing
@@ -75,7 +87,6 @@ game.flag = me.Entity.extend({
                 }
             } else {
                 // If this flag is not at home, then the flag should be returned to base
-                //console.log("Flag touched by same team");
                 this.isHeld = false;
                 this.sendHome();
                 me.audio.play("return_flag");
@@ -84,7 +95,6 @@ game.flag = me.Entity.extend({
         } else {
             // Touched by a member of the opposite team
             // Flag should be picked up and no more collision checks unless the flag is dropped by the unit carrying it
-            //console.log("Flag picked up by opposing team");
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
             this.isHeld = true;
             this.holder = other;

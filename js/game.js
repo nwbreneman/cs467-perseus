@@ -46,6 +46,10 @@ var game = {
 
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
+        me.state.LEVEL_WON = me.state.USER + 0;
+        me.state.set(me.state.LEVEL_WON, new game.LevelVictoryScreen());
+        me.state.set(me.state.GAMEOVER, new game.YouLoseScreen());
+        me.state.set(me.state.GAME_END, new game.GameVictoryScreen());
 
         // set a global fading transition for the screen
         me.state.transition("fade", "#000000", 180);
