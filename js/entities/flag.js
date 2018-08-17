@@ -68,14 +68,7 @@ game.flag = me.Entity.extend({
                 if (other.isHoldingFlag) {
                     this.body.setCollisionMask(me.collision.types.NO_OBJECT);
                     if (other.player.ptype === "Human") {
-                        var levelName = me.levelDirector.getCurrentLevelId();
-                        if (levelName === "level2") {
-                            // game victory screen
-                            me.state.change(me.state.GAME_END);
-                        } else {
-                            // level victory screen
-                            me.state.change(me.state.LEVEL_WON);
-                        }
+                        me.state.change(me.state.GAME_END);
                     } else if (other.player.ptype === "AI") {
                         // game loss screen
                         me.state.change(me.state.GAMEOVER);
