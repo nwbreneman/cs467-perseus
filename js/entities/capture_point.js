@@ -90,10 +90,20 @@ game.capturePoint = me.Entity.extend({
 
             if (!me.collision.check(this)) {
                 this.capturingUnit = null;
+                if (this.owner == null) {
+                    this.factory.setAnimation("still");
+                }
             }
         } else if (this.capturingUnit) {
             if (this.factory != null) {
-                this.factory.renderable.flicker(40);
+                //this.factory.renderable.flicker(40);
+                if (this.owner == game.data.player1) {
+                    this.factory.setAnimation("working_blue");
+                } else if (this.owner == game.data.enemy) {
+                    this.factory.setAnimation("working_red");
+                } else {
+                    this.factory.setAnimation("working_green");
+                }
             }
         }
     },
