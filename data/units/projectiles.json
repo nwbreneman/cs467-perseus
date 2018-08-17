@@ -27,26 +27,26 @@
             "image": "civilian_projectile",
             "height": 20,
             "width": 20,
-            "speed": 4
+            "speed": 3
         },
         {   "name": "enemycivilian_projectile",
             "image": "enemycivilian_projectile",
             "height": 20,
             "width": 20,
-            "speed": 4
+            "speed": 3
         },
         {
             "name": "infantry_projectile",
             "image": "infantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 15
+            "speed": 8
         },
         {   "name": "enemyinfantry_projectile",
             "image": "enemyinfantry_projectile",
             "height": 20,
             "width": 20,
-            "speed": 15
+            "speed": 8
         },
         {
             "name": "bazooka_projectile",
@@ -122,42 +122,42 @@
         	"image": "tank_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 13
+        	"speed": 30
         },
         {
         	"name": "enemytank_projectile", 
         	"image": "enemytank_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 13
+        	"speed": 30
         },
         {
         	"name": "sniper_projectile",
         	"image": "sniper_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 35
+        	"speed": 40
         },
         {
         	"name": "enemysniper_projectile",
         	"image": "enemysniper_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 35
+        	"speed": 40
         },
         {
         	"name": "bomber_projectile",
         	"image": "bomber_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 25
+        	"speed": 30
         },
         {
         	"name": "enemybomber_projectile",
         	"image": "enemybomber_projectile",
         	"height": 40,
         	"width": 40,
-        	"speed": 25
+        	"speed": 30
         }
     ]
 }

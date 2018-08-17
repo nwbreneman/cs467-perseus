@@ -2,7 +2,7 @@
     "name": "enemy_jetpack",
     "attack": 60,
     "attackCooldown": 150,
-    "range": 450,
+    "range": 500,
     "defense": 1200,
     "speed": 2.3,
     "type": "rock",
