@@ -8,7 +8,6 @@ game.pauseMenu.Container = me.Container.extend({
 
     init: function () {
         this._super(me.Container, 'init');
-        this.isPersistent = true;
         this.floating = true;
         this.updateWhenPaused = true;
         this.name = "pauseMenu";

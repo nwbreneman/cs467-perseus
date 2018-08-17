@@ -1,8 +1,8 @@
 {
     "name": "plane",
-    "attack": 100,
-    "attackCooldown": 1700,
-    "range": 625,
+    "attack": 60,
+    "attackCooldown": 1200,
+    "range": 650,
     "defense": 500,
     "speed": 2,
     "type": "rock",
